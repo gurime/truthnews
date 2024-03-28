@@ -21,11 +21,11 @@ export default function LoginForm(): JSX.Element {
     try {
         setIsLoading(true);
         validateInputs();
+        console.log('Authenticated user:', auth.currentUser);
 
         console.log('Before fetching admin users data');
         const adminUsersSnapshot = await getDocs(collection(db, 'adminusers'));
         console.log('Admin users snapshot:', adminUsersSnapshot);
-
         console.log('Checking if user is admin');
         const isAdminUser = adminUsersSnapshot.docs.some(doc => doc.data().email === email);
         console.log('Is admin user:', isAdminUser);
@@ -55,8 +55,10 @@ export default function LoginForm(): JSX.Element {
   return (
     <>
       <div style={{height:'100vh', display:'grid',alignItems:'center'}} className='adminform_bg'>
+
         <form className="adminform admin_login" onSubmit={handleLogin}>
-          <h1>Admin Login</h1>
+          <h1>Admin Login</h1>      <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
+
           <label htmlFor='email'>Email</label>
           <input
             type='email'
@@ -69,7 +71,7 @@ export default function LoginForm(): JSX.Element {
             id='password'
             value={password}
             onChange={(e) => {setPassword(e.target.value);validateInputs();}}/>
-
+   </div>
           <div className='error'>{errorState && <p style={{color:'#fff'}}>{errorState}</p>}</div>
           <button
             type='submit'
@@ -82,6 +84,7 @@ export default function LoginForm(): JSX.Element {
             {isLoading ? <BeatLoader color='blue' /> : 'Login'}
           </button>
         </form>
+     
       </div>
     </>
   );

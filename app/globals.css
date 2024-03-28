@@ -30,8 +30,8 @@ margin: auto;
 }
 
 .adminform_bg {
-background-image: linear-gradient(43deg, #8f1414, #a71919 50%, #8f0808);
-width: 100%;
+  background-image: linear-gradient(43deg, #151516 0%, #443f3f 50%, #333333 100%);
+  width: 100%;
 }
 
 .adminform input{ 
@@ -143,7 +143,6 @@ place-items:center;
 .sm-name{
 padding: 0 5px;
 color: #fff;
-cursor: none;
 }
 .nav img{
 /* margin-right:auto; */
