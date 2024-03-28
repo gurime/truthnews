@@ -167,7 +167,7 @@ tabIndex={0}/>
 </div>
 
 <div  className="nav">
-<Image style={{marginRight:'auto '}} onClick={() => router.push('/')} src={navlogo} height={36} alt='...'  />
+<Image title='Home Page' style={{marginRight:'auto '}} onClick={() => router.push('/')} src={navlogo} height={36} alt='...'  />
 
 
 
@@ -197,7 +197,7 @@ color:'#fff',
 padding:'1rem 0',
 textAlign:'center'
 }}>
-   &#169;2024 iTruth News, LLC All Rights Reserved <br />
+   &#169;2030 iTruth News, LLC All Rights Reserved <br />
 
 </div>
 <hr />
@@ -214,7 +214,7 @@ textAlign:'center'
 
 <div className="footer-logo-box">
 
-<Image width={36} onClick={scrollTo}  src={footLogo} alt="..." />
+<Image title='To Top' width={36} onClick={scrollTo}  src={footLogo} alt="..." />
 
 </div>
 </footer>

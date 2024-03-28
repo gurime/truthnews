@@ -5,8 +5,9 @@ import { Inter, Roboto,Montserrat,Open_Sans } from 'next/font/google'
 const inter = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "No Description",
-  
+  title: 'iTruth News - Page Not Found',
+  description: 'Oops! The page you are looking for could not be found on iTruth News. Click here to go back to the homepage.',
+  keywords: '404 error, page not found, iTruth News, homepage'  
 };
 
 export default function RootLayout({

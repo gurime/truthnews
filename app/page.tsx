@@ -3,6 +3,7 @@ import Navbar from "./components/navbar";
 import Dashboard from "./components/dashboard";
 import Footer from "./components/footer";
 import { Metadata } from "next";
+import AdminHeader from "./components/AdminHeader";
 
 export const metadata : Metadata = {
   title: 'iTruth News - Breaking News Updates, Latest News Headlines',
@@ -14,6 +15,7 @@ export const metadata : Metadata = {
 export default function Home() {
 return (
 <>
+<AdminHeader/>
 <Navbar/>  
 <Dashboard/>
 <Footer/>   
