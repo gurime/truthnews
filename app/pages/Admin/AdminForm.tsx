@@ -15,6 +15,8 @@ interface UserData {
 
 const AdminForm: React.FC = () => {
   const [content, setContent] = useState<string>('');
+  const [bodycontent, setBodyContent] = useState<string>('');
+  const [endcontent, setEndContent] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [owner, setOwner] = useState<string>('');
 
@@ -97,25 +99,33 @@ const AdminForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      if (!isSignedIn) {
+        setErrorMessage('You must be signed in to submit the article.');
+        return;
+      }
       const authInstance = getAuth();
       const user = authInstance.currentUser;
       setIsLoading(true);
       const uniqueArticleId = uuidv4();
       setArticleId(uniqueArticleId);
       // Upload files to Firebase Storage if they exist
-      const authpic = authPicFile ? await handleFileUpload(authPicFile, `images/${uniqueArticleId}authpic.jpg`) : null;
-      // Similar handling for other file uploads...
-
+const authpic = authPicFile ? await handleFileUpload(authPicFile, `images/${uniqueArticleId}authpic.jpg`) : null;
+   
+  
+  
+const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${uniqueArticleId}cover_image.jpg`) : null;
       const db = getFirestore();
       const docRef = await addDoc(collection(db, selectedCollection), {
         userId: user?.uid,
         content,
+        bodycontent,
+        endcontent,
         title,
         owner,
         timestamp: new Date(),
         userEmail: user?.email,
         authpic,
-        cover_image,
+        coverimage,
         // Add other cover_showcase fields here...
         propertyType: selectedCollection,
       });
@@ -141,45 +151,155 @@ const AdminForm: React.FC = () => {
     <>
       <div className="adminform_bg">
         <form className="adminform" onSubmit={handleSubmit}>
-        <div className='sm-adminform' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
-      <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
-        <label htmlFor="property-name">Article Title:</label>
-        <input
-          type="text"
-          id="property-name"
-          name="title"
-          value={title}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-          required
-        />
-      </div>
-      </div>
+        <div style={{ color: '#fff', textAlign: 'center' }}>
+  <h2>Article Topic:</h2>
+</div>
+<div className='sm-adminform' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+  <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
+    <label htmlFor="selectedCollection">Select Topic:</label>
+    <select
+      name="selectedCollection"
+      value={selectedCollection}
+      onChange={(e) => setSelectedCollection(e.target.value)}
+      required
+      className='billingselect'
+    >
+<option value="Dashboard">Dashboard</option>
+<option value="Technology">Technology</option>
+<option value="Politics">Politics</option>
+<option value="Opinion">Opinion</option>
+<option value="Music">Music</option>
+<option value="Sports">Sports</option>
+<option value="Military">Military</option>
+<option value="Crime">Crime</option>
+<option value="Economy">Economy</option>
+<option value="Immigration">Immigration</option>
+<option value="Business">Business</option>
+<option value="Video Games">Video Games</option>
+<option value="Entertainment">Entertainment</option>
+<option value="Fashion">Fashion</option>
+<option value="Education">Education</option>
+<option value="U.N.">U.N. (United Nations)</option>
+<option value="Terrorism">Terrorism</option>
+<option value="World Economy">World Economy</option>
+<option value="Scandals">Scandals</option>
+<option value="Mexico">Mexico</option>
+<option value="South America">South America</option>
+<option value="Europe">Europe</option>
+<option value="Asia">Asia</option>
+<option value="Africa">Africa</option>
+ 
+    </select>
+  </div>
+</div>
+<hr />
+<div style={{ color: '#fff', textAlign: 'center' }}>
+  <h2>Article Title:</h2>
+</div>
+<div className='sm-adminform' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+<div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
+<label htmlFor="property-name">Enter Title:</label>
+<input
+type="text"
+id="property-name"
+name="title"
+value={title}
+onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+required
+/>
+</div>
+</div>
+<hr />
+<div style={{ color: '#fff', textAlign: 'center' }}>
+  <h2>Article Author</h2>
+</div>
+
+<div className='sm-adminform' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+<div style={{ display: 'grid', gap: '1rem',marginBottom:'10rem' }}>
+<label htmlFor="owner">Author: </label>
+<input
+  type="text"
+  id="owner"
+  name="owner"
+  onChange={(e: ChangeEvent<HTMLInputElement>) => setOwner(e.target.value)}
+  />
+</div> 
+          <div style={{ display: 'grid', gap: '1rem',marginBottom:'10rem' }}>
+<label htmlFor="authpic">Author Image: </label>
+<input
+  type="file"
+  id="authpic"
+  name="authpic"
+  onChange={handleFileChange(setAuthPicFile)}
+  />
+</div> 
+
+          </div>
+
           <hr />
+
+<div className="sm-adminform" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>          
+<div style={{ display: 'grid', gap: '1rem',marginBottom:'10rem' }}>
+<label htmlFor="cover_image">Featured Image: </label>
+<input
+  type="file"
+  id="cover_image"
+  name="cover_image"
+  accept="image/*"
+  onChange={handleFileChange(setCover_Image)}
+  />
+</div> 
+</div>
+
+<hr />
           <div style={{ color: '#fff', textAlign: 'center' }}>
-            <h2>About Your Property</h2>
+            <h2>Intro</h2>
           </div>
           <div className="sm-adminform" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
             <div style={{ display: 'grid', gap: '1rem', width: '100%' }}>
               <textarea
                 rows={10}
-                id="aboutDescription"
-                placeholder="E.g., provide a brief description of yourself and property..."
+                placeholder="Enter the introductory text.."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               ></textarea>
             </div>
           </div>
-          <button
-            type="submit"
-            disabled={!isSignedIn || !content || !selectedCollection || isLoading}
-            style={{
-              cursor: !isSignedIn || !content || !selectedCollection || isLoading ? 'none' : 'pointer',
-              backgroundColor: !isSignedIn || !content || !selectedCollection || isLoading ? '#9e9e9e' : '#00a8ff',
-              color: !isSignedIn || !content || !selectedCollection || isLoading ? 'grey' : '#fff',
-            }}
-          >
-            {isLoading ? <BeatLoader color="blue" /> : 'Submit'}
-          </button>
+<hr />
+          <div style={{ color: '#fff', textAlign: 'center' }}>
+            <h2>Body</h2>
+          </div>
+          <div className="sm-adminform" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+            <div style={{ display: 'grid', gap: '1rem', width: '100%' }}>
+              <textarea
+                rows={10}
+                placeholder="Enter the body content..."
+                value={bodycontent}
+                onChange={(e) => setBodyContent(e.target.value)}
+              ></textarea>
+            </div>
+          </div>
+<hr />
+          <div style={{ color: '#fff', textAlign: 'center' }}>
+            <h2>End</h2>
+          </div>
+          <div className="sm-adminform" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+            <div style={{ display: 'grid', gap: '1rem', width: '100%' }}>
+              <textarea
+                rows={10}
+                placeholder="Enter the ending content..."
+                value={endcontent}
+                onChange={(e) => setEndContent(e.target.value)}
+              ></textarea>
+            </div>
+          </div>
+          <button type="submit" disabled={!isSignedIn || !content || !selectedCollection || isLoading}>
+  {isLoading ? (
+    <BeatLoader color={"#ffffff"} loading={isLoading} size={10} />
+  ) : (
+    'Submit Article'
+  )}
+</button>
         </form>
       </div>
       </>

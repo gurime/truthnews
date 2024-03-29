@@ -21,25 +21,17 @@ export default function LoginForm(): JSX.Element {
     try {
         setIsLoading(true);
         validateInputs();
-        console.log('Authenticated user:', auth.currentUser);
 
-        console.log('Before fetching admin users data');
         const adminUsersSnapshot = await getDocs(collection(db, 'adminusers'));
-        console.log('Admin users snapshot:', adminUsersSnapshot);
-        console.log('Checking if user is admin');
         const isAdminUser = adminUsersSnapshot.docs.some(doc => doc.data().email === email);
-        console.log('Is admin user:', isAdminUser);
 
         if (!isAdminUser) {
             throw new Error('Authentication failed. Only admin users are allowed.');
         }
 
-        console.log('Attempting to sign in');
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        console.log('User signed in:', user);
 
-        console.log('Redirecting to Admin page');
         router.push('/pages/Admin');
     } catch (error: any) {
         console.error('Error occurred:', error);
