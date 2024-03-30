@@ -26,7 +26,8 @@ const AdminForm: React.FC = () => {
   // Add similar state variables for other showcase files...
 
   const [articleId, setArticleId] = useState<string>('');
-  const [selectedCollection, setSelectedCollection] = useState<string>('Dashboard');
+  const [selectedCollection, setSelectedCollection] = useState<string>('Featured Dashboard');
+  const [catorgory, setCatorgory] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [names, setNames] = useState<string[]>([]);
@@ -120,6 +121,7 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
         content,
         bodycontent,
         endcontent,
+        catorgory,
         title,
         owner,
         timestamp: new Date(),
@@ -130,7 +132,7 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
         propertyType: selectedCollection,
       });
 
-      if (selectedCollection === 'Dashboard') {
+      if (selectedCollection === 'Featured Dashboard' || 'Headline Dashboard') {
         router.push('/');
       } else {
         const formattedPageName = selectedCollection.charAt(0).toUpperCase() + selectedCollection.slice(1);
@@ -156,7 +158,7 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
 </div>
 <div className='sm-adminform' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
   <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
-    <label htmlFor="selectedCollection">Select Topic:</label>
+    <label htmlFor="selectedCollection">Choose Destination for Article:</label>
     <select
       name="selectedCollection"
       value={selectedCollection}
@@ -164,7 +166,45 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
       required
       className='billingselect'
     >
-<option value="Dashboard">Dashboard</option>
+<option value="Featured Dashboard">Featured Dashboard</option>
+<option value="Headline Dashboard">Headline Dashboard</option>
+<option value="Technology">Technology</option>
+<option value="Politics">Politics</option>
+<option value="Opinion">Opinion</option>
+<option value="Music">Music</option>
+<option value="Sports">Sports</option>
+<option value="Military">Military</option>
+<option value="Crime">Crime</option>
+<option value="Economy">Economy</option>
+<option value="Immigration">Immigration</option>
+<option value="Business">Business</option>
+<option value="Video Games">Video Games</option>
+<option value="Entertainment">Entertainment</option>
+<option value="Fashion">Fashion</option>
+<option value="Education">Education</option>
+<option value="U.N.">U.N. (United Nations)</option>
+<option value="Terrorism">Terrorism</option>
+<option value="World Economy">World Economy</option>
+<option value="Scandals">Scandals</option>
+<option value="Mexico">Mexico</option>
+<option value="South America">South America</option>
+<option value="Europe">Europe</option>
+<option value="Asia">Asia</option>
+<option value="Africa">Africa</option>
+ 
+    </select>
+  </div>
+  <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
+    <label htmlFor="selectedCollection">Select Topic:</label>
+    <select
+      name="selectedCollection"
+      value={catorgory}
+      onChange={(e) => setCatorgory(e.target.value)}
+      required
+      className='billingselect'
+    >
+
+<option value="">select a topic</option>
 <option value="Technology">Technology</option>
 <option value="Politics">Politics</option>
 <option value="Opinion">Opinion</option>

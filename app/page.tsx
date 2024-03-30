@@ -1,9 +1,9 @@
 import React from "react";
 import Navbar from "./components/navbar";
-import Dashboard from "./components/dashboard";
 import Footer from "./components/footer";
 import { Metadata } from "next";
 import AdminHeader from "./components/AdminHeader";
+import FeaturedDashboard from "./pages/FeaturedDashboard/page";
 
 export const metadata : Metadata = {
   title: 'iTruth News - Breaking News Updates, Latest News Headlines',
@@ -17,7 +17,7 @@ return (
 <>
 <AdminHeader/>
 <Navbar/>  
-<Dashboard/>
+<FeaturedDashboard/>
 <Footer/>   
 </>
 );
