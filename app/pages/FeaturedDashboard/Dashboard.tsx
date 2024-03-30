@@ -6,16 +6,23 @@ import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, que
 import { auth, db } from '@/app/firebase/firebase';
 import { useRouter } from 'next/navigation';
 
-async function getArticles(orderBy: string) {
-  const querySnapshot = await getDocs(collection(db, "Featured Dashboard"));
-  const data = [];
-
-  querySnapshot.forEach((doc) => {
-    data.push({ id: doc.id, ...doc.data() });
-  });
-
-  return data;
-}
+interface Article {
+    id: string;
+    title: string;
+    content: string;
+    // Add other properties as needed
+  }
+  
+  async function getArticles(orderBy: string): Promise<Article[]> {
+    const querySnapshot = await getDocs(collection(db, "Featured Dashboard"));
+    const data: Article[] = [];
+  
+    querySnapshot.forEach((doc) => {
+      data.push({ id: doc.id, ...doc.data() });
+    });
+  
+    return data;
+  }
 
 export default function Dashboard() {
   const [fetchError, setFetchError] = useState<null | string>(null);
@@ -63,11 +70,18 @@ export default function Dashboard() {
       try {
         const data = await getArticles('');
         const user = auth.currentUser; // Retrieve the current user
-        // Filter the listings to show only those belonging to the current user
-        const userArticles = data.filter((article) => article.userId === user.uid);
-        // Combine the user's listings with other listings
-        const combinedListings = userArticles.concat(data.filter((article) => article.userId !== user.uid));
-        setUseArticle(combinedListings);
+  
+        if (user) {
+          // Filter the listings to show only those belonging to the current user
+          const userArticles = data.filter((article) => article.userId === user.uid);
+          // Combine the user's listings with other listings
+          const combinedListings = userArticles.concat(data.filter((article) => article.userId !== user.uid));
+          setUseArticle(combinedListings);
+        } else {
+          // Handle the case when there is no authenticated user
+          setUseArticle(data);
+        }
+  
         // Store user's listings separately if needed
         // setUserListings(userArticles);
       } catch (error) {
@@ -76,16 +90,16 @@ export default function Dashboard() {
         setLoading(false);
       }
     };
-
+  
     const checkAuthState = async (user: any) => {
       setIsSignedIn(!!user);
       if (user) {
         fetchData();
       }
     };
-
+  
     const unsubscribe = auth.onAuthStateChanged(checkAuthState);
-
+  
     return () => {
       unsubscribe();
     };
