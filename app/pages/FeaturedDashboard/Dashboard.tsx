@@ -7,22 +7,44 @@ import { auth, db } from '@/app/firebase/firebase';
 import { useRouter } from 'next/navigation';
 
 interface Article {
+    userId: string;
     id: string;
     title: string;
     content: string;
-    // Add other properties as needed
+    coverimage: string; 
+    catorgory: string;
+    authpic : string;
+    owner: string;
+    timestamp: string;
   }
   
-  async function getArticles(orderBy: string): Promise<Article[]> {
-    const querySnapshot = await getDocs(collection(db, "Featured Dashboard"));
-    const data: Article[] = [];
+  async function getArticles(): Promise<Article[]> {
+    try {
+      const querySnapshot = await getDocs(collection(db, "Featured Dashboard"));
+      const data: Article[] = [];
   
-    querySnapshot.forEach((doc) => {
-      data.push({ id: doc.id, ...doc.data() });
-    });
+      querySnapshot.forEach((doc) => {
+        const articleData = doc.data();
+        data.push({
+          id: doc.id,
+          title: articleData.title || '', // Ensure title is not undefined
+          content: articleData.content || '', // Ensure content is not undefined
+          userId: articleData.userId || '',
+          coverimage: articleData.coverimage || '',
+          catorgory: articleData.catorgory || '',
+          authpic: articleData.authpic || '',
+          owner: articleData.owner || '',
+          timestamp: articleData.timestamp || ''
+        });
+      });
   
-    return data;
+      return data;
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+      throw error; // Rethrow the error for handling in the component
+    }
   }
+  
 
 export default function Dashboard() {
   const [fetchError, setFetchError] = useState<null | string>(null);
@@ -68,22 +90,18 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getArticles('');
-        const user = auth.currentUser; // Retrieve the current user
+        const articles = await getArticles(); // Call getArticles without any arguments
+        const currentUser = auth.currentUser;
   
-        if (user) {
-          // Filter the listings to show only those belonging to the current user
-          const userArticles = data.filter((article) => article.userId === user.uid);
-          // Combine the user's listings with other listings
-          const combinedListings = userArticles.concat(data.filter((article) => article.userId !== user.uid));
+        if (currentUser) {
+          // Filter articles based on user ID
+          const userArticles = articles.filter(article => article.userId === currentUser.uid);
+          const otherArticles = articles.filter(article => article.userId !== currentUser.uid);
+          const combinedListings = userArticles.concat(otherArticles);
           setUseArticle(combinedListings);
         } else {
-          // Handle the case when there is no authenticated user
-          setUseArticle(data);
+          setUseArticle(articles);
         }
-  
-        // Store user's listings separately if needed
-        // setUserListings(userArticles);
       } catch (error) {
         setFetchError('Error fetching data. Please try again later.');
       } finally {
@@ -91,19 +109,20 @@ export default function Dashboard() {
       }
     };
   
-    const checkAuthState = async (user: any) => {
-      setIsSignedIn(!!user);
-      if (user) {
-        fetchData();
-      }
-    };
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      checkAuthState(user);
+      fetchData(); // Call fetchData directly inside onAuthStateChanged
+    });
   
-    const unsubscribe = auth.onAuthStateChanged(checkAuthState);
+    const checkAuthState = (user: any) => {
+      setIsSignedIn(!!user);
+    };
   
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, []); // Empty dependency array means this effect runs only once on component mount
+  
 
   const editPost = (postId: string, userId: string) => {
     const listingToEdit = useArticle.find((listing) => listing.id === postId);
