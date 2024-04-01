@@ -5,9 +5,8 @@ import AdminForm from './AdminForm';
 
 
 export const metadata: Metadata = {
-  title: 'iTruth News - Admin Login',
-  description: 'Stay updated with iTruth News, where truth meets clarity. Explore our comprehensive coverage of current events and dive deep into insightful analysis.',
-  keywords: ['news', 'current events', 'journalism', 'truth', 'analysis'],
+  title: 'iTruth News - Admin',
+  
 };
 
 
