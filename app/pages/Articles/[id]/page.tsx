@@ -43,8 +43,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     if (!post) {
         return <div>Article not found</div>;
     }
-    const lastUpdatedDate: Date | null = post.timestamp && post.timestamp.toDate();
-    const formattedDate: string | null = lastUpdatedDate && `${lastUpdatedDate.toLocaleString('en-US', { timeZone: 'America/New_York', day: 'numeric', month: 'long', year: 'numeric' })} ${lastUpdatedDate.toLocaleString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: 'numeric', hour12: true })}`;
+const lastUpdatedDate: Date | null = post.timestamp && post.timestamp.toDate();
+const formattedDate: string | null = lastUpdatedDate && `${lastUpdatedDate.toLocaleString('en-US', 
+{ timeZone: 'America/New_York', day: 'numeric', month: 'long', year: 'numeric' })}, 
+${lastUpdatedDate.toLocaleString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: 'numeric', hour12: true })}`;
 
 return (
 <>

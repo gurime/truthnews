@@ -407,7 +407,7 @@ display: flex;
 }
 
 .article-container{
-  width: 80rem;
+  padding: 0 1rem;
 margin: auto;
 }
 
@@ -438,9 +438,13 @@ margin: auto;
   background-size: 200% auto;
   margin: auto 0;
   }
+
+  .imgbox{
+    display: grid;
+    justify-content: center;
+  }
   
   .imgbox img {
-    width: 100%;
     height: auto;
     object-fit: cover;
     object-position: center;
@@ -448,9 +452,7 @@ margin: auto;
 
 .flexdate {
   display: flex;
-  place-items: center;
   justify-content: flex-end;
-  padding: 0 15px;
 }
 
 .body-content {
@@ -466,7 +468,6 @@ margin: auto;
 @media (max-width: 968px){
  .article-container {
     width: auto;
-    padding: 0 1rem
 } 
 
 .backbtn-box{
@@ -480,6 +481,10 @@ margin: auto;
 
 .authflex p {
   padding: 4px;
+}
+
+.imgbox img{
+  width: 100%;
 }
 
 }
