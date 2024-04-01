@@ -238,15 +238,27 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
 </div>
 <div className='sm-adminform' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
 <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
-<label htmlFor="property-name">Enter Title:</label>
-<input
-type="text"
-id="property-name"
-name="title"
-value={title}
-onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-required
-/>
+{/* <input
+  type="text"
+  id="property-name"
+  name="title"
+  value={title}
+  onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+  required
+/> */}
+<textarea 
+  name="title" 
+  placeholder="Enter the Article Title.."
+
+  rows={5}
+  cols={100}
+  value={title}
+  onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setTitle(e.target.value)}
+  required
+>
+</textarea>
+
+
 </div>
 </div>
 <hr />

@@ -5,6 +5,8 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { auth, db } from '@/app/firebase/firebase';
 import { useRouter } from 'next/navigation';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css'
 
 interface Article {
     userId: string;
@@ -207,15 +209,35 @@ export default function Dashboard() {
   };
 
 
-  
+
+
 
   return (
     <>
-
 <div className="hero">
-{fetchError ? (
-<p>Error: {fetchError}</p>
-) : (
+  {loading ? (
+    // Render Skeleton components while loading
+    <>
+<div className="hero-info">
+<Skeleton  /> {/* Hero Title */}
+<div className="authflex">
+<Skeleton /> {/* Category */}
+<div className="authpic-block">
+<Skeleton  /> {/* Author Name */}
+<Skeleton  /> {/* Author Picture */}
+</div>
+</div>
+<Skeleton/> {/* Content Preview */}
+<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+<Skeleton /> {/* Read More Button */}
+<Skeleton /> {/* Timestamp */}
+</div>
+</div><div className="heroimg-box">
+<Skeleton width={500} height={500} /> {/* Hero Image */}
+</div></>
+  ) : fetchError ? (
+    <p>Error: {fetchError}</p>
+  ) : (
 useArticle.map((post) => (
 <React.Fragment key={post.id}>
 <div className="hero-info">
@@ -228,7 +250,8 @@ useArticle.map((post) => (
 style={{ width: '40px', height: '40px' }}
 className="authpic"
 src={post.authpic}
-alt=""/>
+alt=""
+/>
 </div>
 </div>
 <p className="hero-description">
@@ -239,11 +262,21 @@ style={{
 display: 'flex',
 placeItems: 'center',
 justifyContent: 'space-between',
-}}>
-<Link href={`/Articles/${post.id}`} className="hero-btn">
+}}
+>
+<Link href={`/pages/Articles/${post.id}`} className="hero-btn">
 Read More
 </Link>
-{post.timestamp && post.timestamp.toDate().toLocaleString()}</div>
+<p>{post.timestamp && `${post.timestamp.toDate().toLocaleDateString('en-US', {
+    month: 'long',
+    day:'numeric',
+    year: 'numeric',
+  })}, ${post.timestamp.toDate().toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+  })}`}</p>
+
+</div>
 </div>
 <div className="heroimg-box">
 <img src={post.coverimage} alt="Hero Image" />

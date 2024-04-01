@@ -6,30 +6,7 @@ background-color: azure;
 letter-spacing: 2px;
 }
 
-/* Skeleton Loader Styles */
-.skeleton {
-  background-color: #ddd;
-  background-image: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0),
-    rgba(235, 11, 11, 0.5) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  background-size: 200% 100%;
-  background-repeat: no-repeat;
-  animation: shimmer 1.5s infinite;
-  height: 1rem; /* Adjust the height as needed */
-  border-radius: 4px; /* Adjust the border radius as needed */
-}
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
 .adminnav {
 display: flex;
 align-items: center;
@@ -333,7 +310,6 @@ display: flex;
 .hero-btn {
   display: inline-block;
   padding: 12px 24px;
-  font-size: 18px;
   color: #fff;
   background-image: linear-gradient(90deg, #ff004b 0, #f40909 50%, #970505);
   border: none;
@@ -341,7 +317,7 @@ display: flex;
   cursor: pointer;
   background-size: 200% auto;
   transition: .5s;
-  margin: 1rem 2px;
+  margin: 1rem 0px;
   text-decoration: none;
 }
 
@@ -379,6 +355,40 @@ display: flex;
   text-transform: capitalize;
 }
 
+@media(max-width:968px){
+  .hero{
+    flex-direction: column;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+}
+
+.authflex p {
+  padding: 4px;
+}
+
+.card-catogory {
+  display: flex;
+}
+
+.hero-btn {
+  padding: 7px;
+}
+
+.heroimg-box {
+  width: auto !important;
+}
+
+.hero img {
+  height: auto;
+}
+
+.hero p{
+  font-size: 11px;
+}
+}
+
 .password-strength {
   margin-top: 8px;
   font-size: 14px;
@@ -396,6 +406,83 @@ display: flex;
   color: green;
 }
 
+.article-container{
+  width: 80rem;
+margin: auto;
+}
+
+.backbtn-box{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  place-items: center; 
+  }
+  
+  .backbtn-box h1 {
+  font-size: 34px;
+  font-weight: 700;
+  color: grey;
+  text-align: center;
+  }
+  
+  .backbtn {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #2e43d8;
+  border: none;
+  border-radius: 4px;
+  text-transform: capitalize;
+  cursor: pointer;
+  background-size: 200% auto;
+  margin: auto 0;
+  }
+  
+  .imgbox img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+}
+
+.flexdate {
+  display: flex;
+  place-items: center;
+  justify-content: flex-end;
+  padding: 0 15px;
+}
+
+.body-content {
+  line-height: 2;
+  padding: 0 1rem;
+}
+
+.body-content p {
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 968px){
+ .article-container {
+    width: auto;
+    padding: 0 1rem
+} 
+
+.backbtn-box{
+  display: flex;
+  flex-direction: column;
+  padding: 7px;
+  }
+  .backbtn-box h1{
+  font-size: 20px;
+  }
+
+.authflex p {
+  padding: 4px;
+}
+
+}
 
 
 .success-container {

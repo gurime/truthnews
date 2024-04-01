@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { Metadata } from "next";
 
 
@@ -6,7 +5,7 @@ import AdminHeader from "./components/AdminHeader";
 import FeaturedDashboard from "./pages/FeaturedDashboard/page";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
-import Skeleton from "./components/Skeleton";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 
 export const metadata : Metadata = {
@@ -24,10 +23,9 @@ return (
 <AdminHeader/>
 <Navbar/>  
 
-        <Skeleton />
-
+<SkeletonTheme baseColor="#2c3e50" highlightColor="#e6e6e6">
 <FeaturedDashboard/>
-
+</SkeletonTheme>
 
 
 <Footer/>  
