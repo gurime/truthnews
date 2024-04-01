@@ -6,6 +6,30 @@ background-color: azure;
 letter-spacing: 2px;
 }
 
+/* Skeleton Loader Styles */
+.skeleton {
+  background-color: #ddd;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(235, 11, 11, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 1.5s infinite;
+  height: 1rem; /* Adjust the height as needed */
+  border-radius: 4px; /* Adjust the border radius as needed */
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
 .adminnav {
 display: flex;
 align-items: center;

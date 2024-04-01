@@ -1,9 +1,13 @@
-import React from "react";
-import Navbar from "./components/navbar";
-import Footer from "./components/footer";
+import React, { useEffect, useState } from "react";
 import { Metadata } from "next";
+
+
 import AdminHeader from "./components/AdminHeader";
 import FeaturedDashboard from "./pages/FeaturedDashboard/page";
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
+import Skeleton from "./components/Skeleton";
+
 
 export const metadata : Metadata = {
   title: 'iTruth News - Breaking News Updates, Latest News Headlines',
@@ -13,12 +17,20 @@ export const metadata : Metadata = {
 
 
 export default function Home() {
+
 return (
 <>
+
 <AdminHeader/>
 <Navbar/>  
+
+        <Skeleton />
+
 <FeaturedDashboard/>
-<Footer/>   
+
+
+
+<Footer/>  
 </>
 );
 }
