@@ -84,7 +84,7 @@ margin: '0 10px 0 10px',
 <img 
 className='authbox' 
 src={post.authpic} 
-style={{ maxWidth: '100%', height: '70px' }} />
+style={{ maxWidth: '100%', height: '80px',borderRadius:'7px' }} />
 </h3>
 </div>
 <p className='flexdate'>
