@@ -1,13 +1,21 @@
 'use client'
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'  
+
 import Footer from './footer';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import navlogo from '../images/it.png'
+import { collectionRoutes, getArticle } from './HeroFormApi/api';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
-import { collectionRoutes, getArticle } from './HeroFormApi/page';
+
+type SearchResult = {
+  title: string;
+  collection: string;
+  owner:string;
+  id: string;
+};
 
 export default function Navbar() {
 const router = useRouter()
@@ -16,7 +24,8 @@ const [isSignedIn, setIsSignedIn] = useState(false);
 const [isFooterVisible, setIsFooterVisible] = useState(false);
 const [isOverlayActive, setIsOverlayActive] = useState(false);
 const [searchTerm, setSearchTerm] = useState<string>('');
-const [searchResults, setSearchResults] = useState<string[]>([]);
+const [loading, setLoading] = useState<boolean>(true);
+const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 const overlayStyle: React.CSSProperties = {
     position: 'fixed',
     top: 0,
@@ -28,51 +37,75 @@ const overlayStyle: React.CSSProperties = {
     display: isOverlayActive ? 'block' : 'none',
     pointerEvents: 'none',
   };
+  useEffect(() => {
+    const handleDocumentClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement; // Explicitly cast e.target to HTMLElement
+      const isClickOutsideSearch = !target.closest('.search-container');
+      if (isClickOutsideSearch) {
+        setIsOverlayActive(false);
+        setSearchResults([]);
+        setSearchTerm(''); // Clear the search input
+      }
+    };
+  
+    document.body.addEventListener('click', handleDocumentClick);
+  
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setForceRender((prev) => !prev); // Force re-render
+      setIsSignedIn(!!user);
+    });
+  
+    // Assuming you have an unsubscribe function
+    return () => {
+      document.body.removeEventListener('click', handleDocumentClick);
+      unsubscribe();
+    };
+  }, [searchTerm, isOverlayActive]);
+  
+  type InputChangeEvent = ChangeEvent<HTMLInputElement>;
+  type FormSubmitEvent = FormEvent<HTMLFormElement>;
+  
+  // Rest of your component code...
+  
+  const handleSearchInputChange = (event: InputChangeEvent) => {
+    setSearchTerm(event.target.value);
+    if (event.target.value) {
+      handleSearch();
+    }
+  };
+  
+  const handleSearch = async (event?: FormSubmitEvent) => {
+    if (event) {
+      event.preventDefault();
+    }
+    try {
+      setLoading(true);
+      const results = await getArticle(searchTerm);
+      setSearchResults(results);
+    } catch (error) {
+      console.error('Error searching articles:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+
+  useEffect(() => {
+    if (searchTerm) {
+      handleSearch();
+    }
+  }, [searchTerm]);
   
-//   useEffect(() => {
-//     const handleDocumentClick = (e: MouseEvent) => {
-//       const isClickOutsideSearch = !(e.target as HTMLElement).closest('.search-container');
-//       if (isClickOutsideSearch) {
-//         setIsOverlayActive(false);
-//         setSearchResults([]);
-//         setSearchTerm(''); // Clear the search input
-//       }
-//     };
-    
-//     document.body.addEventListener('click', handleDocumentClick);
-    
-//     const unsubscribe = onAuthStateChanged(auth, (user) => { // Ensure that auth is properly defined or imported
-//       setForceRender((prev) => !prev); // Force re-render
-//       setIsSignedIn(!!user);
-//     });
-    
-//     // Assuming you have an unsubscribe function
-//     return () => {
-//       document.body.removeEventListener('click', handleDocumentClick);
-//       unsubscribe();
-//     };
-//   }, [searchTerm, isOverlayActive]);
+  const getLink = (collection: string, id: string) => {
+    // Replace spaces with an empty string in the collection name
+    const formattedCollection = collection.replace(/\s+/g, '');
   
-//   const handleSearch = async () => {
-//     // Assuming getArticle is a defined function
-//     const results = await getArticle(searchTerm); // Ensure that getArticle is properly defined or imported
-//     setSearchResults(results);
-//   };
+    // Use the formatted collection name to get the route from collectionRoutes
+    const route = collectionRoutes[formattedCollection];
   
-//   useEffect(() => {
-//     handleSearch();
-//   }, [searchTerm]);
-  
-//   const getLink = (collection: string, id: string) => {
-//     // Replace spaces with an empty string in the collection name
-//     const formattedCollection = collection.replace(/\s+/g, '');
-    
-//     // Use the formatted collection name to get the route
-//     const route = collectionRoutes[formattedCollection];
-//     return route ? `${route}/${id}` : '/';
-//   };
-    
+    // Return the route with the id appended, or fallback to '/'
+    return route ? `${route}/${id}` : '/';
+  };
 const toggleFooter = () => {
 setIsFooterVisible(!isFooterVisible);
 };
@@ -94,7 +127,7 @@ pointerEvents: 'none',
 }
 }>
 </div>
-<form style={{ width: '100%',position:'relative',  }} >
+<form style={{ width: '100%',position:'relative',  }} onSubmit={handleSearch}>
 <input
 placeholder="Search iTruth News"
 type="search"
@@ -102,19 +135,25 @@ spellCheck="false"
 dir="auto"
 tabIndex={0}
 
-/>
+value={searchTerm}
+onChange={(e) => {
+  setSearchTerm(e.target.value);
+  {handleSearch}
+  {handleSearchInputChange}
+  setIsOverlayActive(e.target.value.trim().length > 0);
+  }}/>
 
-{/* {searchResults.length > 0 && searchTerm && !loading && (
+ {searchResults.length > 0 && searchTerm && !loading && (
 <div className="search-results-container">
 {searchResults.slice(0,10).map((result) => (
 <div key={result.id} className="search-result-item">
 <Link key={result.id} href={getLink(result.collection, result.id)}>
-<p>{result.title}</p>
+Title:<p>{result.title}  </p>Author:<p>{result.owner}</p>
 </Link>
 </div>
 ))}
 </div>
-)} */}
+)} 
 
 </form>
 
