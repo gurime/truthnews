@@ -23,7 +23,7 @@ return (
 <AdminHeader/>
 <Navbar/>  
 
-<SkeletonTheme baseColor="#2c3e50" highlightColor="#e6e6e6">
+<SkeletonTheme baseColor="grey" highlightColor="#e6e6e6">
 <FeaturedDashboard/>
 </SkeletonTheme>
 

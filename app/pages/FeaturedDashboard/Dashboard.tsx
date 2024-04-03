@@ -229,11 +229,12 @@ export default function Dashboard() {
 </div>
 <Skeleton/> {/* Content Preview */}
 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-<Skeleton /> {/* Read More Button */}
+<Skeleton  /> {/* Read More Button */}
 <Skeleton /> {/* Timestamp */}
 </div>
-</div><div className="heroimg-box">
-<Skeleton width={500} height={500} /> {/* Hero Image */}
+</div>
+<div className="heroimg-box">
+<Skeleton width={210} height={118} /> {/* Hero Image */}
 </div></>
   ) : fetchError ? (
     <p>Error: {fetchError}</p>

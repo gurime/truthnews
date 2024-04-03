@@ -313,7 +313,7 @@ display: flex;
 
 .hero-description {
   line-height: 2;
-  max-width: 30rem;
+  max-width: 50rem;
   margin: auto;
 }
 
@@ -396,13 +396,10 @@ display: flex;
   width: auto !important;
 }
 
-.hero img {
-  height: auto;
-}
+
 
 .hero p{
-  font-size: 11px;
-}
+  font-size: 13px;}
 }
 
 .password-strength {

@@ -168,9 +168,13 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
     >
 <option value="Featured Dashboard">Featured Dashboard</option>
 <option value="Headline Dashboard">Headline Dashboard</option>
+<option value="Featured Technology">Featured Technology</option>
 <option value="Technology">Technology</option>
+<option value="Featured Politics">Featured Politics</option>
 <option value="Politics">Politics</option>
+<option value="Featured Opinion">Featured Opinion</option>
 <option value="Opinion">Opinion</option>
+<option value="Featured Music">Featured Music</option>
 <option value="Music">Music</option>
 <option value="Sports">Sports</option>
 <option value="Military">Military</option>

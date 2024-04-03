@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link';
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'  
-
 import Footer from './footer';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -26,86 +25,76 @@ const [isOverlayActive, setIsOverlayActive] = useState(false);
 const [searchTerm, setSearchTerm] = useState<string>('');
 const [loading, setLoading] = useState<boolean>(true);
 const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+
 const overlayStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background: '#000',
-    opacity: '.6',
-    display: isOverlayActive ? 'block' : 'none',
-    pointerEvents: 'none',
-  };
-  useEffect(() => {
-    const handleDocumentClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement; // Explicitly cast e.target to HTMLElement
-      const isClickOutsideSearch = !target.closest('.search-container');
-      if (isClickOutsideSearch) {
-        setIsOverlayActive(false);
-        setSearchResults([]);
-        setSearchTerm(''); // Clear the search input
-      }
-    };
+position: 'fixed',
+top: 0,
+left: 0,
+width: '100%',
+height: '100%',
+background: '#000',
+opacity: '.6',
+display: isOverlayActive ? 'block' : 'none',
+pointerEvents: 'none',
+};
+useEffect(() => {
+const handleDocumentClick = (e: MouseEvent) => {
+const target = e.target as HTMLElement; 
+const isClickOutsideSearch = !target.closest('.search-container');
+if (isClickOutsideSearch) {
+setIsOverlayActive(false);
+setSearchResults([]);
+setSearchTerm(''); // Clear the search input
+}
+};
+document.body.addEventListener('click', handleDocumentClick);
+const unsubscribe = onAuthStateChanged(auth, (user) => {
+setForceRender((prev) => !prev); // Force re-render
+setIsSignedIn(!!user);
+});
+return () => {
+document.body.removeEventListener('click', handleDocumentClick);
+unsubscribe();
+};
+}, [searchTerm, isOverlayActive]);
   
-    document.body.addEventListener('click', handleDocumentClick);
+type InputChangeEvent = ChangeEvent<HTMLInputElement>;
+type FormSubmitEvent = FormEvent<HTMLFormElement>;  
+const handleSearchInputChange = (event: InputChangeEvent) => {
+setSearchTerm(event.target.value);
+if (event.target.value) {
+handleSearch();
+}
+};
   
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setForceRender((prev) => !prev); // Force re-render
-      setIsSignedIn(!!user);
-    });
-  
-    // Assuming you have an unsubscribe function
-    return () => {
-      document.body.removeEventListener('click', handleDocumentClick);
-      unsubscribe();
-    };
-  }, [searchTerm, isOverlayActive]);
-  
-  type InputChangeEvent = ChangeEvent<HTMLInputElement>;
-  type FormSubmitEvent = FormEvent<HTMLFormElement>;
-  
-  // Rest of your component code...
-  
-  const handleSearchInputChange = (event: InputChangeEvent) => {
-    setSearchTerm(event.target.value);
-    if (event.target.value) {
-      handleSearch();
-    }
-  };
-  
-  const handleSearch = async (event?: FormSubmitEvent) => {
-    if (event) {
-      event.preventDefault();
-    }
-    try {
-      setLoading(true);
-      const results = await getArticle(searchTerm);
-      setSearchResults(results);
-    } catch (error) {
-      console.error('Error searching articles:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+const handleSearch = async (event?: FormSubmitEvent) => {
+if (event) {
+event.preventDefault();
+}
+try {
+setLoading(true);
+const results = await getArticle(searchTerm);
+setSearchResults(results);
+} catch (error) {
+console.error('Error searching articles:', error);
+} finally {
+setLoading(false);
+}
+};
 
 
-  useEffect(() => {
-    if (searchTerm) {
-      handleSearch();
-    }
-  }, [searchTerm]);
+useEffect(() => {
+if (searchTerm) {
+handleSearch();
+}
+}, [searchTerm]);
   
-  const getLink = (collection: string, id: string) => {
-    // Replace spaces with an empty string in the collection name
-    const formattedCollection = collection.replace(/\s+/g, '');
-  
-    // Use the formatted collection name to get the route from collectionRoutes
-    const route = collectionRoutes[formattedCollection];
-  
-    // Return the route with the id appended, or fallback to '/'
-    return route ? `${route}/${id}` : '/';
-  };
+const getLink = (collection: string, id: string) => {
+const formattedCollection = collection.replace(/\s+/g, '');
+const route = collectionRoutes[formattedCollection];
+return route ? `${route}/${id}` : '/';
+};
+
 const toggleFooter = () => {
 setIsFooterVisible(!isFooterVisible);
 };
@@ -134,16 +123,15 @@ type="search"
 spellCheck="false"
 dir="auto"
 tabIndex={0}
-
 value={searchTerm}
 onChange={(e) => {
-  setSearchTerm(e.target.value);
-  {handleSearch}
-  {handleSearchInputChange}
-  setIsOverlayActive(e.target.value.trim().length > 0);
-  }}/>
+setSearchTerm(e.target.value);
+{handleSearch}
+{handleSearchInputChange}
+setIsOverlayActive(e.target.value.trim().length > 0);
+}}/>
 
- {searchResults.length > 0 && searchTerm && !loading && (
+{searchResults.length > 0 && searchTerm && !loading && (
 <div className="search-results-container">
 {searchResults.slice(0,10).map((result) => (
 <div key={result.id} className="search-result-item">
