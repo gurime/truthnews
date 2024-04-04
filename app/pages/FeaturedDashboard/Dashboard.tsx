@@ -166,6 +166,7 @@ export default function Dashboard() {
       } else {
         // Show modal or error message for unauthorized access
         setUnauthorizedModalOpen(true);
+        window,scrollTo(0,0)
       }
     } else {
       setErrorMessage('Listing not found');
@@ -312,12 +313,5 @@ Read More
 
     </>
   );
-}
-function updateComment(postId: string, editedContent: string) {
-  throw new Error('Function not implemented.');
-}
-
-function checkIfUserIsAdmin(user: User) {
-  throw new Error('Function not implemented.');
 }
 
