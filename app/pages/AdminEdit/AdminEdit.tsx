@@ -1,156 +1,157 @@
 'use client'
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { getAuth } from 'firebase/auth';
-import { useRouter } from 'next/navigation';
-import { BeatLoader } from 'react-spinners';
 import { auth } from '@/app/firebase/firebase';
-import { addDoc, collection, doc, getDoc, getFirestore } from 'firebase/firestore';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid';
 
-interface UserData {
-  firstName: string;
-  lastName: string;
+import { getAuth } from 'firebase/auth';
+import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { BeatLoader } from 'react-spinners';
+
+interface AdminEditProps {
+  comment: any;
+  onSave: (postId: string, editedContent: string) => Promise<void>;
+  onCancel: () => void;
 }
 
-const AdminForm: React.FC = () => {
-  const [content, setContent] = useState<string>('');
-  const [bodycontent, setBodyContent] = useState<string>('');
-  const [endcontent, setEndContent] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
-  const [owner, setOwner] = useState<string>('');
+interface UserData {
+    firstName: string;
+    lastName: string;
+  }
 
-  // Pictures
-  const [authPicFile, setAuthPicFile] = useState<File | null>(null);
-  const [cover_image, setCover_Image] = useState<File | null>(null);
-  // Add similar state variables for other showcase files...
+export default function AdminEdit({ comment, onSave, onCancel }: AdminEditProps) {
+const [articleId, setArticleId] = useState<string>('');
+const [isLoading, setIsLoading] = useState<boolean>(true);
+const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+const [names, setNames] = useState<string[]>([]);
+const [errorMessage, setErrorMessage] = useState<string>('');
+const [title, setTitle] = useState<string>(comment ? comment.title : "");
+const [owner, setOwner] = useState<string>(comment ? comment.owner : "");
+const [content, setContent] = useState<string>(comment ? comment.content : '');
+const [catorgory, setCatorgory] = useState<string>(comment ? comment.catorgory : '');
+const [bodycontent, setBodyContent] = useState<string>(comment ? comment.bodycontent : '');
+const [endcontent, setEndContent] = useState<string>(comment ? comment.endcontent : '');
+const [selectedCollection, setSelectedCollection] = useState<string>(comment ? comment.propertyType : "");
+const [authPicFile, setAuthPicFile] = useState<File | null>(null);
+const [cover_image, setCover_Image] = useState<File | null>(null);
 
-  const [articleId, setArticleId] = useState<string>('');
-  const [selectedCollection, setSelectedCollection] = useState<string>('Featured Dashboard');
-  const [catorgory, setCatorgory] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
-  const [names, setNames] = useState<string[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const router = useRouter();
 
-  useEffect(() => {
+
+
+useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const getUserData = async (userId: string): Promise<UserData | null> => {
-        try {
-          const db = getFirestore();
-          const userDocRef = doc(db, 'adminusers', userId);
-          const userDocSnapshot = await getDoc(userDocRef);
-          if (userDocSnapshot.exists()) {
-            const userData = userDocSnapshot.data() as UserData;
-            return userData;
-          } else {
-            return null;
-          }
-        } catch (error) {
-          throw error;
-        }
-      };
+        const getUserData = async (userId: string): Promise<UserData | null> => {
+try {
+const db = getFirestore();
+const userDocRef = doc(db, 'adminusers', userId);
+const userDocSnapshot = await getDoc(userDocRef);
+if (userDocSnapshot.exists()) {
+const userData = userDocSnapshot.data() as UserData;
+return userData;
+} else {
+return null;
+}
+} catch (error) {
+throw error;
+}
+};
+setIsSignedIn(!!user);
+if (user) {
+try {
+const userData = await getUserData(user.uid);
+if (userData) {
+setNames([userData.firstName, userData.lastName]);
+}    } catch (error) {
+handleError(error);
+} finally {
+setIsLoading(false)
+}
+}
+});
+return () => unsubscribe();
+}, []);
+    
+const handleError = (error: any) => {
+if (error.code === 'network-error') {
+setErrorMessage('Network error: Please check your internet connection.');
+} else if (error.code === 'invalid-content') {
+setErrorMessage('Invalid comment content. Please try again.');
+} else {
+setErrorMessage('Unexpected error occurred. Please try again later.');
+}
+};
 
-      setIsSignedIn(!!user);
-      if (user) {
-        try {
-          const userData = await getUserData(user.uid);
-          if (userData) {
-            setNames([userData.firstName, userData.lastName]);
-          }
-        } catch (error) {
-          handleError(error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    });
+const handleFileChange = (setter: (file: File | null) => void) => (e: ChangeEvent<HTMLInputElement>) => {
+const file = e.target.files ? e.target.files[0] : null;
+setter(file);
+};
 
-    return () => unsubscribe();
-  }, []);
+const storage = getStorage(); // Initialize Firebase Storage
+const handleFileUpload = async (file: File, storagePath: string): Promise<string> => {
+try {
+const storageRef = ref(storage, storagePath);
+await uploadBytesResumable(storageRef, file);
+const downloadURL = await getDownloadURL(storageRef);
+return downloadURL;
+} catch (error) {
+throw error;
+}
+};
 
-  const handleError = (error: any) => {
-    if (error.code === 'network-error') {
-      setErrorMessage('Network error: Please check your internet connection.');
-    } else if (error.code === 'invalid-content') {
-      setErrorMessage('Invalid comment content. Please try again.');
-    } else {
-      setErrorMessage('Unexpected error occurred. Please try again later.');
-    }
-  };
-
-  const handleFileChange = (setter: (file: File | null) => void) => (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    setter(file);
-  };
-
-  const storage = getStorage(); // Initialize Firebase Storage
-  const handleFileUpload = async (file: File, storagePath: string): Promise<string> => {
-    try {
-      const storageRef = ref(storage, storagePath);
-      await uploadBytesResumable(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
-      return downloadURL;
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (!isSignedIn) {
-        setErrorMessage('You must be signed in to submit the article.');
-        return;
-      }
-      const authInstance = getAuth();
-      const user = authInstance.currentUser;
+      const auth = getAuth();
+      const user = auth.currentUser;
       setIsLoading(true);
       const uniqueArticleId = uuidv4();
       setArticleId(uniqueArticleId);
-      // Upload files to Firebase Storage if they exist
-const authpic = authPicFile ? await handleFileUpload(authPicFile, `images/${uniqueArticleId}authpic.jpg`) : null;
+      const isUpdate = !!comment.id;  
+      const authpic = authPicFile ? await handleFileUpload(authPicFile, `images/${uniqueArticleId}authpic.jpg`) : null;
    
   
   
 const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${uniqueArticleId}cover_image.jpg`) : null;
-      const db = getFirestore();
-      const docRef = await addDoc(collection(db, selectedCollection), {
-        userId: user?.uid,
-        content,
-        bodycontent,
-        endcontent,
-        catorgory,
-        title,
-        owner,
-        timestamp: new Date(),
-        userEmail: user?.email,
-        authpic,
-        coverimage,
-        propertyType: selectedCollection,
-      });
-
-      if (selectedCollection === 'Featured Dashboard' || 'Headline Dashboard') {
-        router.push('/');
+const db = getFirestore();
+if (isUpdate && comment.id && selectedCollection) {
+const docRef = doc(db, selectedCollection, comment.id);
+await updateDoc(docRef, {
+userId: user?.uid,
+content,
+title,
+owner,
+timestamp: new Date(),
+userEmail: user?.email,
+authpic,
+coverimage,
+propertyType: selectedCollection, 
+});
+        window.location.reload()
+  
+        window.scrollTo(0, 0); 
       } else {
-        const formattedPageName = selectedCollection.charAt(0).toUpperCase() + selectedCollection.slice(1);
-        router.push(`/pages/${formattedPageName}`);
+        setErrorMessage('Error: Cannot add a new document without articleId.');
       }
     } catch (error) {
-      console.error('Error:', error);
-      setErrorMessage('Error. Please try again.');
-      setTimeout(() => {
-        setErrorMessage('');
-      }, 3000);
+     
+  console.log(error)
+  
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Reset loading state
     }
+  };
+  const handleCancel = () => {
+    onCancel();
+    window.scrollTo(0,0)
+  };
+
+  const handleSave = (postId: string, editedContent: string) => {
+    onSave(postId, editedContent);
   };
 
   return (
     <>
-      <div className="adminform_bg">
+          <div className="adminform_bg">
         <form className="adminform" onSubmit={handleSubmit}>
         <div style={{ color: '#fff', textAlign: 'center' }}>
   <h2>Article Topic:</h2>
@@ -275,6 +276,7 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
 <input
   type="text"
   id="owner"
+  value={owner}
   name="owner"
   onChange={(e: ChangeEvent<HTMLInputElement>) => setOwner(e.target.value)}
   />
@@ -314,7 +316,7 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
             <div style={{ display: 'grid', gap: '1rem', width: '100%' }}>
               <textarea
                 rows={10}
-                placeholder="Enter the introductory text.."
+                placeholder="Update introductory text.."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               ></textarea>
@@ -328,7 +330,7 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
             <div style={{ display: 'grid', gap: '1rem', width: '100%' }}>
               <textarea
                 rows={10}
-                placeholder="Enter the body content..."
+                placeholder="Update body content..."
                 value={bodycontent}
                 onChange={(e) => setBodyContent(e.target.value)}
               ></textarea>
@@ -342,23 +344,28 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
             <div style={{ display: 'grid', gap: '1rem', width: '100%' }}>
               <textarea
                 rows={10}
-                placeholder="Enter the ending content..."
+                placeholder="Update ending content..."
                 value={endcontent}
                 onChange={(e) => setEndContent(e.target.value)}
               ></textarea>
             </div>
           </div>
-          <button type="submit" disabled={!isSignedIn || !content || !selectedCollection || isLoading}>
-  {isLoading ? (
-    <BeatLoader color={"#ffffff"} loading={isLoading} size={10} />
-  ) : (
-    'Submit Article'
-  )}
-</button>
-        </form>
-      </div>
-      </>
-  );
-};
+<button type="submit" 
+disabled={!isSignedIn ||  !selectedCollection ||   isLoading}
+style={{
+cursor: !isSignedIn ||  !selectedCollection  ||   isLoading ?  'none' : 'pointer',
+backgroundColor: !isSignedIn ||  !selectedCollection ||  isLoading ? '#9e9e9e' : '#00a8ff',
+color: !isSignedIn ||  !selectedCollection  ||  isLoading ? 'grey' : '#fff',
 
-export default AdminForm
+}}>  {isLoading ? (
+    <BeatLoader color={"#fff"} loading={isLoading} size={10} />
+) : (
+'Update '
+  )}
+</button> 
+<button style={{backgroundColor:'red'}} onClick={handleCancel}>Cancel</button>
+</form>
+</div>
+</>
+);
+}

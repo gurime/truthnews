@@ -2,11 +2,13 @@
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { auth, db } from '@/app/firebase/firebase';
 import { useRouter } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
+import { MdOutlineSecurityUpdate } from 'react-icons/md';
+import AdminEdit from '../AdminEdit/AdminEdit';
 
 interface Article {
     userId: string;
@@ -152,7 +154,7 @@ export default function Dashboard() {
 
   const handleEditModalSave = async (postId: string, editedContent: string) => {
     try {
-      // await updateComment(postId, editedContent);
+      updateComment(postId, editedContent);
 
       setUseArticle((prevArticles) =>
         prevArticles.map((article) =>
@@ -169,44 +171,6 @@ export default function Dashboard() {
     }
   };
 
-  const deletePost = async (postId: string, userId: string) => {
-    try {
-      const auth = getAuth();
-      const currentUser = auth.currentUser;
-      const isAuthenticated = await userIsAuthenticated();
-      if (currentUser) {
-        if (currentUser.uid === userId) {
-          const db = getFirestore();
-          const commentDoc = await getDoc(doc(db, 'Featured Dashboard', postId));
-          if (commentDoc.exists()) {
-            await deleteDoc(doc(db, 'Featured Dashboard', postId));
-            setUseArticle((prevArticles) =>
-              prevArticles.filter((article) => article.id !== postId)
-            );
-            setSuccessMessage('Listing deleted successfully');
-            setTimeout(() => {
-              setSuccessMessage('');
-            }, 3000);
-          } else {
-            setErrorMessage('Listing not found');
-            setTimeout(() => {
-              setErrorMessage('');
-            }, 3000);
-          }
-        } else {
-          setErrorMessage('Unauthorized to delete this Listing.');
-          setTimeout(() => {
-            setErrorMessage('');
-          }, 3000);
-        }
-      }
-    } catch (error) {
-      setErrorMessage('Error deleting Listing. Please try again.');
-      setTimeout(() => {
-        setErrorMessage('');
-      }, 3000);
-    }
-  };
 
 
 
@@ -241,7 +205,7 @@ export default function Dashboard() {
   ) : (
 useArticle.map((post) => (
 <React.Fragment key={post.id}>
-<div className="hero-info">
+<div ref={commentsRef} className="hero-info">
 <h1 className="hero-title">{post.title}</h1>
 <div className="authflex">
 <p>{post.catorgory}</p>
@@ -281,12 +245,38 @@ Read More
 </div>
 <div className="heroimg-box">
 <img src={post.coverimage} alt="Hero Image" />
+<div style={{position:'relative'}}>
+<button
+ onClick={(e) => {
+  e.preventDefault();
+  editPost(post.id, post.userId);
+  }}              
+style={{
+  position:'absolute',
+  right:'0',
+  top:'-45px',
+borderRadius: '50%',
+border: 'none',
+padding: '1rem 20px',
+backgroundColor: '#2072ed',
+color: '#fff',
+cursor: 'pointer',
+}}
+>
+<MdOutlineSecurityUpdate style={{fontSize:'24px'}} />            
+</button></div>
+
 </div>
 </React.Fragment>
 ))
 )}
 </div>
+{editModalOpen && (<AdminEdit comment={editingComment} onSave={handleEditModalSave} onCancel={() => setEditModalOpen(false)}/>)}
 
     </>
   );
 }
+function updateComment(postId: string, editedContent: string) {
+  throw new Error('Function not implemented.');
+}
+
