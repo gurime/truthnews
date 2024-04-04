@@ -198,9 +198,9 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
     </select>
   </div>
   <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
-    <label htmlFor="selectedCollection">Select Topic:</label>
+    <label htmlFor="catorgory">Select Topic:</label>
     <select
-      name="selectedCollection"
+      name="catorgory"
       value={catorgory}
       onChange={(e) => setCatorgory(e.target.value)}
       required

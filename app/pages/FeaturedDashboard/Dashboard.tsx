@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { auth, db } from '@/app/firebase/firebase';
 import { useRouter } from 'next/navigation';
@@ -9,6 +9,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 import { MdOutlineSecurityUpdate } from 'react-icons/md';
 import AdminEdit from '../AdminEdit/AdminEdit';
+import { IoCloseSharp } from 'react-icons/io5';
 
 interface Article {
     userId: string;
@@ -51,6 +52,7 @@ interface Article {
   
 
 export default function Dashboard() {
+  const [IsAdmin, setIsAdmin] = useState<boolean>(false)
   const [fetchError, setFetchError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
   const [useArticle, setUseArticle] = useState<any[]>([]);
@@ -60,6 +62,7 @@ export default function Dashboard() {
   const [successMessage, setSuccessMessage] = useState('');
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editingComment, setEditingComment] = useState<any>(null);
+  const [unauthorizedModalOpen, setUnauthorizedModalOpen ] = useState<boolean>(false)
   const router = useRouter();
   const commentsRef = useRef<HTMLDivElement>(null);
 
@@ -91,16 +94,27 @@ export default function Dashboard() {
     });
   };
 
+  async function checkIfUserIsAdmin(user: User): Promise<boolean> {
+    const db = getFirestore();
+    const adminUserDocRef = doc(db, 'adminusers', user.uid);
+  
+    try {
+      const adminUserDoc = await getDoc(adminUserDocRef);
+      return adminUserDoc.exists();
+    } catch (error) {
+      console.error('Error checking admin user:', error);
+      return false; // Return false in case of an error
+    }
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const articles = await getArticles(); // Call getArticles without any arguments
-        const currentUser = auth.currentUser;
-  
+        const articles = await getArticles();
+        const currentUser = getAuth().currentUser;
         if (currentUser) {
-          // Filter articles based on user ID
-          const userArticles = articles.filter(article => article.userId === currentUser.uid);
-          const otherArticles = articles.filter(article => article.userId !== currentUser.uid);
+          const userArticles = articles.filter((article) => article.userId === currentUser.uid);
+          const otherArticles = articles.filter((article) => article.userId !== currentUser.uid);
           const combinedListings = userArticles.concat(otherArticles);
           setUseArticle(combinedListings);
         } else {
@@ -112,37 +126,46 @@ export default function Dashboard() {
         setLoading(false);
       }
     };
-  
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      checkAuthState(user);
-      fetchData(); // Call fetchData directly inside onAuthStateChanged
+
+    const unsubscribe = onAuthStateChanged(getAuth(), async (user) => {
+      if (user) {
+        const isUserAdmin = checkIfUserIsAdmin(user); // Implement this function based on your authentication system
+        setIsAdmin(await isUserAdmin);
+      } else {
+        setIsAdmin(false);
+      }
+      const checkAuthState = (user: any) => {
+        setIsSignedIn(!!user);
+      };
     });
-  
-    const checkAuthState = (user: any) => {
-      setIsSignedIn(!!user);
-    };
-  
+
+    fetchData();
+
     return () => {
       unsubscribe();
     };
-  }, []); // Empty dependency array means this effect runs only once on component mount
-  
+  }, []); 
 
-  const editPost = (postId: string, userId: string) => {
+  const editPost = (postId: string, userId: string, isAdmin: boolean) => {
     const listingToEdit = useArticle.find((listing) => listing.id === postId);
-
+  
     if (listingToEdit) {
       const auth = getAuth();
       const currentUser = auth.currentUser;
+  
+      if (isAdmin) {
+        // Admin can edit any post
+        setEditingComment(listingToEdit);
+        setEditModalOpen(true); 
 
-      if (currentUser && currentUser.uid === listingToEdit.userId) {
+      } else if (currentUser && currentUser.uid === listingToEdit.userId) {
+        // Regular user can edit their own post
         setEditingComment(listingToEdit);
         setEditModalOpen(true);
+
       } else {
-        setErrorMessage('Unauthorized to edit this Listing.');
-        setTimeout(() => {
-          setErrorMessage('');
-        }, 3000);
+        // Show modal or error message for unauthorized access
+        setUnauthorizedModalOpen(true);
       }
     } else {
       setErrorMessage('Listing not found');
@@ -158,11 +181,12 @@ export default function Dashboard() {
 
       setUseArticle((prevArticles) =>
         prevArticles.map((article) =>
-          article.id === postId ? { ...article, content: editedContent } : article
+          article.id === postId ? { ...article, content: editedContent, bodycontent: editedContent, endcontent: editedContent } : article
         )
       );
 
-      setEditModalOpen(false); // Close the modal after updating
+      setEditModalOpen(false); 
+
     } catch (error) {
       setErrorMessage('Error saving Listing. Please try again.');
       setTimeout(() => {
@@ -247,24 +271,36 @@ Read More
 <img src={post.coverimage} alt="Hero Image" />
 <div style={{position:'relative'}}>
 <button
- onClick={(e) => {
-  e.preventDefault();
-  editPost(post.id, post.userId);
-  }}              
-style={{
-  position:'absolute',
-  right:'0',
-  top:'-45px',
-borderRadius: '50%',
-border: 'none',
-padding: '1rem 20px',
-backgroundColor: '#2072ed',
-color: '#fff',
-cursor: 'pointer',
-}}
+  onClick={(e) => {
+    e.preventDefault();
+    editPost(post.id, post.userId, IsAdmin); // Pass isAdmin as a new argument
+  }}
+  style={{
+    position: 'absolute',
+    right: '0',
+    top: '-45px',
+    borderRadius: '50%',
+    border: 'none',
+    padding: '1rem 20px',
+    backgroundColor: '#2072ed',
+    color: '#fff',
+    cursor: 'pointer',
+  }}
 >
-<MdOutlineSecurityUpdate style={{fontSize:'24px'}} />            
+  <MdOutlineSecurityUpdate style={{ fontSize: '24px' }} />
 </button>
+
+{unauthorizedModalOpen && (
+  <div className="modal">
+    <div className="modal-content">
+      <span className="close" onClick={() => setUnauthorizedModalOpen(false)}>
+      <IoCloseSharp style={{cursor:'pointer'}} />
+
+      </span>
+      <p>This functionality is only available for administrators.</p>
+    </div>
+  </div>
+)}
 </div>
 
 </div>
@@ -278,6 +314,10 @@ cursor: 'pointer',
   );
 }
 function updateComment(postId: string, editedContent: string) {
+  throw new Error('Function not implemented.');
+}
+
+function checkIfUserIsAdmin(user: User) {
   throw new Error('Function not implemented.');
 }
 

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState, useRef } from 'react';
 import { BeatLoader } from 'react-spinners';
 
 interface AdminEditProps {
@@ -17,11 +17,12 @@ interface AdminEditProps {
 interface UserData {
     firstName: string;
     lastName: string;
+   
   }
 
-export default function AdminEdit({ comment, onSave, onCancel }: AdminEditProps) {
+export default function AdminEdit({ comment,  onCancel }: AdminEditProps) {
 const [articleId, setArticleId] = useState<string>('');
-const [isLoading, setIsLoading] = useState<boolean>(true);
+const [isLoading, setIsLoading] = useState<boolean>(false);
 const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 const [names, setNames] = useState<string[]>([]);
 const [errorMessage, setErrorMessage] = useState<string>('');
@@ -45,6 +46,7 @@ try {
 const db = getFirestore();
 const userDocRef = doc(db, 'adminusers', userId);
 const userDocSnapshot = await getDoc(userDocRef);
+
 if (userDocSnapshot.exists()) {
 const userData = userDocSnapshot.data() as UserData;
 return userData;
@@ -61,8 +63,8 @@ try {
 const userData = await getUserData(user.uid);
 if (userData) {
 setNames([userData.firstName, userData.lastName]);
-}    } catch (error) {
-handleError(error);
+}} 
+catch (error) {
 } finally {
 setIsLoading(false)
 }
@@ -71,15 +73,7 @@ setIsLoading(false)
 return () => unsubscribe();
 }, []);
     
-const handleError = (error: any) => {
-if (error.code === 'network-error') {
-setErrorMessage('Network error: Please check your internet connection.');
-} else if (error.code === 'invalid-content') {
-setErrorMessage('Invalid comment content. Please try again.');
-} else {
-setErrorMessage('Unexpected error occurred. Please try again later.');
-}
-};
+
 
 const handleFileChange = (setter: (file: File | null) => void) => (e: ChangeEvent<HTMLInputElement>) => {
 const file = e.target.files ? e.target.files[0] : null;
@@ -99,18 +93,15 @@ throw error;
 };
 
 const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      setIsLoading(true);
-      const uniqueArticleId = uuidv4();
-      setArticleId(uniqueArticleId);
-      const isUpdate = !!comment.id;  
-      const authpic = authPicFile ? await handleFileUpload(authPicFile, `images/${uniqueArticleId}authpic.jpg`) : null;
-   
-  
-  
+e.preventDefault();
+try {
+const auth = getAuth();
+const user = auth.currentUser;
+setIsLoading(true);
+const uniqueArticleId = uuidv4();
+setArticleId(uniqueArticleId);
+const isUpdate = !!comment.id;  
+const authpic = authPicFile ? await handleFileUpload(authPicFile, `images/${uniqueArticleId}authpic.jpg`) : null;
 const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${uniqueArticleId}cover_image.jpg`) : null;
 const db = getFirestore();
 if (isUpdate && comment.id && selectedCollection) {
@@ -126,28 +117,23 @@ authpic,
 coverimage,
 propertyType: selectedCollection, 
 });
-        window.location.reload()
-  
-        window.scrollTo(0, 0); 
-      } else {
-        setErrorMessage('Error: Cannot add a new document without articleId.');
-      }
-    } catch (error) {
-     
-  console.log(error)
-  
-    } finally {
-      setIsLoading(false); // Reset loading state
-    }
-  };
-  const handleCancel = () => {
-    onCancel();
-    window.scrollTo(0,0)
-  };
+window.location.reload()
+window.scrollTo(0, 0); 
+} else {
+setErrorMessage('Error: Cannot add a new document without articleId.');
+}
+} catch (error) {
+console.log(error)
+} finally {
+setIsLoading(false); // Reset loading state
+}
+};
 
-  const handleSave = (postId: string, editedContent: string) => {
-    onSave(postId, editedContent);
-  };
+const handleCancel = () => {
+onCancel();
+window.scrollTo(0,0)
+};
+
 
   return (
     <>
@@ -199,9 +185,9 @@ propertyType: selectedCollection,
     </select>
   </div>
   <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
-    <label htmlFor="selectedCollection">Select Topic:</label>
+    <label htmlFor="catorgory">Select Topic:</label>
     <select
-      name="selectedCollection"
+      name="catorgory"
       value={catorgory}
       onChange={(e) => setCatorgory(e.target.value)}
       required
@@ -242,14 +228,7 @@ propertyType: selectedCollection,
 </div>
 <div className='sm-adminform' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
 <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
-{/* <input
-  type="text"
-  id="property-name"
-  name="title"
-  value={title}
-  onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-  required
-/> */}
+
 <textarea 
   name="title" 
   placeholder="Enter the Article Title.."
@@ -350,19 +329,22 @@ propertyType: selectedCollection,
               ></textarea>
             </div>
           </div>
-<button type="submit" 
-disabled={!isSignedIn ||  !selectedCollection ||   isLoading}
-style={{
-cursor: !isSignedIn ||  !selectedCollection  ||   isLoading ?  'none' : 'pointer',
-backgroundColor: !isSignedIn ||  !selectedCollection ||  isLoading ? '#9e9e9e' : '#00a8ff',
-color: !isSignedIn ||  !selectedCollection  ||  isLoading ? 'grey' : '#fff',
-
-}}>  {isLoading ? (
-    <BeatLoader color={"#fff"} loading={isLoading} size={10} />
-) : (
-'Update '
+          <button
+  type="submit"
+  disabled={!isSignedIn || !selectedCollection || isLoading || !title || !owner || !content || !bodycontent || !endcontent}
+  style={{
+    cursor: !isSignedIn || !selectedCollection || isLoading || !title || !owner || !content || !bodycontent || !endcontent ? 'none' : 'pointer',
+    backgroundColor: !isSignedIn || !selectedCollection || isLoading || !title || !owner || !content || !bodycontent || !endcontent ? '#9e9e9e' : '#00a8ff',
+    color: !isSignedIn || !selectedCollection || isLoading || !title || !owner || !content || !bodycontent || !endcontent ? 'grey' : '#fff',
+  }}
+>
+  {isLoading ? (
+    <BeatLoader color={"#ffffff"} loading={isLoading} size={10} />
+  ) : (
+    'Update'
   )}
-</button> 
+</button>
+
 <button style={{backgroundColor:'red'}} onClick={handleCancel}>Cancel</button>
 </form>
 </div>
