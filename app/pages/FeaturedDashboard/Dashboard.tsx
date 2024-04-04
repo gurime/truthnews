@@ -246,6 +246,7 @@ Read More
 <div className="heroimg-box">
 <img src={post.coverimage} alt="Hero Image" />
 <div style={{position:'relative'}}>
+{isAdmin && (
 <button
  onClick={(e) => {
   e.preventDefault();
@@ -264,7 +265,9 @@ cursor: 'pointer',
 }}
 >
 <MdOutlineSecurityUpdate style={{fontSize:'24px'}} />            
-</button></div>
+</button>
+)}
+</div>
 
 </div>
 </React.Fragment>
