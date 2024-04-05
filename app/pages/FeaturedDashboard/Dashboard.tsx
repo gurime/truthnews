@@ -16,11 +16,21 @@ interface Article {
     id: string;
     title: string;
     content: string;
-    coverimage: string; 
+    bodycontent: string;
+    endcontent: string;
+    coverimage: File; 
     catorgory: string;
-    authpic : string;
+    authpic : File;
     owner: string;
     timestamp: string;
+  }
+
+  function updateComment(postId: string, editedContent: string) {
+    throw new Error('Function not implemented.');
+  }
+  
+  function checkIfUserIsAdmin(user: User) {
+    throw new Error('Function not implemented.');
   }
   
   async function getArticles(): Promise<Article[]> {
@@ -32,8 +42,10 @@ interface Article {
         const articleData = doc.data();
         data.push({
           id: doc.id,
-          title: articleData.title || '', // Ensure title is not undefined
-          content: articleData.content || '', // Ensure content is not undefined
+          title: articleData.title || '', 
+          content: articleData.content || '', 
+          bodycontent: articleData.bodycontent || '',
+          endcontent: articleData.endcontent || '',
           userId: articleData.userId || '',
           coverimage: articleData.coverimage || '',
           catorgory: articleData.catorgory || '',
@@ -166,7 +178,6 @@ export default function Dashboard() {
       } else {
         // Show modal or error message for unauthorized access
         setUnauthorizedModalOpen(true);
-        window,scrollTo(0,0)
       }
     } else {
       setErrorMessage('Listing not found');

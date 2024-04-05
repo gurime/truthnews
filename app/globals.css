@@ -371,6 +371,10 @@ display: flex;
   text-transform: capitalize;
 }
 
+.heroimg-box{
+  width: 100%;
+}
+
 @media(max-width:968px){
   .hero{
     flex-direction: column;
