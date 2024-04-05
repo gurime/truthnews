@@ -3,6 +3,7 @@ import Footer from '@/app/components/footer'
 import Navbar from '@/app/components/navbar'
 import { Metadata } from 'next'
 import AdminHeader from '@/app/components/AdminHeader'
+import FeaturedDashboard from './FeaturedMusic'
 
 export const metadata: Metadata = {
     title: 'iTruth Music - Latest Music Releases, Artist News, and Reviews',
@@ -17,6 +18,7 @@ return (
 <>
 <AdminHeader/>
 <Navbar/>
+<FeaturedDashboard/>
 <Footer/>
 </>
 )

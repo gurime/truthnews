@@ -36,7 +36,7 @@ interface Article {
   
   async function getArticles(): Promise<Article[]> {
     try {
-      const querySnapshot = await getDocs(collection(db, "Featured Dashboard"));
+      const querySnapshot = await getDocs(collection(db, "Featured Music"));
       const data: Article[] = [];
   
       querySnapshot.forEach((doc) => {
@@ -65,7 +65,7 @@ interface Article {
   }
   
 
-export default function Dashboard() {
+export default function FeaturedDashboard() {
   const [IsAdmin, setIsAdmin] = useState<boolean>(false)
   const [fetchError, setFetchError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);

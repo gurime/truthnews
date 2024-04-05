@@ -39,7 +39,7 @@ export default function AdminEdit({ comment,  onCancel }: AdminEditProps) {
   const [catorgory, setCatorgory] = useState<string>(comment ? comment.catorgory : '');
   const [bodycontent, setBodyContent] = useState<string>(comment ? comment.bodycontent : '');
   const [endcontent, setEndContent] = useState<string>(comment ? comment.endcontent : '');
-  const [selectedCollection, setSelectedCollection] = useState<string>(comment ? comment.propertyType : "");
+  const [selectedCollection, setSelectedCollection] = useState<string>(comment ? comment.propertyType : "Featured Dashboard");
   const [authPicFile, setAuthPicFile] = useState<File | null>(null);
   const [cover_image, setCover_Image] = useState<File | null>(null);
 
@@ -121,93 +121,63 @@ const handleFileChange = (setter: (file: File | null) => void) => (e: ChangeEven
   }
   };
   
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    console.log('handleSubmit triggered');
+const handleSubmit = async (e: any) => {
+e.preventDefault();
   
-    try {
-      const auth = getAuth();
-      const user = auth.currentUser;
-  
-      setIsLoading(true);
-      const uniqueArticleId = uuidv4();
-      setArticleId(uniqueArticleId);
-      const isUpdate = !!comment.id;
-  
-      const authpic = authPicFile ? await handleFileUpload(authPicFile, `images/${uniqueArticleId}authpic.jpg`) : null;
-      const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${uniqueArticleId}cover_image.jpg`) : null;
-      const db = getFirestore();
-      console.log('Data prepared for update:', { title, content, owner, authpic, coverimage });
-  
-      if (isUpdate && comment.id && selectedCollection) {
-        const docRef = doc(db, selectedCollection, comment.id);
-        console.log('Updating document:', docRef.id);
-  
-        await updateDoc(docRef, {
-          userId: user?.uid,
-          content,
-          title,
-          owner,
-          timestamp: new Date(),
-          userEmail: user?.email,
-          authpic,
-          coverimage,
-          propertyType: selectedCollection,
-        });
-  
-        console.log('Document updated successfully:', docRef.id);
-        window.location.reload();
-        window.scrollTo(0, 0);
-      } else if (!comment.id && selectedCollection) {
-        // Create a new document
-        const newDocRef = doc(collection(db, selectedCollection));
-        console.log('Creating new document:', newDocRef.id);
-  
-        await setDoc(newDocRef, {
-          userId: user?.uid,
-          content,
-          title,
-          owner,
-          timestamp: new Date(),
-          userEmail: user?.email,
-          authpic,
-          coverimage,
-          propertyType: selectedCollection,
-        });
-  
-        console.log('New document created successfully:', newDocRef.id);
-        window.location.reload();
-        window.scrollTo(0, 0);
-      } else {
-        setErrorMessage('Error: Missing required fields for creating a new document.');
-        console.log('Error:', errorMessage);
-      }
-    } catch (error) {
-      console.error('Error occurred during form submission:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+try {
+const auth = getAuth();
+const user = auth.currentUser;
+setIsLoading(true);
+const uniqueArticleId = uuidv4();
+setArticleId(uniqueArticleId);
+const isUpdate = !!comment.id;
+const authpic = authPicFile ? await handleFileUpload(authPicFile, `images/${uniqueArticleId}authpic.jpg`) : null;
+const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${uniqueArticleId}cover_image.jpg`) : null;
+const db = getFirestore();
+if (isUpdate && comment.id && selectedCollection) {
+const docRef = doc(db, selectedCollection, comment.id);
+await updateDoc(docRef, {
+userId: user?.uid,
+content,
+bodycontent,
+endcontent,
+title,
+owner,
+timestamp: new Date(),
+userEmail: user?.email,
+authpic,
+coverimage,
+propertyType: selectedCollection,
+});
+window.location.reload();
+window.scrollTo(0, 0);
+} else {
+}
+} catch (error) {
+} finally {
+setIsLoading(false);
+}
+};
 
   
 
 return (
 <>
 <div className="adminform_bg">
-        <form className="adminform" onSubmit={handleSubmit}>
-        <div style={{ color: '#fff', textAlign: 'center' }}>
-  <h2>Article Topic:</h2>
+<form className="adminform" onSubmit={handleSubmit}>
+<div style={{ color: '#fff', textAlign: 'center' }}>
+<h2>Article Topic:</h2>
 </div>
 <div className='sm-adminform' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
-  <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
-    <label htmlFor="selectedCollection">Choose Destination for Article:</label>
-    <select
-      name="selectedCollection"
-      value={selectedCollection}
-      onChange={(e) => setSelectedCollection(e.target.value)}
-      required
-      className='billingselect'
-    >
+<div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
+<label htmlFor="selectedCollection">Choose Destination for Article:</label>
+<select
+name="selectedCollection"
+value={selectedCollection}
+onChange={(e) => setSelectedCollection(e.target.value)}
+required
+className='billingselect'
+>
 <option value="Featured Dashboard">Featured Dashboard</option>
 <option value="Headline Dashboard">Headline Dashboard</option>
 <option value="Featured Technology">Featured Technology</option>
@@ -237,18 +207,18 @@ return (
 <option value="Europe">Europe</option>
 <option value="Asia">Asia</option>
 <option value="Africa">Africa</option>
- 
-    </select>
-  </div>
-  <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
-    <label htmlFor="catorgory">Select Topic:</label>
-    <select
-      name="catorgory"
-      value={catorgory}
-      onChange={(e) => setCatorgory(e.target.value)}
-      required
-      className='billingselect'
-    >
+</select>
+</div>
+
+<div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
+<label htmlFor="catorgory">Select Topic:</label>
+<select
+name="catorgory"
+value={catorgory}
+onChange={(e) => setCatorgory(e.target.value)}
+required
+className='billingselect'
+>
 
 <option value="">select a topic</option>
 <option value="Technology">Technology</option>
@@ -274,91 +244,89 @@ return (
 <option value="Europe">Europe</option>
 <option value="Asia">Asia</option>
 <option value="Africa">Africa</option>
- 
-    </select>
-  </div>
+</select>
+</div>
 </div>
 <hr />
+
 <div style={{ color: '#fff', textAlign: 'center' }}>
-  <h2>Article Title:</h2>
+<h2>Article Title:</h2>
 </div>
 <div className='sm-adminform' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
 <div className='sm-adminform-input' style={{ display: 'grid', gap: '1rem' }}>
 
 <textarea 
-  name="title" 
-  placeholder="Enter the Article Title.."
-
-  rows={5}
-  cols={100}
-  value={title}
-  onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setTitle(e.target.value)}
-  required
->
+name="title" 
+placeholder="Enter the Article Title.."
+rows={5}
+cols={100}
+value={title}
+onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setTitle(e.target.value)}
+required>
 </textarea>
 
 
 </div>
 </div>
 <hr />
+
 <div style={{ color: '#fff', textAlign: 'center' }}>
-  <h2>Article Author</h2>
+<h2>Article Author</h2>
 </div>
 
 <div className='sm-adminform' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
 <div style={{ display: 'grid', gap: '1rem',marginBottom:'10rem' }}>
 <label htmlFor="owner">Author: </label>
 <input
-  type="text"
-  id="owner"
-  value={owner}
-  name="owner"
-  onChange={(e: ChangeEvent<HTMLInputElement>) => setOwner(e.target.value)}
-  />
+type="text"
+id="owner"
+value={owner}
+name="owner"
+onChange={(e: ChangeEvent<HTMLInputElement>) => setOwner(e.target.value)}/>
 </div> 
-          <div style={{ display: 'grid', gap: '1rem',marginBottom:'10rem' }}>
+
+<div style={{ display: 'grid', gap: '1rem',marginBottom:'10rem' }}>
 <label htmlFor="authpic">Author Image: </label>
 <input
-  type="file"
-  id="authpic"
-  name="authpic"
-  onChange={handleFileChange(setAuthPicFile)}
-  />
+type="file"
+id="authpic"
+name="authpic"
+onChange={handleFileChange(setAuthPicFile)}/>
 </div> 
+</div>
 
-          </div>
-
-          <hr />
+<hr />
 
 <div className="sm-adminform" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>          
 <div style={{ display: 'grid', gap: '1rem',marginBottom:'10rem' }}>
 <label htmlFor="cover_image">Featured Image: </label>
 <input
-  type="file"
-  id="cover_image"
-  name="cover_image"
-  accept="image/*"
-  onChange={handleFileChange(setCover_Image)}
-  />
+type="file"
+id="cover_image"
+name="cover_image"
+accept="image/*"
+onChange={handleFileChange(setCover_Image)}/>
 </div> 
 </div>
 
 <hr />
-          <div style={{ color: '#fff', textAlign: 'center' }}>
-            <h2>Intro</h2>
-          </div>
-          <div className="sm-adminform" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
-            <div style={{ display: 'grid', gap: '1rem', width: '100%' }}>
-              <textarea
-                rows={10}
-                id="content"
-                placeholder="Update introductory text.."
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              ></textarea>
-            </div>
-          </div>
+
+<div style={{ color: '#fff', textAlign: 'center' }}>
+<h2>Intro</h2>
+</div>
+<div className="sm-adminform" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+<div style={{ display: 'grid', gap: '1rem', width: '100%' }}>
+<textarea
+rows={10}
+id="content"
+placeholder="Update introductory text.."
+value={content}
+onChange={(e) => setContent(e.target.value)}>
+</textarea>
+</div>
+</div>
 <hr />
+
           <div style={{ color: '#fff', textAlign: 'center' }}>
             <h2>Body</h2>
           </div>

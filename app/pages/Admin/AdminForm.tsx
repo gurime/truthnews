@@ -27,6 +27,7 @@ const AdminForm: React.FC = () => {
 
   const [articleId, setArticleId] = useState<string>('');
   const [selectedCollection, setSelectedCollection] = useState<string>('Featured Dashboard');
+  const acceptedCollections = ['Featured Music', 'Music', 'Sports'];
   const [catorgory, setCatorgory] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
@@ -131,18 +132,32 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
         propertyType: selectedCollection,
       });
 
-      if (selectedCollection === 'Featured Dashboard' || 'Headline Dashboard') {
-        router.push('/');
+      if (acceptedCollections.includes(selectedCollection)) {
+        switch (selectedCollection) {
+          case 'Featured Dashboard':
+          case 'Headline Dashboard':
+            router.push('/');
+            break;
+          case 'Featured Music':
+          case 'Headline Music':
+          case 'Music': 
+
+            router.push('/pages/Music');
+            break;
+          case 'Featured Sports':
+            router.push('/pages/Sports');
+            break;
+          default:
+            const formattedPageName = selectedCollection.charAt(0).toUpperCase() + selectedCollection.slice(1);
+            router.push(`/pages/${formattedPageName}`);
+            break;
+        }
       } else {
-        const formattedPageName = selectedCollection.charAt(0).toUpperCase() + selectedCollection.slice(1);
-        router.push(`/pages/${formattedPageName}`);
+        setErrorMessage('Invalid collection selected.');
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 3000);
       }
-    } catch (error) {
-      console.error('Error:', error);
-      setErrorMessage('Error. Please try again.');
-      setTimeout(() => {
-        setErrorMessage('');
-      }, 3000);
     } finally {
       setIsLoading(false);
     }
