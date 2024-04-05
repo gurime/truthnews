@@ -4,6 +4,7 @@ import Navbar from '@/app/components/navbar'
 import { Metadata } from 'next'
 import AdminHeader from '@/app/components/AdminHeader'
 import FeaturedDashboard from './FeaturedMusic'
+import { SkeletonTheme } from 'react-loading-skeleton'
 
 export const metadata: Metadata = {
     title: 'iTruth Music - Latest Music Releases, Artist News, and Reviews',
@@ -18,7 +19,10 @@ return (
 <>
 <AdminHeader/>
 <Navbar/>
+<SkeletonTheme baseColor="grey" highlightColor="#e6e6e6">
+
 <FeaturedDashboard/>
+</SkeletonTheme>
 <Footer/>
 </>
 )

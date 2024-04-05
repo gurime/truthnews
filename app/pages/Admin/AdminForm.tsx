@@ -98,70 +98,77 @@ const AdminForm: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      if (!isSignedIn) {
-        setErrorMessage('You must be signed in to submit the article.');
-        return;
-      }
-      const authInstance = getAuth();
-      const user = authInstance.currentUser;
-      setIsLoading(true);
-      const uniqueArticleId = uuidv4();
-      setArticleId(uniqueArticleId);
-      // Upload files to Firebase Storage if they exist
+const handleSubmit = async (e: React.FormEvent) => {
+e.preventDefault();
+try {
+if (!isSignedIn) {
+setErrorMessage('You must be signed in to submit the article.');
+return;
+}
+const authInstance = getAuth();
+const user = authInstance.currentUser;
+setIsLoading(true);
+const uniqueArticleId = uuidv4();
+setArticleId(uniqueArticleId);
 const authpic = authPicFile ? await handleFileUpload(authPicFile, `images/${uniqueArticleId}authpic.jpg`) : null;
-   
-  
-  
 const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${uniqueArticleId}cover_image.jpg`) : null;
-      const db = getFirestore();
-      const docRef = await addDoc(collection(db, selectedCollection), {
-        userId: user?.uid,
-        content,
-        bodycontent,
-        endcontent,
-        catorgory,
-        title,
-        owner,
-        timestamp: new Date(),
-        userEmail: user?.email,
-        authpic,
-        coverimage,
-        propertyType: selectedCollection,
-      });
-
-      if (acceptedCollections.includes(selectedCollection)) {
-        switch (selectedCollection) {
-          case 'Featured Dashboard':
-          case 'Headline Dashboard':
-            router.push('/');
-            break;
-          case 'Featured Music':
-          case 'Headline Music':
-          case 'Music': 
-
-            router.push('/pages/Music');
-            break;
-          case 'Featured Sports':
-            router.push('/pages/Sports');
-            break;
-          default:
-            const formattedPageName = selectedCollection.charAt(0).toUpperCase() + selectedCollection.slice(1);
-            router.push(`/pages/${formattedPageName}`);
-            break;
-        }
-      } else {
-        setErrorMessage('Invalid collection selected.');
-        setTimeout(() => {
-          setErrorMessage('');
-        }, 3000);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+const db = getFirestore();
+const docRef = await addDoc(collection(db, selectedCollection), {
+userId: user?.uid,
+content,
+bodycontent,
+endcontent,
+catorgory,
+title,
+owner,
+timestamp: new Date(),
+userEmail: user?.email,
+authpic,
+coverimage,
+propertyType: selectedCollection,
+});
+if (acceptedCollections.includes(selectedCollection)) {
+switch (selectedCollection) {
+case 'Featured Dashboard':
+case 'Headline Dashboard':
+router.push('/');
+break;
+case 'Featured Technology':
+case 'Headline Technology':
+router.push('/pages/Technology');
+break;
+case 'Featured Politics':
+case 'Headline Politics':
+router.push('/pages/Politics');
+break;
+case 'Featured Opinion':
+case 'Headline Opinion':
+router.push('/pages/Opinion');
+break;
+case 'Featured Music':
+case 'Headline Music':
+router.push('/pages/Music');
+break;
+case 'Featured Sports':
+case 'Headline Sports':
+case 'Sports':
+router.push('/pages/Sports');
+break;
+default:
+const formattedPageName = selectedCollection.charAt(0).toUpperCase() + selectedCollection.slice(1);
+router.push(`/pages/${formattedPageName}`);
+break;
+}
+} else {
+setErrorMessage('Invalid collection selected.');
+setTimeout(() => {
+setErrorMessage('');
+}, 3000);
+}
+} finally {
+setIsLoading(false);
+}
+};
 
   return (
     <>
@@ -183,14 +190,15 @@ const coverimage = cover_image ? await handleFileUpload(cover_image, `images/${u
 <option value="Featured Dashboard">Featured Dashboard</option>
 <option value="Headline Dashboard">Headline Dashboard</option>
 <option value="Featured Technology">Featured Technology</option>
-<option value="Technology">Technology</option>
+<option value="Headline Technology">Headline Technology</option>
 <option value="Featured Politics">Featured Politics</option>
-<option value="Politics">Politics</option>
+<option value="Headline Politics">Headline Politics</option>
 <option value="Featured Opinion">Featured Opinion</option>
-<option value="Opinion">Opinion</option>
+<option value="Headline Opinion">Headline Opinion</option>
 <option value="Featured Music">Featured Music</option>
-<option value="Music">Music</option>
-<option value="Sports">Sports</option>
+<option value="Headline Music">Headline Music</option>
+<option value="Featured Sports">Featured Sports</option>
+<option value="Headline Sports">Headline Sports</option>
 <option value="Military">Military</option>
 <option value="Crime">Crime</option>
 <option value="Economy">Economy</option>
