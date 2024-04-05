@@ -483,10 +483,13 @@ margin: auto;
   .imgbox{
     display: grid;
     justify-content: center;
+    width: 80rem;
+    margin: auto;
   }
   
   .imgbox img {
     height: auto;
+    width: 100%;
     object-fit: cover;
     object-position: center;
 }

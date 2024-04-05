@@ -360,46 +360,6 @@ onChange={(e) => setContent(e.target.value)}>
           </div>
           <button
   type="submit"
-  // disabled={
-  //   !isSignedIn ||
-  //   !selectedCollection ||
-  //   isLoading ||
-  //   !title ||
-  //   !owner ||
-  //   !content ||
-  //   !bodycontent ||
-  //   !endcontent ||
-  //   !isAdmin
-  // }
-  // style={{
-  //   cursor:   !isSignedIn ||
-  //   !selectedCollection ||
-  //   isLoading ||
-  //   !title ||
-  //   !owner ||
-  //   !content ||
-  //   !bodycontent ||
-  //   !endcontent ||
-  //   !isAdmin ? 'none' : 'pointer',
-  //   backgroundColor:   !isSignedIn ||
-  //   !selectedCollection ||
-  //   isLoading ||
-  //   !title ||
-  //   !owner ||
-  //   !content ||
-  //   !bodycontent ||
-  //   !endcontent ||
-  //   !isAdmin ? '#9e9e9e' : '#00a8ff',
-  //   color:    !isSignedIn ||
-  //   !selectedCollection ||
-  //   isLoading ||
-  //   !title ||
-  //   !owner ||
-  //   !content ||
-  //   !bodycontent ||
-  //   !endcontent ||
-  //   !isAdmin ? 'grey' : '#fff',
-  // }}
 >
   {isLoading ? (
     <BeatLoader color={"#ffffff"} loading={isLoading} size={10} />
