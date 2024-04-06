@@ -6,6 +6,7 @@ import FeaturedDashboard from "./pages/FeaturedDashboard/page";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import { SkeletonTheme } from "react-loading-skeleton";
+import HeadlineDashboard from "./pages/FeaturedDashboard/HeadlineDashboard";
 
 
 export const metadata : Metadata = {
@@ -25,6 +26,21 @@ return (
 
 <SkeletonTheme baseColor="grey" highlightColor="#e6e6e6">
 <FeaturedDashboard/>
+
+<div style={{
+borderTop:'solid 1px red'
+}}>
+<h1>Headline News</h1>
+</div>
+<HeadlineDashboard/>
+
+
+<div style={{
+borderTop:'solid 1px blue'
+}}>
+<h1>Opinion News</h1>
+</div>
+
 </SkeletonTheme>
 
 
