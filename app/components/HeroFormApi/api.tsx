@@ -7,47 +7,135 @@ type Article = {
     collection: string;
   };
 export async function getArticle(searchTerm: string): Promise<Article[]> {
-    try {
-      // Specify the collections to search in
-      const collectionNames = ['Featured Dashboard','Featured Music','Headline Dashboard'];
+try {
+const collectionNames = [
+'Featured Dashboard',
+'Headline Dashboard',
+'Opinion Dashboard',
+'Politics Dashboard',
+'Music Dashboard',
+'Technology Dashboard',
+'Sports Dashboard',
+//Home Page stops here
+'Featured Technology',
+'Technology',
+//Tech page stops here
+'Featured Politics',
+'Politics',
+//Politics page stops here
+'Featured Opinion',
+'Opinion',
+//Opinion page stops here
+'Featured Music',
+'Music',
+//Music page stops here
+'Featured Sports',
+'Sports',
+//Sports page stops here
+'Featured Military',
+'Military',
+//Military page stops here
+'Featured Crime',
+'Crime',
+//Crime page stops here
+'Featured Economy',
+'Economy',
+//Economy page stops here
+'Featured Immigration',
+'Immigration',
+//Immigration page stops here
+'Featured Business',
+'Business',
+//Business page stops here
+'Featured Video Games',
+'Video Games',
+//Video Games page stops here
+'Featured Entertainment',
+'Entertainment',
+//Entertainment page stops here
+'Featured Fashion',
+'Fashion',
+//Fashion page stops here
+'Featured Education',
+'Education',
+//Education page stops here
+'Featured U.N. (United Nations)',
+'U.N. (United Nations)',
+//U.N. page stops here
+'Featured Terrorism',
+'Terrorism',
+//Terrism page stops here
+'Featured World Economy',
+'World Economy',
+//Economy page stops here
+'Featured Scandals',
+'Scandals',
+//Scandals page stops here
+'Featured Mexico',
+'Mexico',
+//Mexico page stops here
+'Featured South America',
+'South America',
+//South America page stops here
+'Featured Europe',
+'Europe',
+//Europe page stops here
+'Featured Asia',
+'Asia',
+//Asia page stops here
+'Featured Africa',
+'Africa'
+//Africa page stops here
+];
   
-      // Fetch documents from each collection in parallel
-      const querySnapshots = await Promise.all(
-        collectionNames.map((collectionName) =>
-          getDocs(query(collection(db, collectionName)))
-        )
-      );
+// Fetch documents from each collection in parallel
+const querySnapshots = await Promise.all(
+collectionNames.map((collectionName) =>
+getDocs(query(collection(db, collectionName)))
+)
+);
   
-      // Use an array to store unique articles
-      const uniqueArticles: Article[] = [];
+// Use an array to store unique articles
+const uniqueArticles: Article[] = [];
+querySnapshots.forEach((querySnapshot, index) => {
+querySnapshot.forEach((doc) => {
+const docData = doc.data();
   
-      querySnapshots.forEach((querySnapshot, index) => {
-        querySnapshot.forEach((doc) => {
-          const docData = doc.data();
+// Check if the article title or owner includes the search term
+if (
+(docData.title &&
+docData.title.toLowerCase().includes(searchTerm.toLowerCase().trim())) ||
+(docData.owner &&
+docData.owner.toLowerCase().includes(searchTerm.toLowerCase().trim()))
+) 
+{uniqueArticles.push({ id: doc.id, title: docData.title, owner: docData.owner ,collection: collectionNames[index] });}
+});
+});
   
-          // Check if the article title or state includes the search term
-          if (
-            (docData.title &&
-              docData.title.toLowerCase().includes(searchTerm.toLowerCase().trim())) ||
-            (docData.owner &&
-              docData.owner.toLowerCase().includes(searchTerm.toLowerCase().trim()))
-          ) {
-            // Add the article data to the array
-            uniqueArticles.push({ id: doc.id, title: docData.title, owner: docData.owner ,collection: collectionNames[index] });
-          }
-        });
-      });
-  
-      return uniqueArticles;
-    } catch (error) {
-      throw error;
-    }
-  }
-  interface CollectionRoutes {
-    [key: string]: string;
-  }
-  export const collectionRoutes: CollectionRoutes = {
-    FeaturedDashboard: '/pages/Articles', 
-    HeadlineDashboard: '/pages/Articles',
-    FeaturedMusic: '/pages/Articles',
-  };
+return uniqueArticles;
+} catch (error) {
+throw error;
+}
+}
+interface CollectionRoutes {
+[key: string]: string;
+}
+export const collectionRoutes: CollectionRoutes = {
+FeaturedDashboard: '/pages/Articles', 
+HeadlineDashboard: '/pages/Articles',
+OpinionDashboard: '/pages/Articles',
+PoliticsDashboard: '/pages/Articles',
+TechnologyDashboard: '/pages/Articles',
+MusicDashboard: '/pages/Articles',
+SportsDashboard: '/pages/Articles',
+FeaturedMusic: '/pages/Articles',
+Music: '/pages/Articles',
+FeaturedTechnology: '/pages/Articles',
+Technology: '/pages/Articles',
+FeaturedOpinion: '/pages/Articles',
+Opinion: '/pages/Articles',
+FeaturedPolitics: '/pages/Articles',
+Politics: '/pages/Articles',
+FeaturedSports: '/pages/Articles',
+Sports: '/pages/Articles',
+};

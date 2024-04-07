@@ -5,6 +5,7 @@ export async function getArticle(id: string): Promise<any | null> {
   const collectionRefs: any[] = [
     doc(db, 'Featured Dashboard', id),
     doc(db, 'Headline Dashboard', id),
+    doc(db, 'Opinion Dashboard', id),
     doc(db, 'Featured Music', id),
   ];
 

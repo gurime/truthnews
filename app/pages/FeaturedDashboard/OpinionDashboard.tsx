@@ -35,7 +35,7 @@ interface Article {
   
   async function getArticles(): Promise<Article[]> {
     try {
-      const querySnapshot = await getDocs(collection(db, "Headline Dashboard"));
+      const querySnapshot = await getDocs(collection(db, "Opinion Dashboard"));
       const data: Article[] = [];
   
       querySnapshot.forEach((doc) => {
@@ -64,7 +64,7 @@ interface Article {
   }
 
 
-export default function HeadlineDashboard() {
+export default function OpinionDashboard() {
     const [IsAdmin, setIsAdmin] = useState<boolean>(false)
     const [fetchError, setFetchError] = useState<null | string>(null);
     const [loading, setLoading] = useState(true);
@@ -82,7 +82,7 @@ export default function HeadlineDashboard() {
     const fetchComments = async (articleId: string) => {
       try {
         const db = getFirestore();
-        const commentsRef = collection(db, 'Headline Dashboard');
+        const commentsRef = collection(db, 'Opinion Dashboard');
         const queryRef = query(commentsRef, where('articleId', '==', articleId), orderBy('timestamp', 'desc'));
         const querySnapshot = await getDocs(queryRef);
         const newComments = querySnapshot.docs.map((doc) => {

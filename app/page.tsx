@@ -7,6 +7,7 @@ import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import { SkeletonTheme } from "react-loading-skeleton";
 import HeadlineDashboard from "./pages/FeaturedDashboard/HeadlineDashboard";
+import OpinionDashboard from "./pages/FeaturedDashboard/OpinionDashboard";
 
 
 export const metadata : Metadata = {
@@ -36,11 +37,14 @@ textAlign:'center'
 <HeadlineDashboard/>
 
 
-{/* <div style={{
-borderTop:'solid 1px blue'
+<div style={{
+borderTop:'solid 1px blue',
+textAlign:'center'
 }}>
 <h1>Opinion News</h1>
-</div> */}
+</div>
+
+<OpinionDashboard/>
 
 </SkeletonTheme>
 
