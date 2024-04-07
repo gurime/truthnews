@@ -9,23 +9,21 @@ import { addDoc, collection, doc, getDoc, getFirestore } from 'firebase/firestor
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 
 interface UserData {
-  firstName: string;
-  lastName: string;
+firstName: string;
+lastName: string;
 }
 
 const AdminForm: React.FC = () => {
-  const [content, setContent] = useState<string>('');
-  const [bodycontent, setBodyContent] = useState<string>('');
-  const [endcontent, setEndContent] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
-  const [owner, setOwner] = useState<string>('');
-
-  // Pictures
-  const [authPicFile, setAuthPicFile] = useState<File | null>(null);
-  const [cover_image, setCover_Image] = useState<File | null>(null);
-  // Add similar state variables for other showcase files...
-
-  const [articleId, setArticleId] = useState<string>('');
+const [content, setContent] = useState<string>('');
+const [bodycontent, setBodyContent] = useState<string>('');
+const [endcontent, setEndContent] = useState<string>('');
+const [title, setTitle] = useState<string>('');
+const [owner, setOwner] = useState<string>('');
+// Pictures
+const [authPicFile, setAuthPicFile] = useState<File | null>(null);
+const [cover_image, setCover_Image] = useState<File | null>(null);
+ // Pictures
+const [articleId, setArticleId] = useState<string>('');
 const [selectedCollection, setSelectedCollection] = useState<string>('Featured Dashboard');
 const acceptedCollections = [
 'Featured Dashboard',
@@ -113,69 +111,64 @@ const [names, setNames] = useState<string[]>([]);
 const [errorMessage, setErrorMessage] = useState<string>('');
 const router = useRouter();
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const getUserData = async (userId: string): Promise<UserData | null> => {
-        try {
-          const db = getFirestore();
-          const userDocRef = doc(db, 'adminusers', userId);
-          const userDocSnapshot = await getDoc(userDocRef);
-          if (userDocSnapshot.exists()) {
-            const userData = userDocSnapshot.data() as UserData;
-            return userData;
-          } else {
-            return null;
-          }
-        } catch (error) {
-          throw error;
-        }
-      };
+useEffect(() => {
+const unsubscribe = auth.onAuthStateChanged(async (user) => {
+const getUserData = async (userId: string): Promise<UserData | null> => {
+try {
+const db = getFirestore();
+const userDocRef = doc(db, 'adminusers', userId);
+const userDocSnapshot = await getDoc(userDocRef);
+if (userDocSnapshot.exists()) {
+const userData = userDocSnapshot.data() as UserData;
+return userData;
+} else {
+return null;
+}
+} catch (error) {
+throw error;
+}
+};
+setIsSignedIn(!!user);
+if (user) {
+try {
+const userData = await getUserData(user.uid);
+if (userData) {
+setNames([userData.firstName, userData.lastName]);
+}
+} catch (error) {
+handleError(error);
+} finally {
+setIsLoading(false);
+}
+}
+});
+return () => unsubscribe();
+}, []);
 
-      setIsSignedIn(!!user);
-      if (user) {
-        try {
-          const userData = await getUserData(user.uid);
-          if (userData) {
-            setNames([userData.firstName, userData.lastName]);
-          }
-        } catch (error) {
-          handleError(error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    });
+const handleError = (error: any) => {
+if (error.code === 'network-error') {
+setErrorMessage('Network error: Please check your internet connection.');
+} else if (error.code === 'invalid-content') {
+setErrorMessage('Invalid comment content. Please try again.');
+} else {
+setErrorMessage('Unexpected error occurred. Please try again later.');
+}
+};
 
-    return () => unsubscribe();
-  }, []);
+const handleFileChange = (setter: (file: File | null) => void) => (e: ChangeEvent<HTMLInputElement>) => {
+const file = e.target.files ? e.target.files[0] : null;setter(file);};
 
-  const handleError = (error: any) => {
-    if (error.code === 'network-error') {
-      setErrorMessage('Network error: Please check your internet connection.');
-    } else if (error.code === 'invalid-content') {
-      setErrorMessage('Invalid comment content. Please try again.');
-    } else {
-      setErrorMessage('Unexpected error occurred. Please try again later.');
-    }
-  };
-
-  const handleFileChange = (setter: (file: File | null) => void) => (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    setter(file);
-  };
-
-  const storage = getStorage(); // Initialize Firebase Storage
-  const handleFileUpload = async (file: File, storagePath: string): Promise<string> => {
-    try {
-      const storageRef = ref(storage, storagePath);
-      await uploadBytesResumable(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
-      return downloadURL;
-    } catch (error) {
-      throw error;
-    }
-  };
-
+const storage = getStorage(); // Initialize Firebase Storage
+const handleFileUpload = async (file: File, storagePath: string): Promise<string> => {
+try {
+const storageRef = ref(storage, storagePath);
+await uploadBytesResumable(storageRef, file);
+const downloadURL = await getDownloadURL(storageRef);
+return downloadURL;
+} catch (error) {
+throw error;
+}
+};
 const handleSubmit = async (e: React.FormEvent) => {
 e.preventDefault();
 try {
