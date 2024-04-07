@@ -240,9 +240,76 @@ case 'Featured Military':
 case 'Military':
 router.push('/pages/Military');
 break;
+case 'Featured Crime':
+case 'Crime':
+router.push('/pages/Crime');
+break;
+case 'Featured Economy':
+case 'Economy':
+router.push('/pages/Economy');
+break;
+case 'Featured Immigration':
+case 'Immigration':
+router.push('/pages/Immigration');
+break;
+case 'Featured Business':
+case 'Business':
+router.push('/pages/Business');
+break;
+case 'Featured Video Games':
+case 'Video Games':
+router.push('/pages/VideoGames');
+break;
+case 'Featured Entertainment':
+case 'Entertainment':
+router.push('/pages/Entertainment');
+break;
+case 'Featured Fashion':
+case 'Fashion':
+router.push('/pages/Fashion');
+break;
+case 'Featured Education':
+case 'Education':
+router.push('/pages/Education');
+break;
+case 'Featured U.N. (United Nations)':
+case 'U.N.':
+router.push('/pages/UN');
+break;
+case 'Featured Terrorism':
+case 'Terrorism':
+router.push('/pages/Terrorism');
+break;
+case 'Featured Economy':
+case 'World Economy':
+router.push('/pages/WorldEconomy');
+break;
+case 'Featured Scandals':
+case 'Scandals':
+router.push('/pages/Scandals');
+break;
+case 'Featured Mexico':
+case 'Mexico':
+router.push('/pages/Mexico');
+break;
+case 'Featured South America':
+case 'South America':
+router.push('/pages/SouthAmerica');
+break;
+case 'Featured Europe':
+case 'Europe':
+router.push('/pages/Europe');
+break;
+case 'Featured Asia':
+case 'Asia':
+router.push('/pages/Asia');
+break;
+case 'Featured Africa':
+case 'Africa':
+router.push('/pages/Africa');
+break;
 default:
-const formattedPageName = selectedCollection.charAt(0).toUpperCase() + selectedCollection.slice(1);
-router.push(`/pages/${formattedPageName}`);
+router.push('/not-found');
 break;
 }
 } else {
