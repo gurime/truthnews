@@ -9,7 +9,7 @@ type Article = {
 export async function getArticle(searchTerm: string): Promise<Article[]> {
     try {
       // Specify the collections to search in
-      const collectionNames = ['Featured Dashboard','Featured Music'];
+      const collectionNames = ['Featured Dashboard','Featured Music','Headline Dashboard'];
   
       // Fetch documents from each collection in parallel
       const querySnapshots = await Promise.all(
@@ -47,6 +47,7 @@ export async function getArticle(searchTerm: string): Promise<Article[]> {
     [key: string]: string;
   }
   export const collectionRoutes: CollectionRoutes = {
-    FeaturedDashboard: '/pages/Articles',
+    FeaturedDashboard: '/pages/Articles', 
+    HeadlineDashboard: '/pages/Articles',
     FeaturedMusic: '/pages/Articles',
   };

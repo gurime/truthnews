@@ -28,18 +28,19 @@ return (
 <FeaturedDashboard/>
 
 <div style={{
-borderTop:'solid 1px red'
+borderTop:'solid 1px red',
+textAlign:'center'
 }}>
 <h1>Headline News</h1>
 </div>
 <HeadlineDashboard/>
 
 
-<div style={{
+{/* <div style={{
 borderTop:'solid 1px blue'
 }}>
 <h1>Opinion News</h1>
-</div>
+</div> */}
 
 </SkeletonTheme>
 
