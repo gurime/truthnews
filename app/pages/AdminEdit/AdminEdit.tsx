@@ -32,7 +32,6 @@ export default function AdminEdit({ comment,  onCancel }: AdminEditProps) {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [names, setNames] = useState<string[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string>('');
   const [title, setTitle] = useState<string>(comment ? comment.title : "");
   const [owner, setOwner] = useState<string>(comment ? comment.owner : "");
   const [content, setContent] = useState<string>(comment ? comment.content : '');
