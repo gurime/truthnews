@@ -82,7 +82,14 @@ textAlign:'center',
 </div>
 
 <div className='contribute-rightbox'>
-    <h1>support</h1>
+<h1> Support iTruthNews <br/> 
+in the fight for   <br/> 
+honest news </h1>
+<p style={{lineHeight:'1.8',fontSize:'15px',borderTop:'solid 1px gray'}} >  It's never been more critical to have high-quality, independent news that is inviting to everyone. <br/>
+To keep reporting in 2050, we'll need $1.05 million in funding.<br/> 
+Please consider donating to support iTruthNews.
+</p>
+
 </div>
 </div>
 </>
