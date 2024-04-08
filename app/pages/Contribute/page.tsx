@@ -4,6 +4,7 @@ import Navbar from "@/app/components/navbar";
 import Footer from "@/app/components/footer";
 import { SkeletonTheme } from "react-loading-skeleton";
 import AdminHeader from "@/app/components/AdminHeader";
+import ContributeForm from "./ContributeForm";
 
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ return (
 <AdminHeader/>
 <Navbar/>
 <SkeletonTheme baseColor="grey" highlightColor="#e6e6e6">
+<ContributeForm/>
 </SkeletonTheme>
 <Footer/>
 </>

@@ -724,13 +724,15 @@ width: 100%;
   padding: 2rem 0;
   }
   
-  .contribute-leftbox img{
-  width: auto;
-  cursor: pointer;
-  display: flex;
-  height: 40px;
-  margin: auto;
-  }
+.contribute-leftbox img{
+background-color: #b70f0f;
+padding: 1rem;
+width: auto;
+cursor: none;
+display: flex;
+height: 40px;
+margin: auto;
+}
   
   .contribute-rightbox{
   padding-left: 3rem;  
