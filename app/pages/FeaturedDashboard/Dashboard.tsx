@@ -311,7 +311,7 @@ Read More
 
 {unauthorizedModalOpen && (
   <div className="modal">
-    <div className="modal-content">
+    <div className="modal-content" style={{width:'30%'}}>
       <span className="close" onClick={() => setUnauthorizedModalOpen(false)}>
       <IoCloseSharp style={{cursor:'pointer'}} />
 

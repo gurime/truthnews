@@ -26,7 +26,7 @@ async function checkIfUserIsAdmin(user: User): Promise<boolean> {
   return !querySnapshot.empty;
 
 }
-export default function AdminEdit({ comment,  onCancel }: AdminEditProps) {
+export default function AdminEdit({ comment, onSave,  onCancel }: AdminEditProps) {
   const [articleId, setArticleId] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
