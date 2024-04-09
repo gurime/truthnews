@@ -5,6 +5,7 @@ import Navbar from '@/app/components/navbar';
 import Footer from '@/app/components/footer';
 import Goback from '@/app/components/goback';
 import Goup from '@/app/components/goup';
+import CommentForm from '@/app/components/CommentForm';
 
 
 
@@ -102,6 +103,7 @@ AD
 
 
 </div>
+<CommentForm articleId={articleId}/>
 <div
 style={{
 display: 'flex',

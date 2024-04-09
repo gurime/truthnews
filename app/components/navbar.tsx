@@ -7,7 +7,8 @@ import Image from 'next/image';
 import navlogo from '../images/it.png'
 import { collectionRoutes, getArticle } from './HeroFormApi/api';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebase/firebase';
+import { auth, db } from '../firebase/firebase';
+import { collection, doc, getDoc, onSnapshot } from 'firebase/firestore';
 
 type SearchResult = {
   title: string;
@@ -16,6 +17,7 @@ type SearchResult = {
   id: string;
 };
 
+
 export default function Navbar() {
 const router = useRouter()
 const [forceRender, setForceRender] = useState(false);
@@ -23,6 +25,8 @@ const [isSignedIn, setIsSignedIn] = useState(false);
 const [isFooterVisible, setIsFooterVisible] = useState(false);
 const [isOverlayActive, setIsOverlayActive] = useState(false);
 const [searchTerm, setSearchTerm] = useState<string>('');
+const [names, setNames] = useState<string[]>([]);
+
 const [loading, setLoading] = useState<boolean>(true);
 const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
@@ -38,25 +42,54 @@ display: isOverlayActive ? 'block' : 'none',
 pointerEvents: 'none',
 };
 useEffect(() => {
-const handleDocumentClick = (e: MouseEvent) => {
-const target = e.target as HTMLElement; 
-const isClickOutsideSearch = !target.closest('.search-container');
-if (isClickOutsideSearch) {
-setIsOverlayActive(false);
-setSearchResults([]);
-setSearchTerm(''); // Clear the search input
-}
-};
-document.body.addEventListener('click', handleDocumentClick);
-const unsubscribe = onAuthStateChanged(auth, (user) => {
-setForceRender((prev) => !prev); // Force re-render
-setIsSignedIn(!!user);
-});
-return () => {
-document.body.removeEventListener('click', handleDocumentClick);
-unsubscribe();
-};
+  const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    setIsSignedIn(!!user);
+    if (user) {
+      try {
+        // Fetch user data from Firestore
+        const userDocRef = doc(db, "users", user.uid);
+
+        // Fetch the user's document data
+        const userDocSnapshot = await getDoc(userDocRef);
+
+        // Check if the document exists
+        if (userDocSnapshot.exists()) {
+          // Get the user data from the document
+          const userData = userDocSnapshot.data();
+          setNames([userData.firstName, userData.lastName]);
+        }
+      } catch (error) {
+        // Handle errors here
+      }
+    }
+  });
+
+  const handleDocumentClick = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    const isClickOutsideSearch = !target.closest('.search-container');
+    if (isClickOutsideSearch) {
+      setIsOverlayActive(false);
+      setSearchResults([]);
+      setSearchTerm('');
+    }
+  };
+
+  document.body.addEventListener('click', handleDocumentClick);
+
+  // Get the users collection
+  const usersCollectionRef = collection(db, "users");
+  const unsubscribeUsers = onSnapshot(usersCollectionRef, (snapshot) => {
+    const users = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+  });
+
+  return () => {
+    document.body.removeEventListener('click', handleDocumentClick);
+    unsubscribe();
+    unsubscribeUsers(); // Unsubscribe from the users collection
+  };
 }, [searchTerm, isOverlayActive]);
+
   
 type InputChangeEvent = ChangeEvent<HTMLInputElement>;
 type FormSubmitEvent = FormEvent<HTMLFormElement>;  
@@ -147,7 +180,7 @@ Title:<p>{result.title}  </p>Author:<p>{result.owner}</p>
 
 <div className="navlinks">
 
-{/* 
+
 {isSignedIn ? (
 <Link  href='#!'>
 {names.length === 2 && (
@@ -163,7 +196,7 @@ Title:<p>{result.title}  </p>Author:<p>{result.owner}</p>
 Guest
 
 </span>
-)} */}
+)}
 
 <Link href="/">Home</Link>
 <Link href="/pages/Technology">Technology</Link>
