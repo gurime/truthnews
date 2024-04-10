@@ -4,20 +4,15 @@ import { collection, deleteDoc, getDocs, getFirestore, doc, query, orderBy, wher
 import React, { useState, useEffect, useRef } from 'react';
 import { BeatLoader } from 'react-spinners';
 import EditCommentModal from './EditCommentModal';
+import { Comment } from './CommentCOunts';
 
-interface Comment {
-id: string;
-userId: string | undefined;
-content: string;
-timestamp: Date;
-userName: string | null | undefined;
-userEmail: string | null | undefined;
-}
 
 interface CommentListProps {
 comments: Comment[];
 setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
 articleId: string;
+commentsCount?: number; // Add a colon (:) after number
+
 }
 
 const CommentList: React.FC<CommentListProps> = (props) => {

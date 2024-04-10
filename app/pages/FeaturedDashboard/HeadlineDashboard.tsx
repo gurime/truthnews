@@ -6,10 +6,7 @@ import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query, where }
 import { useRouter } from 'next/navigation'
 import { db } from '@/app/firebase/firebase'
 import Skeleton from 'react-loading-skeleton'
-
-
-
-
+import { IoChatboxSharp } from 'react-icons/io5'
 interface Article {
     userId: string;
     propertyType:string;
@@ -23,46 +20,59 @@ interface Article {
     authpic : string;
     owner: string;
     timestamp: string;
+    commentsCount: number; 
   }
 
-  function updateComment(postId: string, editedContent: string) {
-    throw new Error('Function not implemented.');
-  }
-  
-  function checkIfUserIsAdmin(user: User) {
-    throw new Error('Function not implemented.');
-  }
-  
-  async function getArticles(): Promise<Article[]> {
-    try {
+
+
+async function getCommentsCount(articleId: string): Promise<number> {
+try {
+const db = getFirestore();
+const commentsRef = collection(db, 'comments');
+const queryRef = query(commentsRef, where('articleId', '==', articleId));
+const querySnapshot = await getDocs(queryRef);
+return querySnapshot.size;
+} catch (error) {
+return 0;
+}
+}
+function updateComment(postId: string, editedContent: string) {
+throw new Error('Function not implemented.');
+}
+
+
+async function getArticles(): Promise<Article[]> {
+try {
       const querySnapshot = await getDocs(collection(db, "Headline Dashboard"));
       const data: Article[] = [];
-  
-      querySnapshot.forEach((doc) => {
-        const articleData = doc.data();
-        data.push({
-          id: doc.id,
-          title: articleData.title || '', 
-          content: articleData.content || '', 
-          bodycontent: articleData.bodycontent || '',
-          endcontent: articleData.endcontent || '',
-          userId: articleData.userId || '',
-          coverimage: articleData.coverimage || '',
-          catorgory: articleData.catorgory || '',
-          authpic: articleData.authpic || '',
-          owner: articleData.owner || '',
-          timestamp: articleData.timestamp || '',
-          propertyType:articleData.propertyType || ''
-        });
-      });
-  
-      return data;
-    } catch (error) {
-      console.error("Error fetching articles:", error);
-      throw error; // Rethrow the error for handling in the component
-    }
-  }
 
+      for (const doc of querySnapshot.docs) {
+          const articleData = doc.data();
+          const commentsCount = await getCommentsCount(doc.id);
+
+          data.push({
+              id: doc.id,
+              title: articleData.title || "",
+              content: articleData.content || "",
+              bodycontent: articleData.bodycontent || "",
+              endcontent: articleData.endcontent || "",
+              userId: articleData.userId || "",
+              coverimage: articleData.coverimage || "",
+              catorgory: articleData.catorgory || "",
+              authpic: articleData.authpic || "",
+              owner: articleData.owner || "",
+              timestamp: articleData.timestamp || "",
+              propertyType: articleData.propertyType || "",
+              commentsCount: commentsCount // Store the comments count
+          });
+      }
+
+      return data;
+  } catch (error) {
+      console.error("Error fetching articles:", error);
+      throw error;
+  }
+}
 
 export default function HeadlineDashboard() {
     const [IsAdmin, setIsAdmin] = useState<boolean>(false)
@@ -75,6 +85,8 @@ export default function HeadlineDashboard() {
     const [successMessage, setSuccessMessage] = useState('');
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [editingComment, setEditingComment] = useState<any>(null);
+    const [commentsCount, setCommentsCount] = useState(0);
+
     const [unauthorizedModalOpen, setUnauthorizedModalOpen ] = useState<boolean>(false)
     const router = useRouter();
     const commentsRef = useRef<HTMLDivElement>(null);
@@ -89,6 +101,9 @@ export default function HeadlineDashboard() {
           const commentData = doc.data();
           return { id: doc.id, ...commentData, timestamp: commentData.timestamp.toDate() };
         });
+        const commentsCount = newComments.length;
+        setCommentsCount(commentsCount); // Update the commentsCount state
+
         setComments(newComments);
         setLoading(false);
       } catch (error) {
@@ -212,7 +227,7 @@ export default function HeadlineDashboard() {
         }, 3000);
       }
     };
-  
+
 return (
 <>
 <>
@@ -285,7 +300,16 @@ minute: 'numeric',
 })}`}
 </p>
 </div>
-      
+<div style={{
+display:'flex',
+alignItems:'center',
+
+}}><IoChatboxSharp />
+
+<span style={{padding:'0 5px'}}>{post.commentsCount}</span>
+</div>
+
+    
 </div>
 </React.Fragment>
 ))
