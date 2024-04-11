@@ -54,7 +54,6 @@ const ThumbsDown: React.FC<CommentFormProps> = ({ articleId }) => {
       const db = getFirestore()
       if (hasVoted) {
         // User has already voted on this article, display a message or return early
-        console.log("You have already voted on this article.");
         return;
       }
       if (!userVoted) {

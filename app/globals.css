@@ -511,7 +511,7 @@ margin: auto;
   letter-spacing: 1px;
 }
 
-@media (max-width: 968px){
+@media (max-width: 1000px){
  .article-container {
     width: auto;
 } 

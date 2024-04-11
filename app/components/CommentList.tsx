@@ -79,7 +79,6 @@ setErrorMessage('');
 }, 3000);
 }
 } else {
-setErrorMessage('Comment not found');
 setTimeout(() => {
 setErrorMessage('');
 }, 3000);
@@ -91,7 +90,6 @@ try {
 await updateComment(postId, editedContent);
 setEditModalOpen(false);
 } catch (error) {
-setErrorMessage('Error saving comment. Please try again.');
 setTimeout(() => {
 setErrorMessage('');
 }, 3000);
@@ -116,7 +114,6 @@ setTimeout(() => {
 setSuccessMessage(undefined);
 }, 3000);
 } catch (error) {
-setErrorMessage('Error updating comment. Please try again.');
 setTimeout(() => {
 setErrorMessage('');
 }, 3000);
@@ -135,18 +132,15 @@ const commentDoc = await getDoc(doc(db, 'comments', postId));
 if (commentDoc.exists()) {
 await deleteDoc(doc(db, 'comments', postId));
 setComments((prevComments) => prevComments.filter((comment) => comment.id !== postId));
-setSuccessMessage('Comment deleted successfully');
 setTimeout(() => {
 setSuccessMessage(undefined);
 }, 3000);
 } else {
-setErrorMessage('Comment not found');
 setTimeout(() => {
 setErrorMessage('');
 }, 3000);
 }
 } else {
-setErrorMessage('Unauthorized to delete this comment.');
 setTimeout(() => {
 setErrorMessage('');
 }, 3000);
