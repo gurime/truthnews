@@ -75,6 +75,8 @@ const ThumbsUp: React.FC<CommentFormProps> = ({ articleId }) => {
   return (
     <>
     <button
+          disabled={userVoted || hasVoted} // Disable button if user has voted
+
   onClick={handleUpvote}
   style={{
     backgroundColor: '#4CAF50', /* Green */
