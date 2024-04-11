@@ -13,6 +13,7 @@ const ThumbsUp: React.FC<CommentFormProps> = ({ articleId }) => {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
   const [voteCount, setVoteCount] = useState<number>(0)
   const [userVoted, setUserVoted] = useState<boolean>(false)
+  const [hasVoted, setHasVoted] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user: User | null) => {
@@ -51,6 +52,11 @@ const ThumbsUp: React.FC<CommentFormProps> = ({ articleId }) => {
     const user = auth.currentUser
     if (user) {
       const db = getFirestore()
+      if (hasVoted) {
+        // User has already voted on this article, display a message or return early
+        console.log("You have already voted on this article.");
+        return;
+      }
       if (!userVoted) {
         await addDoc(collection(db, 'upvotes'), {
           articleId,
@@ -58,6 +64,8 @@ const ThumbsUp: React.FC<CommentFormProps> = ({ articleId }) => {
         })
         setUserVoted(true)
         setVoteCount(voteCount + 1)
+        setHasVoted(true); // Update hasVoted state
+
       } else {
         // Handle removing upvote
       }

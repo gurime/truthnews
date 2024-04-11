@@ -1,9 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { auth,  } from '../firebase/firebase'
-import { doc, getDoc, addDoc, collection, query, where, onSnapshot, getDocs, getFirestore } from 'firebase/firestore'
+import { addDoc, collection, query, where, onSnapshot, getDocs, getFirestore } from 'firebase/firestore'
 import { User } from 'firebase/auth'
-import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa'
+import {  FaThumbsDown } from 'react-icons/fa'
 
 interface CommentFormProps {
   articleId: string
@@ -13,6 +13,7 @@ const ThumbsDown: React.FC<CommentFormProps> = ({ articleId }) => {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
   const [voteCount, setVoteCount] = useState<number>(0)
   const [userVoted, setUserVoted] = useState<boolean>(false)
+  const [hasVoted, setHasVoted] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user: User | null) => {
@@ -51,6 +52,11 @@ const ThumbsDown: React.FC<CommentFormProps> = ({ articleId }) => {
     const user = auth.currentUser
     if (user) {
       const db = getFirestore()
+      if (hasVoted) {
+        // User has already voted on this article, display a message or return early
+        console.log("You have already voted on this article.");
+        return;
+      }
       if (!userVoted) {
         await addDoc(collection(db, 'downvotes'), {
           articleId,
@@ -58,6 +64,8 @@ const ThumbsDown: React.FC<CommentFormProps> = ({ articleId }) => {
         })
         setUserVoted(true)
         setVoteCount(voteCount + 1)
+        setHasVoted(true); // Update hasVoted state
+
       } else {
         // Handle removing upvote
       }
@@ -69,7 +77,7 @@ const ThumbsDown: React.FC<CommentFormProps> = ({ articleId }) => {
     <button
   onClick={handleDownvote}
   style={{
-    backgroundColor: '#af4c4c', /* Green */
+    backgroundColor: '#af4c4c',
     border: 'none',
     color: 'white',
     padding: '10px 20px',
@@ -84,7 +92,7 @@ const ThumbsDown: React.FC<CommentFormProps> = ({ articleId }) => {
     justifyContent: 'center',
   }}
 >
-  <FaThumbsUp style={{ marginRight: '8px' }} />
+  <FaThumbsDown style={{ marginRight: '8px' }} />
   {voteCount}
 </button>
     </>

@@ -106,7 +106,7 @@ AD
 
 </div>
 <hr />
-<h2 style={{textAlign:'center'}}>Vote the Article</h2>
+<h2 style={{textAlign:'center'}}>Cast Your Vote</h2>
 <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
 <ThumbsUp articleId={articleId} />
 <ThumbsDown articleId={articleId}/>

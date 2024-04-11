@@ -73,7 +73,7 @@ if (currentUser && currentUser.uid === commentToEdit.userId) {
 setEditingComment(commentToEdit);
 setEditModalOpen(true);
 } else {
-setErrorMessage('Unauthorized to edit this comment.');
+// setErrorMessage('Unauthorized to edit this comment.');
 setTimeout(() => {
 setErrorMessage('');
 }, 3000);
