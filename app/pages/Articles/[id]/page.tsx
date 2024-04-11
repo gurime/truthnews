@@ -6,6 +6,8 @@ import Footer from '@/app/components/footer';
 import Goback from '@/app/components/goback';
 import Goup from '@/app/components/goup';
 import CommentForm from '@/app/components/CommentForm';
+import ThumbsUp from '@/app/components/ThumbsUp';
+import ThumbsDown from '@/app/components/ThumbsDown';
 
 
 
@@ -103,6 +105,14 @@ AD
 
 
 </div>
+<hr />
+<h2 style={{textAlign:'center'}}>Vote the Article</h2>
+<div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+<ThumbsUp articleId={articleId} />
+<ThumbsDown articleId={articleId}/>
+</div>
+
+
 <CommentForm articleId={articleId}/>
 <div
 style={{

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { db } from '@/app/firebase/firebase'
 import Skeleton from 'react-loading-skeleton'
 import { IoChatboxSharp } from 'react-icons/io5'
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa'
 interface Article {
     userId: string;
     propertyType:string;
@@ -21,6 +22,8 @@ interface Article {
     owner: string;
     timestamp: string;
     commentsCount: number; 
+    voteCount: number;
+    downCount:number
   }
 
 
@@ -36,41 +39,68 @@ return querySnapshot.size;
 return 0;
 }
 }
+async function getVoteCount(articleId: string): Promise<number> {
+try {
+const db = getFirestore();
+const commentsRef = collection(db, 'upvotes');
+const queryRef = query(commentsRef, where('articleId', '==', articleId));
+const querySnapshot = await getDocs(queryRef);
+return querySnapshot.size;
+} catch (error) {
+return 0;
+}
+}
+async function getdownVoteCount(articleId: string): Promise<number> {
+try {
+const db = getFirestore();
+const commentsRef = collection(db, 'downvotes');
+const queryRef = query(commentsRef, where('articleId', '==', articleId));
+const querySnapshot = await getDocs(queryRef);
+return querySnapshot.size;
+} catch (error) {
+return 0;
+}
+}
 function updateComment(postId: string, editedContent: string) {
 throw new Error('Function not implemented.');
 }
 
 
 async function getArticles(): Promise<Article[]> {
-try {
-      const querySnapshot = await getDocs(collection(db, "Headline Dashboard"));
-      const data: Article[] = [];
+  try {
+    const querySnapshot = await getDocs(collection(db, "Headline Dashboard"));
+    const data: Article[] = [];
 
-      for (const doc of querySnapshot.docs) {
-          const articleData = doc.data();
-          const commentsCount = await getCommentsCount(doc.id);
+    for (const doc of querySnapshot.docs) {
+      const articleData = doc.data();
+      const commentsCount = await getCommentsCount(doc.id);
+      const voteCount = await getVoteCount(doc.id); // Get the vote count
+      const downCount = await getdownVoteCount(doc.id); // Get the vote count
 
-          data.push({
-              id: doc.id,
-              title: articleData.title || "",
-              content: articleData.content || "",
-              bodycontent: articleData.bodycontent || "",
-              endcontent: articleData.endcontent || "",
-              userId: articleData.userId || "",
-              coverimage: articleData.coverimage || "",
-              catorgory: articleData.catorgory || "",
-              authpic: articleData.authpic || "",
-              owner: articleData.owner || "",
-              timestamp: articleData.timestamp || "",
-              propertyType: articleData.propertyType || "",
-              commentsCount: commentsCount // Store the comments count
-          });
-      }
+      data.push({
+        id: doc.id,
+        title: articleData.title || "",
+        content: articleData.content || "",
+        bodycontent: articleData.bodycontent || "",
+        endcontent: articleData.endcontent || "",
+        userId: articleData.userId || "",
+        coverimage: articleData.coverimage || "",
+        catorgory: articleData.catorgory || "",
+        authpic: articleData.authpic || "",
+        owner: articleData.owner || "",
+        timestamp: articleData.timestamp || "",
+        propertyType: articleData.propertyType || "",
+        commentsCount: commentsCount,
+        voteCount: voteCount,
+        downCount: downCount 
+       
+      });
+    }
 
-      return data;
+    return data;
   } catch (error) {
-      console.error("Error fetching articles:", error);
-      throw error;
+    console.error("Error fetching articles:", error);
+    throw error;
   }
 }
 
@@ -81,8 +111,9 @@ export default function HeadlineDashboard() {
     const [useArticle, setUseArticle] = useState<any[]>([]);
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [comments, setComments] = useState<any[]>([]);
+    const [votes, setVotes] = useState<any[]>([]);
+    const [downvotes, setdownVotes] = useState<any[]>([]);
     const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [editingComment, setEditingComment] = useState<any>(null);
     const [commentsCount, setCommentsCount] = useState(0);
@@ -102,7 +133,11 @@ export default function HeadlineDashboard() {
           return { id: doc.id, ...commentData, timestamp: commentData.timestamp.toDate() };
         });
         const commentsCount = newComments.length;
-        setCommentsCount(commentsCount); // Update the commentsCount state
+        const votes = newComments.length;
+        const downvotes = newComments.length;
+        setCommentsCount(commentsCount); 
+        setVotes((prevVotes) => [...prevVotes, votes]); 
+        setdownVotes((preVotes) => [...preVotes, downvotes]);
 
         setComments(newComments);
         setLoading(false);
@@ -303,10 +338,16 @@ minute: 'numeric',
 <div style={{
 display:'flex',
 alignItems:'center',
+justifyContent:'space-evenly'
+}}>
+  <div><IoChatboxSharp />
+<span style={{padding:'0 5px'}}>{post.commentsCount}</span></div>
 
-}}><IoChatboxSharp />
+<div><FaThumbsUp/>
+<span style={{ padding: '0 5px' }}>{post.voteCount}</span></div>
+<div><FaThumbsDown/>
+<span style={{ padding: '0 5px' }}>{post.downCount}</span></div>
 
-<span style={{padding:'0 5px'}}>{post.commentsCount}</span>
 </div>
 
     
