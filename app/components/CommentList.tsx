@@ -1,6 +1,6 @@
 'use client'
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { collection, deleteDoc, getDocs, getFirestore, doc, query, orderBy, where, getDoc, updateDoc } from 'firebase/firestore';
+import { collection, deleteDoc, getDocs, getFirestore, doc, query, orderBy, where, getDoc, updateDoc, startAfter } from 'firebase/firestore';
 import React, { useState, useEffect, useRef } from 'react';
 import { BeatLoader } from 'react-spinners';
 import EditCommentModal from './EditCommentModal';
@@ -21,37 +21,58 @@ const [loading, setLoading] = useState(true);
 const [editModalOpen, setEditModalOpen] = useState(false);
 const [editingComment, setEditingComment] = useState<Comment | null>(null);
 const [successMessage, setSuccessMessage] = useState<string | undefined>(undefined);
+const [commentsToShow, setCommentsToShow] = useState(5); 
+const [ showLoadMoreButton , setshowLoadMoreButton  ] = useState(false)
 const { comments, setComments, articleId } = props;
 const commentsRef = useRef<HTMLDivElement | null>(null);
+const fetchMoreComments = async (articleId?: string) => {
+  try {
+    setLoading(true);
+    setshowLoadMoreButton(false);
 
-const fetchComments = async (articleId: string) => {
-try {
-const db = getFirestore();
-const commentsRef = collection(db, 'comments');
-const queryRef = query(
-commentsRef,
-where(`articleId`, '==', articleId),
-orderBy('timestamp', 'desc')
-);
-const querySnapshot = await getDocs(queryRef);
-const newComments: Comment[] = querySnapshot.docs.map((doc) => {
-const commentData = doc.data();
-return {
-id: doc.id,
-userId: commentData.userId,
-content: commentData.content,
-timestamp: commentData.timestamp.toDate(),
-userName: commentData.userName,
-userEmail: commentData.userEmail,
-};
-});
-setComments(newComments);
-setLoading(false);
-} catch (error) {
-console.error('Error fetching comments:', error); 
-setErrorMessage('Error fetching comments. Please try again.');
-setLoading(false);
-}
+    const db = getFirestore();
+    const commentsRef = collection(db, 'comments');
+    let queryRef;
+
+    if (comments.length > 0) {
+      const lastComment = comments[comments.length - 1]; // Get the last comment
+
+      queryRef = query(
+        commentsRef,
+        where(`articleId`, '==', articleId),
+        orderBy('timestamp', 'desc'),
+        startAfter(lastComment.timestamp) // Use the timestamp of the last comment
+      );
+    } else {
+      queryRef = query(
+        commentsRef,
+        where(`articleId`, '==', articleId),
+        orderBy('timestamp', 'desc')
+      );
+    }
+
+    const querySnapshot = await getDocs(queryRef);
+    const newComments: Comment[] = querySnapshot.docs.map((doc) => {
+      const commentData = doc.data();
+      return {
+        id: doc.id,
+        userId: commentData.userId,
+        content: commentData.content,
+        timestamp: commentData.timestamp.toDate(),
+        userName: commentData.userName,
+        userEmail: commentData.userEmail,
+      };
+    });
+
+    setComments((prevComments) => [...prevComments, ...newComments.filter(comment => !prevComments.some(prevComment => prevComment.id === comment.id))]);
+    setLoading(false);
+    setshowLoadMoreButton(true);
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    setErrorMessage('Error fetching comments. Please try again.');
+    setLoading(false);
+    setshowLoadMoreButton(true);
+  }
 };
 
 const userIsAuthenticated = async () => {
@@ -156,7 +177,7 @@ setErrorMessage('');
 
 useEffect(() => {
 setComments([]); // Reset comments to empty array
-fetchComments(articleId);
+fetchMoreComments(articleId);
 }, [articleId]);
 
 return (
@@ -165,37 +186,54 @@ return (
 {errorMessage && <p className="error">{errorMessage}</p>}
 {successMessage && <p className="success">{successMessage}</p>}
 <div ref={commentsRef} className="post-list">
-{comments.map((comment, index) => (
-<div key={`${comment.id}-${index}`} className="post-item">
-<h2 className="postuser-username">{comment.userName}</h2>
-<div className="bodyBlock">{comment.content}</div>
-<div className="date-block">
-<span className="momentDate">
-{comment.timestamp instanceof Date
-? comment.timestamp.toLocaleString('en-US', {
-year: 'numeric',
-month: 'long',
-day: 'numeric',
-hour: 'numeric',
-minute: '2-digit',
-hour12: true,
-}): comment.timestamp}
-</span>
-</div>
-<div className="edit-delBlock">
-<button className="edit-btn" onClick={() => editPost(comment.id, comment.userId)} type="button">
-Edit
-</button>
-<button className="delete-btn" onClick={() => deletePost(comment.id, comment.userId)} type="button">
-Delete
-</button>
-</div>
-</div>
-))}
-</div>
+  {comments.slice(0, commentsToShow)
+    .map((comment, index) => (
+      <div key={`${comment.id}-${index}`} className="post-item">
+        <h2 className="postuser-username">{comment.userName}</h2>
+        <div className="bodyBlock">{comment.content}</div>
+        <div className="date-block">
+          <span className="momentDate">
+            {comment.timestamp instanceof Date
+              ? comment.timestamp.toLocaleString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: '2-digit',
+                  hour12: true,
+                })
+              : comment.timestamp}
+          </span>
+        </div>
+        <div className="edit-delBlock">
+          <button
+            className="edit-btn"
+            onClick={() => editPost(comment.id, comment.userId)}
+            type="button"
+          >
+            Edit
+          </button>
+          <button
+            className="delete-btn"
+            onClick={() => deletePost(comment.id, comment.userId)}
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    ))}
 
-<div style={{ display: 'flex', placeContent: 'center' }}>
-{loading && <BeatLoader color="blue" loading={loading} />}
+  {comments.length > commentsToShow && (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <button
+        onClick={() => setCommentsToShow(commentsToShow + 5)}
+        style={{ display: showLoadMoreButton ? 'block' : 'none' }}
+      >
+        {loading ? <BeatLoader color="blue" /> : 'Load More Comments'}
+      </button>
+    </div>
+  )}
 </div>   
 {editModalOpen && <EditCommentModal comment={editingComment} onSave={handleEditModalSave} onCancel={handleEditModalCancel} />}
 </>
