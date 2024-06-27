@@ -6,8 +6,7 @@ import Footer from '@/app/components/footer';
 import Goback from '@/app/components/goback';
 import Goup from '@/app/components/goup';
 import CommentForm from '@/app/components/CommentForm';
-import ThumbsUp from '@/app/components/ThumbsUp';
-import ThumbsDown from '@/app/components/ThumbsDown';
+import VoteComponent from '@/app/components/RateButton';
 
 
 
@@ -108,8 +107,7 @@ AD
 <hr />
 <h2 style={{textAlign:'center'}}>Cast Your Vote</h2>
 <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-<ThumbsUp articleId={articleId} />
-<ThumbsDown articleId={articleId}/>
+<VoteComponent articleId={articleId} />
 </div>
 
 

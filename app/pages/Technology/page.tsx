@@ -3,6 +3,8 @@ import Footer from '@/app/components/footer'
 import Navbar from '@/app/components/navbar'
 import { Metadata } from 'next'
 import React from 'react'
+import { SkeletonTheme } from 'react-loading-skeleton'
+import FeaturedTechnology from './FeaturedTechnology'
 
 
 
@@ -19,6 +21,9 @@ return (
 <>
 <AdminHeader/>
 <Navbar/>
+<SkeletonTheme baseColor="grey" highlightColor="#e6e6e6">
+  <FeaturedTechnology/>
+</SkeletonTheme>
 <Footer/>
 </>
 )
