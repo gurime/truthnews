@@ -255,7 +255,7 @@ useArticle.map((post) => (
 <div className="authpic-block">
 <h3 className="card-catogory">{post.owner}</h3>
 <img
-style={{ width: '40px', height: '40px' }}
+style={{ width: '80px', height: '100px' }}
 className="authpic"
 src={post.authpic}
 alt=""
