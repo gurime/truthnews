@@ -20,7 +20,6 @@ return (
 <AdminHeader/>
 <Navbar/>
 <SkeletonTheme baseColor="grey" highlightColor="#e6e6e6">
-
 <FeaturedVideoGames/>
 </SkeletonTheme>
 <Footer/>
