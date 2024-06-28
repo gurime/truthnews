@@ -74,7 +74,7 @@ tabIndex={0}/>
 
 <li><Link href='/pages/Business'>Business</Link></li>
 
-<li><Link href='/pages/VideoGames'>Video Games</Link></li>
+<li><Link href='/pages/Videogames'>Video Games</Link></li>
 
 <li><Link href='/pages/Entertainment'>Entertainment</Link></li>
 
