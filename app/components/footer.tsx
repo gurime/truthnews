@@ -148,6 +148,7 @@ tabIndex={0}/>
 <li><Link  href='/pages/PetHealth'>Pet Health</Link></li>
 
 <li><Link  href='/pages/EyeHealth'>Eye Health</Link></li>
+<li><Link  href='/pages/PhysicalHealth'>Physical Health </Link></li>
 
 <li><Link  href='/pages/HealthyLiving'>Healthy Living </Link></li>
 

@@ -26,16 +26,47 @@ const [cover_image, setCover_Image] = useState<File | null>(null);
 const [articleId, setArticleId] = useState<string>('');
 const [selectedCollection, setSelectedCollection] = useState<string>('Featured Dashboard');
 const acceptedCollections = [
-'Featured Dashboard',
-'Headline Dashboard',
-'Opinion Dashboard',
-'Politics Dashboard',
-'Music Dashboard',
-'Technology Dashboard',
-'Sports Dashboard',
+"Featured Dashboard", 
+"Headline Dashboard", 
+"Opinion Dashboard", 
+"Politics Dashboard", 
+"Music Dashboard", 
+"Technology Dashboard", 
+"Sports Dashboard", 
+"Military Dashboard", 
+"Crime Dashboard", 
+"Economy Dashboard", 
+"Immigration Dashboard", 
+"Business Dashboard", 
+"Video Games Dashboard", 
+"Entertainment Dashboard", 
+"Fashion Dashboard", 
+"Education Dashboard", 
+"United Nations Dashboard", 
+"Terrorism Dashboard", 
+"World Economy Dashboard", 
+"Scandals Dashboard", 
+"Mexico Dashboard", 
+"South America Dashboard", 
+"Europe Dashboard", 
+"Asia Dashboard", 
+"Africa Dashboard",
 //Home Page stops here
 'Featured Technology',
-'Technology',
+'Headline Technology',
+'Featured Technology',
+'Headline Technology',
+'Opinion Technology',
+'Gaming Technology',
+'Cybersecurity Technology',
+'Machine Learning Technology',
+'Emerging Technology',
+'Consumer Technology',
+'Green Technology',
+'Enterprise Technology',
+'Blockchain Technology',
+'Health Technology',
+'Space Technology',
 //Tech page stops here
 'Featured Politics',
 'Politics',
@@ -207,10 +238,39 @@ case 'Politics Dashboard':
 case 'Music Dashboard':
 case 'Technology Dashboard':
 case 'Sports Dashboard':
+case 'Military Dashboard':
+case 'Crime Dashboard':
+case 'Economy Dashboard':
+case 'Immigration Dashboard':
+case 'Business Dashboard':
+case 'Video Games Dashboard':
+case 'Entertainment Dashboard':
+case 'Fashion Dashboard':
+case 'Education Dashboard':
+case 'United Nations Dashboard':
+case 'Terrorism Dashboard':
+case 'World Economy Dashboard':
+case 'Scandals Dashboard':
+case 'Mexico Dashboard':
+case 'South America Dashboard':
+case 'Europe Dashboard':
+case 'Asia Dashboard':
+case 'Africa Dashboard':
 router.push('/');
 break;
 case 'Featured Technology':
-case 'Technology':
+case 'Headline Technology':
+case 'Opinion Technology':
+case 'Gaming Technology':
+case 'Cybersecurity Technology':
+case 'Machine Learning Technology':
+case 'Emerging Technology':
+case 'Consumer Technology':
+case 'Green Technology':
+case 'Enterprise Technology':
+case 'Blockchain Technology':
+case 'Health Technology':
+case 'Space Technology':
 router.push('/pages/Technology');
 break;
 case 'Featured Politics':
@@ -335,12 +395,41 @@ className='billingselect'>
 <option value="Featured Dashboard">Featured Dashboard</option>
 <option value="Headline Dashboard">Headline Dashboard</option>
 <option value="Opinion Dashboard">Opinion Dashboard</option>
-<option value="Technology Dashboard">Technology Dashboard</option>
-<option value="Music Dashboard">Music Dashboard</option>
 <option value="Politics Dashboard">Politics Dashboard</option>
+<option value="Music Dashboard">Music Dashboard</option>
+<option value="Technology Dashboard">Technology Dashboard</option>
 <option value="Sports Dashboard">Sports Dashboard</option>
+<option value="Military Dashboard">Military Dashboard</option>
+<option value="Crime Dashboard">Crime Dashboard</option>
+<option value="Economy Dashboard">Economy Dashboard</option>
+<option value="Immigration Dashboard">Immigration Dashboard</option>
+<option value="Business Dashboard">Business Dashboard</option>
+<option value="Video Games Dashboard">Video Games Dashboard</option>
+<option value="Entertainment Dashboard">Entertainment Dashboard</option>
+<option value="Fashion Dashboard">Fashion Dashboard</option>
+<option value="Education Dashboard">Education Dashboard</option>
+<option value="United Nations Dashboard">United Nations Dashboard</option>
+<option value="Terrorism Dashboard">Terrorism Dashboard</option>
+<option value="World Economy Dashboard">World Economy Dashboard</option>
+<option value="Scandals Dashboard">Scandals Dashboard</option>
+<option value="Mexico Dashboard">Mexico Dashboard</option>
+<option value="South America Dashboard">South America Dashboard</option>
+<option value="Europe Dashboard">Europe Dashboard</option>
+<option value="Asia Dashboard">Asia Dashboard</option>
+<option value="Africa Dashboard">Africa Dashboard</option>
 <option value="Featured Technology">Featured Technology</option>
-<option value=" Technology"> Technology</option>
+<option value="Headline Technology"> Technology</option>
+<option value="Opinion Technology">Opinion Technology</option>
+<option value="Gaming Technology">Gaming Technology</option>
+<option value="Cybersecurity Technology">Cybersecurity Technology</option>
+<option value="Machine Learning Technology">Machine Learning Technology</option>
+<option value="Emerging Technology">Emerging Technology</option>
+<option value="Consumer Technology">Consumer Technology</option>
+<option value="Green Technology">Green Technology</option>
+<option value="Enterprise Technology">Enterprise Technology</option>
+<option value="Blockchain Technology">Blockchain Technology</option>
+<option value="Health Technology">Health Technology</option>
+<option value="Space Technology">Space Technology</option>
 <option value="Featured Politics">Featured Politics</option>
 <option value=" Politics"> Politics</option>
 <option value="Featured Opinion">Featured Opinion</option>
