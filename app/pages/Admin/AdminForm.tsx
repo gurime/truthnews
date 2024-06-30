@@ -57,7 +57,8 @@ const acceptedCollections = [
 'Featured Technology',
 'Headline Technology',
 'Opinion Technology',
-'Gaming Technology',
+'GPU Technology',
+'CPU Technology',
 'Cybersecurity Technology',
 'Machine Learning Technology',
 'Emerging Technology',
@@ -119,58 +120,153 @@ const acceptedCollections = [
 'Featured Military',
 'Headline Military',
 'Opinion Military',
+'Local Military',
+'National Military',
+'International Military',
+'Technology Military',
+'Veterans Military',
 //Military page stops here
 'Featured Crime',
 'Headline Crime',
 'Opinion Crime',
+" Financial Crime",
+" Property Crime",
+" Unsolved Crime",
 //Crime page stops here
 'Featured Economy',
 'Headline Economy',
 'Opinion Economy',
+'Market Economy',
+'Goverment Economy',
 //Economy page stops here
 'Featured Immigration',
 'Headline Immigration',
 'Opinion Immigration',
+" Border Immigration",
+" Refugee Immigration",
+" Politics Immigration",
+" Global Immigration",
 //Immigration page stops here
 'Featured Business',
 'Headline Business',
 'Opinion Business',
+'Enterprise Business',
+'Global Business',
+'Small Business',
+'Leadership Business',
 //Business page stops here
 'Featured Video Games',
 'Headline Video Games',
 'Opinion Video Games',
+" Video Games Deals",
+"Playstation Gaming",
+"Xbox Gaming",
+"Nintendo Gaming",
+"PC Gaming",
+"Mobile Gaming",
+"Hardware Gaming",
+"Indie Gaming",
 //Video Games page stops here
 'Featured Entertainment',
 'Headline Entertainment',
 'Opinion Entertainment',
+'Industry Entertainment',
+'Fan Entertainment',
+'Awards Entertainment',
+'Movie Entertainment',
+'TV Entertainment',
 //Entertainment page stops here
 'Featured Fashion',
 'Headline Fashion',
 'Opinion Fashion',
+"Fashion Tips",
+"Seasonal Trends",
+"Celebrity Styles",
+"Fashion Events",
+"Fashion Reviews",
+"Fashion Industry News",
+"Fashion Interviews",
+"Fashion Guides",
+"Fashion History",
+"Fashion Technology",
+"Fashion Sustainability",
+"Fashion Accessories",
+"Fashion Trends Forecast",
 //Fashion page stops here
 'Featured Education',
 'Headline Education',
 'Opinion Education',
+"Higher Education",
+"K-12 Education",
+"Education Funding",
+"International Education",
+"Special Education",
 //Education page stops here
 'Featured U.N. (United Nations)',
 'Headline U.N.',
 'Opinion U.N.',
+"Peacekeeping Operations",
+"Human Rights Initiatives",
+"Climate Action",
+"U.N. General Assembly",
+"Humanitarian Efforts",
+"U.N. Agencies",
+"Refugee Assistance",
+"Women and Gender Equality",
 //U.N. page stops here
 'Featured Terrorism',
 'Headline Terrorism',
 'Opinion Terrorism',
+"Global Terrorism Trends",
+"Terrorism and Security",
+"Terrorist Organizations",
+"Terrorism Financing",
+"Domestic Terrorism",
+"International Terrorism",
+"Cyberterrorism",
 //Terrism page stops here
 'Featured World Economy',
 'Headline World Economy',
 'Opinion World Economy',
+"Global Market Trends",
+"International Trade",
+"Economic Growth",
+"Currency Exchange",
+"Economic Forecasts",
+"Sustainable Economic Practices",
+"Global Inflation",
+"Economic Sanctions",
+"Global Supply Chain",
 //Economy page stops here
 'Featured Scandals',
 'Headline Scandals',
 'Opinion Scandals',
+"Political Scandals",
+"Corporate Scandals",
+"Financial Scandals",
+"Sports Scandals",
+"Scandals in Education",
+"Entertainment Scandals",
+"Religious Scandals",
+"Healthcare Scandals",
+"International Scandals",
+"Fashion Scandals",
+"Military Scandals",
 //Scandals page stops here
 'Featured Mexico',
 'Headline Mexico',
 'Opinion Mexico',
+"Mexican Politics",
+"Mexican Economy",
+"Mexican Culture",
+"Tourism in Mexico",
+"Mexican Education",
+"Mexican Healthcare",
+"U.S.-Mexico Relations",
+"Mexican Environment",
+"Mexican History",
+"Mexican Sports",
+"Social Issues in Mexico",
 //Mexico page stops here
 'Featured South America',
 'Headline South America',
@@ -315,7 +411,8 @@ break;
 case 'Featured Technology':
 case 'Headline Technology':
 case 'Opinion Technology':
-case 'Gaming Technology':
+case 'GPU Technology':
+case 'CPU Technology':
 case 'Cybersecurity Technology':
 case 'Machine Learning Technology':
 case 'Emerging Technology':
@@ -379,71 +476,167 @@ break;
 case 'Featured Military':
 case 'Headline Military':
 case 'Opinion Military':
+case 'Local Military':
+case 'National Military':
+case 'International Military':
+case 'Technology Military':
+case 'Historical Military':
+case 'Veterans Military':
 router.push('/pages/Military');
 break;
 case 'Featured Crime':
 case 'Headline Crime':
 case 'Opinion Crime':
+case " Financial Crime":
+case " Property Crime":
+case " Unsolved Crime":
 router.push('/pages/Crime');
 break;
 case 'Featured Economy':
 case 'Headline Economy':
 case 'Opinion Economy':
+case 'Market Economy':
+case 'Government Economy':
 router.push('/pages/Economy');
 break;
 case 'Featured Immigration':
 case 'Headline Immigration':
 case 'Opinion Immigration':
+case " Border Immigration":
+case " Refugee Immigration":
+case " Politics Immigration":
+case " Global Immigration":
 router.push('/pages/Immigration');
 break;
 case 'Featured Business':
 case 'Headline Business':
 case 'Opinion Business':
+case 'Enterprise Business':
+case 'Global Business':
+case 'Small Business':
+case 'Leadership Business':
 router.push('/pages/Business');
 break;
 case 'Featured Video Games':
 case 'Headline Video Games':
 case 'Opinion Video Games':
+case " Video Games Deals":
+case "Playstation Gaming":
+case "Xbox Gaming":
+case "Nintendo Gaming":
+case "PC Gaming":
+case "Mobile Gaming":
+case "Hardware Gaming":
+case "Indie Gaming":
 router.push('/pages/VideoGames');
 break;
 case 'Featured Entertainment':
 case 'Headline Entertainment':
 case 'Opinion Entertainment':
+case 'Industry Entertainment':
+case 'Fan Entertainment':
+case 'Awards Entertainment':
+case 'Movie Entertainment':
+case 'TV Entertainment':
 router.push('/pages/Entertainment');
 break;
 case 'Featured Fashion':
 case 'Headline Fashion':
 case 'Opinion Fashion':
+case "Fashion Tips":
+case "Seasonal Trends":
+case "Celebrity Styles":
+case "Fashion Events":
+case "Fashion Reviews":
+case "Fashion Industry News":
+case "Fashion Interviews":
+case "Fashion Guides":
+case "Fashion History":
+case "Fashion Technology":
+case "Fashion Sustainability":
+case "Fashion Accessories":
+case"Fashion Trends Forecast":
 router.push('/pages/Fashion');
 break;
 case 'Featured Education':
 case 'Headline Education':
 case 'Opinion Education':
+case "Higher Education":
+case "K-12 Education":
+case "Education Funding":
+case "International Education":
+case "Special Education":
 router.push('/pages/Education');
 break;
 case 'Featured U.N. (United Nations)':
 case 'Headline U.N.':
 case 'Opinion U.N.':
+case "Peacekeeping Operations":
+case "Human Rights Initiatives":
+case "Climate Action":
+case "U.N. General Assembly":
+case "Humanitarian Efforts":
+case "U.N. Agencies":
+case "Refugee Assistance":
+case "Women and Gender Equality":
 router.push('/pages/UN');
 break;
 case 'Featured Terrorism':
 case 'Headline Terrorism':
 case 'Opinion Terrorism':
+case "Global Terrorism Trends":
+case "Terrorism and Security":
+case "Terrorist Organizations":
+case "Terrorism Financing":
+case "Domestic Terrorism":
+case "International Terrorism":
+case "Cyberterrorism":
 router.push('/pages/Terrorism');
 break;
 case 'Featured Economy':
 case 'Headline World Economy':
 case 'Opinion World Economy':
+case "Global Market Trends":
+case "International Trade":
+case "Economic Growth":
+case "Currency Exchange":
+case "Economic Forecasts":
+case "Sustainable Economic Practices":
+case "Global Inflation":
+case "Economic Sanctions":
+case "Global Supply Chain":
 router.push('/pages/WorldEconomy');
 break;
 case 'Featured Scandals':
 case 'Headline Scandals':
 case 'Opinion Scandals':
+case "Political Scandals":
+case "Corporate Scandals":
+case "Financial Scandals":
+case "Sports Scandals":
+case "Scandals in Education":
+case "Entertainment Scandals":
+case "Religious Scandals":
+case "Healthcare Scandals":
+case "International Scandals":
+case "Fashion Scandals":
+case "Military Scandals":
 router.push('/pages/Scandals');
 break;
 case 'Featured Mexico':
 case 'Headline Mexico':
 case 'Opinion Mexico':
+case "Mexican Politics":
+case "Mexican Economy":
+case "Mexican Culture":
+case "Tourism in Mexico":
+case "Mexican Education":
+case "Mexican Healthcare":
+case "U.S.-Mexico Relations":
+case "Mexican Environment":
+case "Mexican History":
+case "Mexican Sports":
+case "Social Issues in Mexico":
 router.push('/pages/Mexico');
 break;
 case 'Featured South America':
@@ -526,7 +719,8 @@ className='billingselect'>
 <option value="Featured Technology">Featured Technology</option>
 <option value="Headline Technology"> Technology</option>
 <option value="Opinion Technology">Opinion Technology</option>
-<option value="Gaming Technology">Gaming Technology</option>
+<option value="GPU Technology">GPU Technology</option>
+<option value="CPU Technology">CPU Technology</option>
 <option value="Cybersecurity Technology">Cybersecurity Technology</option>
 <option value="Machine Learning Technology">Machine Learning Technology</option>
 <option value="Emerging Technology">Emerging Technology</option>
@@ -577,63 +771,158 @@ className='billingselect'>
 <option value="Gear Sports">Sports Gear</option>
 <option value="Guest Sports">Guest Sports</option>
 <option value="Interview Sports">Interview Sports</option>
-<option value="E-Sports">E-Sports</option>
+<option value="E Sports">E-Sports</option>
 {/* sports page stops here */}
 <option value="Featured Military">Featured Military</option>
 <option value="Headline Military"> Headline Military</option>
 <option value="Opinion Military"> Opinion Military</option>
+<option value="Local Military"> Local Military</option>
+<option value="National Military"> National Military</option>
+<option value="International Military"> International Military</option>
+<option value="Technology Military"> Technology Military</option>
+<option value="Veterans Military"> Veterans Military</option>
 {/* military page stops here */}
 <option value="Featured Crime">Featured Crime</option>
 <option value=" Headline Crime">Headline Crime</option>
 <option value=" Opinion Crime">Opinion Crime</option>
+<option value=" Financial Crime">Financial Crime</option>
+<option value=" Property Crime">Property Crime</option>
+<option value=" Unsolved Crime">Unsolved Crime</option>
 {/* crime page stops here */}
 <option value="Featured Economy">Featured Economy</option>
 <option value=" Headline Economy"> Headline Economy</option>
 <option value=" Opinion Economy"> Opinion Economy</option>
+<option value=" Market Economy"> Market Economy</option>
+<option value=" Government Economy"> Government Economy</option>
 {/* economy page stips here */}
 <option value="Featured Immigration">Featured Immigration</option>
 <option value=" Headline Immigration"> Headline Immigration</option>
 <option value=" Opinion Immigration"> Opinion Immigration</option>
+<option value=" Border Immigration"> Border Immigration</option>
+<option value=" Refugee Immigration"> Refugee Immigration</option>
+<option value=" Politics Immigration"> Refugee Immigration</option>
+<option value=" Global Immigration"> Global Immigration</option>
 {/* Immigration page stops here */}
 <option value="Featured Business">Featured Business</option>
 <option value="Headline Business">Headline Business</option>
 <option value="Opinion Business">Opinion Business</option>
+<option value="Enterprise Business">Enterprise Business</option>
+<option value="Global Business">Global Business</option>
+<option value="Small Business">Small Business</option>
+<option value="Leadership Business">Leadership Business</option>
 {/* Business page stops here */}
 <option value="Featured Video Games">Featured Video Games</option>
 <option value="Headline Video Games">Headline Video Games</option>
 <option value="Opinion Video Games">Opinion Video Games</option>
+<option value=" Video Games Deals"> Video Game Deals</option>
+<option value="Playstation Gaming">Playstation</option>
+<option value="Xbox Gaming">Xbox</option>
+<option value="Nintendo Gaming">Nintendo</option>
+<option value="PC Gaming">PC</option>
+<option value="Mobile Gaming">Mobile Gaming</option>
+<option value="Hardware Gaming">Hardware Gaming</option>
+<option value="Indie Gaming">Hardware</option>
 {/* Video Games Page stops here */}
 <option value="Featured Entertainment">Featured Entertainment</option>
 <option value="Headline Entertainment">Headline Entertainment</option>
 <option value="Opinion Entertainment">Opinion Entertainment</option>
+<option value="Industry Entertainment">Industry Entertainment</option>
+<option value="Fan Entertainment">Fan Entertainment</option>
+<option value="Awards Entertainment">Awards Entertainment</option>
+<option value="Movie Entertainment">Movie Entertainment</option>
+<option value="TV Entertainment">TV Entertainment</option>
 {/* Entertainment page stops here */}
 <option value="Featured Fashion">Featured Fashion</option>
 <option value="Headline Fashion">Headline Fashion</option>
 <option value="Opinion Fashion">Opinion Fashion</option>
+<option value="Fashion Tips">Fashion Tips</option>
+<option value="Seasonal Trends">Seasonal Trends</option>
+<option value="Celebrity Styles">Celebrity Styles</option>
+<option value="Fashion Events">Fashion Events</option>
+<option value="Fashion Reviews">Fashion Reviews</option>
+<option value="Fashion Industry News">Fashion Industry News</option>
+<option value="Fashion Interviews">Fashion Interviews</option>
+<option value="Fashion Guides">Fashion Guides</option>
+<option value="Fashion History">Fashion History</option>
+<option value="Fashion Technology">Fashion Technology</option>
+<option value="Fashion Sustainability">Fashion Sustainability</option>
+<option value="Fashion Accessories">Fashion Accessories</option>
+<option value="Fashion Trends Forecast">Fashion Trends Forecast</option>
 {/* Fashion page stops here */}
 <option value="Featured Education">Featured Education</option>
 <option value="Headline Education">Headline Education</option>
 <option value="Opinion Education">Opinion Education</option>
+<option value="Higher Education">Higher Education</option>
+<option value="K-12 Education">K-12 Education</option>
+<option value="Education Funding">Education Funding</option>
+<option value="International Education">International Education</option>
+<option value="Special Education">Special Education</option>
 {/* Education page stops here */}
 <option value="Featured U.N. (United Nations)">Featured U.N. (United Nations)</option>
 <option value="Headline U.N.">Headline U.N. (United Nations)</option>
 <option value="Opinion U.N.">Opinion U.N. (United Nations)</option>
+<option value="Peacekeeping Operations">Peacekeeping Operations</option>
+<option value="Human Rights Initiatives">Human Rights Initiatives</option>
+<option value="Climate Action">Climate Action</option>
+<option value="U.N. General Assembly">U.N. General Assembly</option>
+<option value="Humanitarian Efforts">Humanitarian Efforts</option>
+<option value="U.N. Agencies">U.N. Agencies</option>
+<option value="Refugee Assistance">Refugee Assistance</option>
+<option value="Women and Gender Equality">Women and Gender Equality</option>
 {/* UN page stops here */}
 <option value="Featured Terrorism">Featured Terrorism</option>
 <option value="Headline Terrorism">Headline Terrorism</option>
 <option value="Opinion Terrorism">Opinion Terrorism</option>
+<option value="Global Terrorism Trends">Global Terrorism Trends</option>
+<option value="Terrorism and Security">Terrorism and Security</option>
+<option value="Terrorist Organizations">Terrorist Organizations</option>
+<option value="Terrorism Financing">Terrorism Financing</option>
+<option value="Domestic Terrorism">Domestic Terrorism</option>
+<option value="International Terrorism">International Terrorism</option>
+<option value="Cyberterrorism">Cyberterrorism</option>
 {/* terrorism page stops here */}
 <option value="Featured World Economy">Featured World Economy</option>
 <option value="Headline World Economy">Headline World Economy</option>
 <option value="Opinion World Economy">Opinion World Economy</option>
+<option value="Global Market Trends">Global Market Trends</option>
+<option value="International Trade">International Trade</option>
+<option value="Economic Growth">Economic Growth</option>
+<option value="Currency Exchange">Currency Exchange</option>
+<option value="Economic Forecasts">Economic Forecasts</option>
+<option value="Sustainable Economic Practices">Sustainable Economic Practices</option>
+<option value="Global Inflation">Global Inflation</option>
+<option value="Economic Sanctions">Economic Sanctions</option>
+<option value="Global Supply Chain">Global Supply Chain</option>
 {/* world economy page stops here */}
 <option value="Featured Scandals">Featured Scandals</option>
 <option value="Headline Scandals">Headline Scandals</option>
 <option value="Opinion Scandals">Opinion Scandals</option>
+<option value="Political Scandals">Political Scandals</option>
+<option value="Corporate Scandals">Corporate Scandals</option>
+<option value="Financial Scandals">Financial Scandals</option>
+<option value="Sports Scandals">Sports Scandals</option>
+<option value="Scandals in Education">Scandals in Education</option>
+<option value="Entertainment Scandals">Entertainment Scandals</option>
+<option value="Religious Scandals">Religious Scandals</option>
+<option value="Healthcare Scandals">Healthcare Scandals</option>
+<option value="International Scandals">International Scandals</option>
+<option value="Fashion Scandals"> Fashion Scandals</option>
+<option value="Military Scandals">Military Scandals</option>
 {/* scandals page stops here */}
 <option value="Featured Mexico">Featured Mexico</option>
 <option value="Headline Mexico">Headline Mexico</option>
 <option value="Opinion Mexico">Opinion Mexico</option>
+<option value="Mexican Politics">Mexican Politics</option>
+<option value="Mexican Economy">Mexican Economy</option>
+<option value="Mexican Culture">Mexican Culture</option>
+<option value="Tourism in Mexico">Tourism in Mexico</option>
+<option value="Mexican Education">Mexican Education</option>
+<option value="Mexican Healthcare">Mexican Healthcare</option>
+<option value="U.S.-Mexico Relations">U.S.-Mexico Relations</option>
+<option value="Mexican Environment">Mexican Environment</option>
+<option value="Mexican History">Mexican History</option>
+<option value="Mexican Sports">Mexican Sports</option>
+<option value="Social Issues in Mexico">Social Issues in Mexico</option>
 {/* mexico page stops here */}
 <option value="Featured South America">Featured South America</option>
 <option value="Headline South America">Headline South America</option>
