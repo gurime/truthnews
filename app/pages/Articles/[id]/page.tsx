@@ -8,6 +8,7 @@ import Goup from '@/app/components/goup';
 import CommentForm from '@/app/components/CommentForm';
 import VoteComponent from '@/app/components/RateButton';
 import Newsletter from '@/app/components/NewsLetter';
+import RelatedArticles from '@/app/components/RelatedArticles';
 
 
 
@@ -92,14 +93,8 @@ return (
           </div>
         </div>
         <div className="sidebar">
-          <div className="related-articles">
-            <h3>Related Articles</h3>
-            <ul>
-              <li><a href="#">Related Article 1</a></li>
-              <li><a href="#">Related Article 2</a></li>
-              <li><a href="#">Related Article 3</a></li>
-            </ul>
-          </div>
+        <RelatedArticles currentArticleId={articleId} catorgory={post.catorgory} />
+
        <Newsletter articleId={articleId}/>
           <div className="advertisement">AD</div>
         </div>
