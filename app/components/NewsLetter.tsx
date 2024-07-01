@@ -47,7 +47,7 @@ const Newsletter: React.FC<NewsletterProps> = ({ articleId }) => {
             });
 
             setEmail('');
-            setSuccessMessage('Subscription successful!');
+            setSuccessMessage('Thank you for subscribing!');
             setTimeout(() => {
                 setSuccessMessage('');
             }, 3000);
@@ -63,7 +63,7 @@ const Newsletter: React.FC<NewsletterProps> = ({ articleId }) => {
 
     return (
         <div className="newsletter-signup">
-            <h3>Newsletter Signup</h3>
+            <h3>iTruthNews letter</h3>
             <form onSubmit={handleSubmit}>
                 <input
                     type="email"
