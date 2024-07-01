@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { auth } from '../firebase/firebase';
 import { addDoc, collection, getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-
+import {BeatLoader} from 'react-spinners'
 interface NewsletterProps {
     articleId: string;
 }
@@ -78,7 +78,7 @@ const Newsletter: React.FC<NewsletterProps> = ({ articleId }) => {
                     style={{ width: '100%', padding: '10px', backgroundColor: '#333', color: '#fff', border: 'none' }}
                     disabled={isLoading}
                 >
-                    {isLoading ? 'Subscribing...' : 'Subscribe'}
+                    {isLoading ? <BeatLoader color='blue' /> : 'Subscribe'}
                 </button> 
                 {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
