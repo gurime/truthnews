@@ -414,18 +414,56 @@ className='billingselect'
 <option value="Featured South America">Featured South America</option>
 <option value="Headline South America">Headline South America</option>
 <option value="Opinion South America">Opinion South America</option>
+<option value="South America Politics">South America Politics</option>
+<option value="South America Economy">South America Economy</option>
+<option value="South America Tourism">South America Tourism</option>
+<option value="South America Education">South America Education</option>
+<option value="South America Culture">South America Culture</option>
+<option value="South America Technology">South America Technology</option>
 {/* south america page stops here */}
 <option value="Featured Europe">Featured Europe</option>
 <option value="Headline Europe">Headline Europe</option>
 <option value="Opinion Europe">Opinion Europe</option>
+<option value="Europe Politics">Europe Politics</option>
+<option value="Europe Economy">Europe Economy</option>
+<option value="Europe Technology">Europe Technology</option>
+<option value="Europe Sports">Europe Sports</option>
+<option value="Europe Culture">Europe Culture</option>
+<option value="Eastern Europe">Eastern Europe</option>
+<option value="Northern Europe">Northern Europe</option>
+<option value="Western Europe">Western Europe</option>
+<option value="Southern Europe">Southern Europe</option>
+
 {/* europe page stops here */}
 <option value="Featured Asia">Featured Asia</option>
 <option value="Headline Asia">Headline Asia</option>
 <option value="Opinion Asia">Opinion Asia</option>
+<option value="Asia Politics">Asia Politics</option>
+<option value="Asia Economy">Asia Economy</option>
+<option value="Asia Technology">Asia Technology</option>
+<option value="Asia Culture">Asia Culture</option>
+<option value="Asia Tourism">Asia Tourism</option>
+<option value="Asia Education">Asia Education</option>
+<option value="South Asia">South Asia</option>
+<option value="Southeast Asia">Southeast Asia</option>
+<option value="East Asia">East Asia</option>
+<option value="Central Asia">Central Asia</option>
+
 {/* asia page stops here */}
 <option value="Featured Africa">Featured Africa</option>
 <option value="Headline Africa">Headline Africa</option>
 <option value="Opinion Africa">Opinion Africa</option>
+<option value="Africa Politics">Africa Politics</option>
+<option value="Africa Economy">Africa Economy</option>
+<option value="Africa Technology">Africa Technology</option>
+<option value="Africa Culture">Africa Culture</option>
+<option value="Africa Tourism">Africa Tourism</option>
+<option value="Africa Education">Africa Education</option>
+<option value="Northern Africa">Northern Africa</option>
+<option value="Western Africa">Western Africa</option>
+<option value="Eastern Africa">Eastern Africa</option>
+<option value="Southern Africa">Southern Africa</option>
+<option value="Central Africa">Central Africa</option>
 {/* africa page stops here */}
 </select>
 </div>
@@ -439,7 +477,6 @@ onChange={(e) => setCatorgory(e.target.value)}
 required
 className='billingselect'
 >
-
 <option value="Technology">Technology</option>
 <option value="Politics">Politics</option>
 <option value="Opinion">Opinion</option>

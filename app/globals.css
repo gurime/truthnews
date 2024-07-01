@@ -342,6 +342,7 @@ display: flex;
   display: flex;
   place-items: center;
   justify-content: space-between;
+  padding: 0 2rem;
 }
 
 .authflex p {
@@ -450,8 +451,11 @@ display: flex;
 }
 
 .article-container{
-  padding: 0 1rem;
-margin: auto;
+  display: flex;
+  max-width: 80rem;
+  margin: auto;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .backbtn-box{
@@ -499,21 +503,69 @@ margin: auto;
 .flexdate {
   display: flex;
   justify-content: flex-end;
+  padding: 0 2rem;
 }
 
 .body-content {
-  line-height: 2;
-  padding: 0 1rem;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  padding: 20px;
+  max-width: 80rem;
+  margin: auto;
+  background-color: #fff;
+  color: #333;
+}
+
+
+.main-content {
+  flex: 3;
+  padding-right: 20px;
+}
+.sidebar {
+  flex: 1;
+  padding-left: 20px;
+  border-left: 1px solid #ddd;
 }
 
 .body-content p {
-  font-size: 1.2rem;
-  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
 }
 
-@media (max-width: 1000px){
+.related-articles, .newsletter-signup {
+  margin-bottom: 20px;
+}
+.related-articles h3, .newsletter-signup h3 {
+  margin-bottom: 10px;
+}
+.related-articles ul {
+  list-style-type: none;
+  padding: 0;
+}
+.related-articles ul li {
+  margin-bottom: 10px;
+}
+.related-articles ul li a {
+  text-decoration: none;
+  color: #333;
+}
+.related-articles ul li a:hover {
+  text-decoration: underline;
+}
+
+.advertisement {
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 10px;
+  margin: 20px 0;
+  font-size: 0.9rem;
+  color: #555;
+  border: 1px solid #ddd;
+}
+
+@media (max-width: 1700px){
  .article-container {
-    width: auto;
+    flex-direction: column-reverse;
+    margin:auto;
 } 
 
 .backbtn-box{
@@ -535,7 +587,22 @@ margin: auto;
 
 .imgbox img{
   width: 100%;
+  padding: 0 2rem;
 }
+
+.sidebar{
+  margin: auto;
+}
+
+
+}
+@media (max-width: 1500px){
+ .article-container {
+    margin:0;
+} 
+
+
+
 
 }
 
