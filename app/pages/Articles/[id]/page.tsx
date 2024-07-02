@@ -56,49 +56,51 @@ return (
 <>
 <AdminHeader />
       <Navbar />
-      <div className="article-container">
-        <div className="main-content">
-          <div className="backbtn-box">
-            <h1>{post.title}</h1>
-            <Goback />
-          </div>
-          <div className="imgbox">
-            <img className="cover_image" src={post.coverimage} alt="Property Cover" />
-          </div>
-          <div className="authflex">
-            <p>{post.catorgory}</p>
-            <h3 className="card-category" style={{ display: 'flex', alignItems: 'center', fontWeight: 300 }}>
-              {post.owner}
-              <div style={{ border: 'solid 1px', height: '30px', margin: '0 10px' }}></div>
-              <img className="authbox" src={post.authpic} style={{ maxWidth: '100%', height: '80px', borderRadius: '7px' }} />
-            </h3>
-          </div>
-          <p className="flexdate">{formattedDate}</p>
-          <div className="body-content">
-            <div className="advertisement">AD</div>
-            <p>{post.content}</p>
-            <div className="advertisement">AD</div>
-            <p style={{ whiteSpace: 'pre-line' }}>{post.bodycontent}</p>
-            <div className="advertisement">AD</div>
-            <p>{post.endcontent}</p>
-          </div>
-          <hr />
-          <h2 style={{ textAlign: 'center' }}>Cast Your Vote</h2>
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <VoteComponent articleId={articleId} />
-          </div>
-          <CommentForm articleId={articleId} />
-          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '1rem' }}>
-            <Goup />
-          </div>
-        </div>
-        <div className="sidebar">
-        <RelatedArticles currentArticleId={articleId} catorgory={post.catorgory} />
-
-       <Newsletter articleId={articleId}/>
-          <div className="advertisement">AD</div>
-        </div>
+      <div className='mass-container'>
+  <div className="article-container">
+    <div className="main-content">
+      <div className="backbtn-box">
+        <h1>{post.title}</h1>
+        <Goback />
       </div>
+      <div className="imgbox">
+        <img className="cover_image" src={post.coverimage} alt="Property Cover" />
+      </div>
+      <div className="authflex">
+        <p>{post.catorgory}</p>
+        <h3 className="card-category" style={{ display: 'flex', alignItems: 'center', fontWeight: 300 }}>
+         <span className='iphone-500px'>{post.owner}</span> 
+          <div style={{ border: 'solid 1px', height: '30px', margin: '0 10px' }}></div>
+          <img className="authbox" src={post.authpic} style={{ maxWidth: '100%', height: '80px', borderRadius: '7px' }} />
+        </h3>
+      </div>
+      <p className="flexdate">{formattedDate}</p>
+      <div className="body-content">
+        <div className="advertisement">AD</div>
+        <p>{post.content}</p>
+        <div className="advertisement">AD</div>
+        <p style={{ whiteSpace: 'pre-line' }}>{post.bodycontent}</p>
+        <div className="advertisement">AD</div>
+        <p>{post.endcontent}</p>
+      </div>
+      <hr />
+      <h2 style={{ textAlign: 'center' }}>Cast Your Vote</h2>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <VoteComponent articleId={articleId} />
+      </div>
+      <CommentForm articleId={articleId} />
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '1rem' }}>
+        <Goup />
+      </div>
+    </div>
+  </div>
+  <div className="sidebar">
+    <RelatedArticles currentArticleId={articleId} catorgory={''} />
+    <Newsletter articleId={articleId}/>
+    <div className="advertisement">AD</div>
+  </div>
+</div>
+
       <Footer />
      
 

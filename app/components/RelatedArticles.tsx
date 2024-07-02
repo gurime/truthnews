@@ -1,7 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { getFirestore, collection, query, where, limit, getDocs, orderBy } from 'firebase/firestore';
+import { getFirestore, collectionGroup, getDocs, limit, query, DocumentData, Query, startAfter } from 'firebase/firestore';
 import Link from 'next/link';
+import collectionNames from './collectionNames';
 
 interface RelatedArticlesProps {
   currentArticleId: string;
@@ -12,78 +13,84 @@ interface Article {
   id: string;
   title: string;
   catorgory: string;
+  coverimage: string;
 }
 
-const RelatedArticles: React.FC<RelatedArticlesProps> = ({ currentArticleId, catorgory }) => {
+const RelatedArticles: React.FC<RelatedArticlesProps> = ({  }) => {
   const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
-
+  const selectRandomArticles = (articles: Article[], number: number): Article[] => {
+    const shuffled = [...articles];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, number);
+  };
+  
   useEffect(() => {
     const fetchRelatedArticles = async () => {
       const db = getFirestore();
-      const articlesRef = collection(db, 'articles');
-
-      // Fetch articles from the same category
-      const sameCategoryQuery = query(
-        articlesRef,
-        where('catorgory', '==', catorgory),
-        where('id', '!=', currentArticleId),
-        orderBy('id'),
-        orderBy('timestamp', 'desc'),
-        limit(3)
-      );
-
-      let querySnapshot = await getDocs(sameCategoryQuery);
       let articles: Article[] = [];
-
-      querySnapshot.forEach((doc) => {
-        articles.push({
-          id: doc.id,
-          title: doc.data().title,
-          catorgory: doc.data().catorgory
-        });
-      });
-
-      // If we don't have enough articles from the same category, fetch from other categories
-      if (articles.length < 3) {
-        const otherCategoriesQuery = query(
-          articlesRef,
-          where('catorgory', '!=', catorgory),
-          orderBy('catorgory'),
-          orderBy('timestamp', 'desc'),
-          limit(3 - articles.length)
-        );
-
-        querySnapshot = await getDocs(otherCategoriesQuery);
-        querySnapshot.forEach((doc) => {
-          if (doc.id !== currentArticleId) {
-            articles.push({
-              id: doc.id,
-              title: doc.data().title,
-              catorgory: doc.data().catorgory
+  
+      try {
+        for (const collectionName of collectionNames) {
+          let lastDoc = null;
+          const batchSize = 10;
+  
+          while (articles.length < 30) {
+            let q: Query<DocumentData> = query(
+              collectionGroup(db, collectionName),
+              limit(batchSize)
+            );
+            
+            if (lastDoc) {
+              q = query(q, startAfter(lastDoc));
+            }
+  
+            const querySnapshot = await getDocs(q);
+            
+            if (querySnapshot.empty) break;
+  
+            querySnapshot.forEach((doc) => {
+              articles.push({
+                id: doc.id,
+                title: doc.data().title,
+                catorgory: doc.data().catorgory,
+                coverimage: doc.data().coverimage
+              });
             });
+  
+            lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
           }
-        });
+        }
+  
+        setRelatedArticles(selectRandomArticles(articles, 3));
+      } catch (error) {
+        console.error("Error fetching related articles:", error);
+        // Handle the error appropriately (e.g., show an error message to the user)
       }
-
-      setRelatedArticles(articles);
     };
-
+  
     fetchRelatedArticles();
-  }, [currentArticleId, catorgory]);
+}, [collectionNames]);
+  
 
   return (
-    <div className="related-articles">
-      <h3>Related Articles</h3>
-      <ul>
-        {relatedArticles.map((article) => (
-          <li key={article.id}>
-            <Link href={`/article/${article.id}`}>
-              {article.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+<div className="related-articles">
+  <h3>Related Articles</h3>
+  <ul>
+    {relatedArticles.map((article) => (
+      <li key={article.id}>
+        <Link href={`/pages/Articles/${article.id}`}>
+      
+            <img src={article.coverimage} alt={article.title} />
+            <span>{article.title.slice(0, 50)}</span>
+      
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
   );
 };
 
