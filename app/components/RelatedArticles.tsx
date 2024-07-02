@@ -77,7 +77,7 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = ({  }) => {
 
   return (
 <div className="related-articles">
-  <h3>Related Articles</h3>
+  <h3>Trending Articles</h3>
   <ul>
     {relatedArticles.map((article) => (
       <li key={article.id}>
