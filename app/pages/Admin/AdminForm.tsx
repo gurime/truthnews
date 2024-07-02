@@ -54,8 +54,6 @@ const acceptedCollections = [
 //Home Page stops here
 'Featured Technology',
 'Headline Technology',
-'Featured Technology',
-'Headline Technology',
 'Opinion Technology',
 'GPU Technology',
 'CPU Technology',
@@ -102,7 +100,7 @@ const acceptedCollections = [
 'Interview Music',
 //Music page stops here
 'Featured Sports',
-'Haedline Sports',
+'Headline Sports',
 'Opinion Sports',
 'Featured Sports',
 'Headline Sports',

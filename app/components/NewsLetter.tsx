@@ -64,18 +64,18 @@ const Newsletter: React.FC<NewsletterProps> = ({ articleId }) => {
     return (
         <div className="newsletter-signup">
             <h3>iTruthNews letter</h3>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='formbox'>
                 <input
                     type="email"
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
+                    style={{ width: '100%', padding: '10px 0', marginBottom: '10px' }}
                     autoFocus
                 />
                 <button
                     type="submit"
-                    style={{ width: '100%', padding: '10px', backgroundColor: '#333', color: '#fff', border: 'none' }}
+                    style={{ width: '100%', padding: '10px 0', backgroundColor: '#333', color: '#fff', border: 'none' }}
                     disabled={isLoading}
                 >
                     {isLoading ? <BeatLoader color='blue' /> : 'Subscribe'}
