@@ -89,7 +89,8 @@ return (
 </div>
 </div>
 </div>
-<div className="sidebar"><RelatedArticles currentArticleId={articleId} catorgory={''} />
+<div className="sidebar">
+<RelatedArticles currentArticleId={articleId} catorgory={''} />
 <Newsletter articleId={articleId}/>
 <div className="advertisement">AD</div>
 </div>
