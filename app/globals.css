@@ -594,10 +594,7 @@ display: flex;
   border-radius: 5px;
 }
 
-.related-articles ul li img:hover {
-  transform: scale(1.1); /* This slightly increases the size of the image */
-  transition: transform 0.3s ease; /* Smooth transition for the scaling effect */
-}
+
 
 .related-articles ul li a {
   text-decoration: none;
@@ -613,7 +610,7 @@ display: flex;
 
 .related-articles ul li a:hover {
   color:#f33030;
-  transition: 0.5s;
+  transition: 0.3s;
 }
 
 .advertisement {
