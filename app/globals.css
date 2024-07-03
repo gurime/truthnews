@@ -464,7 +464,7 @@ display: flex;
 }
 
 .article-container{
-
+order: 1;
     flex: 3;
     background-color: #e0dede;
 
@@ -535,7 +535,6 @@ display: flex;
 
 
 .main-content {
-  order: 1;
   flex: 3;
   padding-right: 20px;
 }
@@ -630,6 +629,7 @@ display: flex;
     margin:auto;
     max-width:100%;
     padding: 0 1rem;
+    order: 1;
 } 
 
 .backbtn-box{
