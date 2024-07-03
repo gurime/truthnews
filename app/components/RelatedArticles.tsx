@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid'; // If you need to generate unique IDs
 
 interface RelatedArticlesProps {
   currentArticleId: string;
-  catorgory: string;
+
 }
 
 interface Article {

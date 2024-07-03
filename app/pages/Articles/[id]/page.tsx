@@ -90,7 +90,7 @@ return (
 </div>
 </div>
 <div className="sidebar">
-<RelatedArticles currentArticleId={articleId} catorgory={''} />
+<RelatedArticles currentArticleId={articleId}  />
 <Newsletter articleId={articleId}/>
 <div className="advertisement">AD</div>
 </div>
