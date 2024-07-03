@@ -63,7 +63,7 @@ const Newsletter: React.FC<NewsletterProps> = ({ articleId }) => {
 
     return (
         <div className="newsletter-signup">
-            <h3>iTruthNews letter</h3>
+            <h3>iTruth Newsletter</h3>
             <form onSubmit={handleSubmit} className='formbox'>
                 <input
                     type="email"

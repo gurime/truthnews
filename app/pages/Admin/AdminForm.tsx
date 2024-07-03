@@ -177,19 +177,13 @@ const acceptedCollections = [
 'Featured Fashion',
 'Headline Fashion',
 'Opinion Fashion',
-"Fashion Tips",
 "Seasonal Trends",
 "Celebrity Styles",
 "Fashion Events",
 "Fashion Reviews",
 "Fashion Industry News",
 "Fashion Interviews",
-"Fashion Guides",
-"Fashion History",
 "Fashion Technology",
-"Fashion Sustainability",
-"Fashion Accessories",
-"Fashion Trends Forecast",
 //Fashion page stops here
 'Featured Education',
 'Headline Education',
@@ -581,19 +575,13 @@ break;
 case 'Featured Fashion':
 case 'Headline Fashion':
 case 'Opinion Fashion':
-case "Fashion Tips":
 case "Seasonal Trends":
 case "Celebrity Styles":
 case "Fashion Events":
 case "Fashion Reviews":
 case "Fashion Industry News":
 case "Fashion Interviews":
-case "Fashion Guides":
-case "Fashion History":
 case "Fashion Technology":
-case "Fashion Sustainability":
-case "Fashion Accessories":
-case"Fashion Trends Forecast":
 router.push('/pages/Fashion');
 break;
 case 'Featured Education':
@@ -913,19 +901,13 @@ className='billingselect'>
 <option value="Featured Fashion">Featured Fashion</option>
 <option value="Headline Fashion">Headline Fashion</option>
 <option value="Opinion Fashion">Opinion Fashion</option>
-<option value="Fashion Tips">Fashion Tips</option>
 <option value="Seasonal Trends">Seasonal Trends</option>
 <option value="Celebrity Styles">Celebrity Styles</option>
 <option value="Fashion Events">Fashion Events</option>
 <option value="Fashion Reviews">Fashion Reviews</option>
 <option value="Fashion Industry News">Fashion Industry News</option>
 <option value="Fashion Interviews">Fashion Interviews</option>
-<option value="Fashion Guides">Fashion Guides</option>
-<option value="Fashion History">Fashion History</option>
 <option value="Fashion Technology">Fashion Technology</option>
-<option value="Fashion Sustainability">Fashion Sustainability</option>
-<option value="Fashion Accessories">Fashion Accessories</option>
-<option value="Fashion Trends Forecast">Fashion Trends Forecast</option>
 {/* Fashion page stops here */}
 <option value="Featured Education">Featured Education</option>
 <option value="Headline Education">Headline Education</option>

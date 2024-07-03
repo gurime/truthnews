@@ -264,6 +264,7 @@ margin-left: 3px;
 padding: 10px;
 margin: auto;
 font-size: 13px;
+cursor: none;
 }
 }
 
@@ -387,6 +388,10 @@ display: flex;
     font-size: 1.5rem;
 }
 
+.authflex{
+  padding: 0;
+}
+
 .authflex p {
   padding: 4px;
 }
@@ -453,7 +458,7 @@ display: flex;
 .mass-container {
   display: flex;
   justify-content: space-between;
-  max-width: 80rem;
+  max-width: 70%;
   margin: auto;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -462,8 +467,8 @@ display: flex;
 .article-container{
 
     flex: 3;
-    padding: 20px;
-    background-color: #fff;
+    background-color: #e0dede;
+
   
 }
 
@@ -472,7 +477,8 @@ display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem;
-  gap: 1rem; /* optional, for better spacing between elements */
+  gap: 1rem; 
+  margin: 1rem 0;
 }
 
 .backbtn-box h1 {
@@ -538,8 +544,8 @@ display: flex;
   
   flex: 1;
   padding: 20px;
-  border-left: 1px solid #ddd;
-  background-color: #f9f9f9;}
+
+}
 
 .body-content p {
   margin-bottom: 1.5rem;
@@ -548,7 +554,8 @@ display: flex;
 
 .related-articles h3, .newsletter-signup h3 {
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 24px;
+  text-align: center;
 }
 .related-articles {
   margin-bottom: 20px;
@@ -556,9 +563,10 @@ display: flex;
 
 .related-articles h3 {
   margin-bottom: 15px;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: bold;
-  color: #2e43d8;
+  color:#f33030;
+  text-align: center;
 }
 
 .related-articles ul {
@@ -588,6 +596,11 @@ display: flex;
   border-radius: 5px;
 }
 
+.related-articles ul li img:hover {
+  transform: scale(1.1); /* This slightly increases the size of the image */
+  transition: transform 0.3s ease; /* Smooth transition for the scaling effect */
+}
+
 .related-articles ul li a {
   text-decoration: none;
   color: #333;
@@ -601,7 +614,8 @@ display: flex;
 }
 
 .related-articles ul li a:hover {
-  text-decoration: underline;
+  color:#f33030;
+  transition: 0.5s;
 }
 
 .advertisement {
@@ -639,7 +653,6 @@ display: flex;
 
 .imgbox img{
   width: 100%;
-  padding: 0 2rem;
 }
 
 .sidebar{
@@ -655,6 +668,10 @@ display: flex;
     padding: 0 0 0 14px;
     font-weight: 600;
 
+  }
+
+  .authbox{
+    height: 50px !important;
   }
 }
 .grid-container{
