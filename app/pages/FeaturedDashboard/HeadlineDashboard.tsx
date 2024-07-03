@@ -7,6 +7,7 @@ import { db } from '@/app/firebase/firebase'
 import Skeleton from 'react-loading-skeleton'
 import { IoChatboxSharp } from 'react-icons/io5'
 import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa'
+import { v4 as uuidv4 } from 'uuid'; // If you need to generate unique IDs
 interface Article {
 userId: string;
 propertyType:string;
@@ -240,7 +241,7 @@ style={{ marginTop: '10px', borderRadius: '50%' }}/>
 <p>Error: {fetchError}</p>
 ) : (
 useArticle.map((post) => (
-<React.Fragment key={post.id}>
+<React.Fragment key={post.id || uuidv4()}>
 <div className="card">
 <img src={post.coverimage} alt="" />
 <h2 className="card-title">{post.title}</h2>

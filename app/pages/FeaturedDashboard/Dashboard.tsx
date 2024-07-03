@@ -10,6 +10,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { MdOutlineSecurityUpdate } from 'react-icons/md';
 import AdminEdit from '../AdminEdit/AdminEdit';
 import { IoCloseSharp } from 'react-icons/io5';
+import { v4 as uuidv4 } from 'uuid'; // If you need to generate unique IDs
 
 interface Article {
 userId: string;
@@ -242,7 +243,7 @@ setErrorMessage('');
 ) : (
 Array.from({ length: 1 }, (_, index) => (
 useArticle.map((post) => (
-<React.Fragment key={post.id}>
+<React.Fragment key={post.id || uuidv4()}>
 <div ref={commentsRef} className="hero-info">
 <h1 className="hero-title">{post.title}</h1>
 <div className="authflex">

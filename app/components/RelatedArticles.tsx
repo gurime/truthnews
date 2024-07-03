@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getFirestore, collectionGroup, getDocs, limit, query, DocumentData, Query, startAfter, collection } from 'firebase/firestore';
 import Link from 'next/link';
 import collectionNames from './collectionNames';
+import { v4 as uuidv4 } from 'uuid'; // If you need to generate unique IDs
 
 interface RelatedArticlesProps {
   currentArticleId: string;
@@ -72,7 +73,7 @@ return (
 <h3>Trending Articles</h3>
 <ul>
 {relatedArticles.map((article) => (
-<li key={article.id}>
+<li key={article.id || uuidv4()}>
 <Link href={`/pages/Articles/${article.id}`}>
 <img src={article.coverimage} alt={article.title} />
 <span>{article.title.slice(0, 50)}...</span>
