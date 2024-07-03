@@ -64,6 +64,7 @@ setIsLoading(false);
 }
 };
 
+
 return (
 <div className="newsletter-signup">
 <h3>iTruth Newsletter</h3>
