@@ -265,7 +265,7 @@ display: 'flex',
 placeItems: 'center',
 justifyContent: 'space-between',
 }}>
-<Link href={`/pages/Articles/${post.id}`} scroll={false} className="hero-btn">
+<Link href={`/pages/Articles/${post.id}`} replace  className="hero-btn">
 Read More
 </Link>
 <p>
