@@ -454,6 +454,12 @@ display: flex;
   color: green;
 }
 
+.article-skeleton {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
 .mass-container {
   display: flex;
   justify-content: space-between;
