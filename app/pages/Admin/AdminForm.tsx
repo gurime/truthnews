@@ -61,10 +61,8 @@ const acceptedCollections = [
 'Machine Learning Technology',
 'Emerging Technology',
 'Consumer Technology',
-'Green Technology',
 'Enterprise Technology',
 'Blockchain Technology',
-'Health Technology',
 'Space Technology',
 //Tech page stops here
 'Featured Politics',
@@ -316,6 +314,9 @@ const acceptedCollections = [
 "Southern Africa",
 "Central Africa",
 //Africa page stops here
+"Featured Pride",
+"Headline Pride",
+// Pride page stops here
 ];
 const [catorgory, setCatorgory] = useState<string>('');
 const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -449,10 +450,8 @@ case 'Cybersecurity Technology':
 case 'Machine Learning Technology':
 case 'Emerging Technology':
 case 'Consumer Technology':
-case 'Green Technology':
 case 'Enterprise Technology':
 case 'Blockchain Technology':
-case 'Health Technology':
 case 'Space Technology':
 router.push('/pages/Technology');
 break;
@@ -722,8 +721,12 @@ case "Western Africa":
 case "Eastern Africa":
 case "Southern Africa":
 case "Central Africa":
-
 router.push('/pages/Africa');
+break;
+
+case "Featured Pride":
+case "Headline Pride":
+router.push('/pages/Pride');
 break;
 default:
 router.push('/not-found');
@@ -791,10 +794,8 @@ className='billingselect'>
 <option value="Machine Learning Technology">Machine Learning Technology</option>
 <option value="Emerging Technology">Emerging Technology</option>
 <option value="Consumer Technology">Consumer Technology</option>
-<option value="Green Technology">Green Technology</option>
 <option value="Enterprise Technology">Enterprise Technology</option>
 <option value="Blockchain Technology">Blockchain Technology</option>
-<option value="Health Technology">Health Technology</option>
 <option value="Space Technology">Space Technology</option>
 {/* technology page stops here */}
 <option value="Featured Politics">Featured Politics</option>
@@ -1037,8 +1038,10 @@ className='billingselect'>
 <option value="Eastern Africa">Eastern Africa</option>
 <option value="Southern Africa">Southern Africa</option>
 <option value="Central Africa">Central Africa</option>
-
 {/* africa page stops here */}
+<option value="Featured Pride">Featured Pride</option>
+<option value="Headline Pride">Headline Pride</option>
+{/* Pride page stops here */}
 </select>
 </div>
 
@@ -1074,6 +1077,7 @@ className='billingselect'>
 <option value="Europe">Europe</option>
 <option value="Asia">Asia</option>
 <option value="Africa">Africa</option>
+<option value="Pride">Pride</option>
 </select>
 </div>
 </div>

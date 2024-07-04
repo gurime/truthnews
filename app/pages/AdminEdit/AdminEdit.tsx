@@ -465,6 +465,9 @@ className='billingselect'
 <option value="Southern Africa">Southern Africa</option>
 <option value="Central Africa">Central Africa</option>
 {/* africa page stops here */}
+<option value="Featured Pride">Featured Pride</option>
+<option value="Headline Pride">Headline Pride</option>
+{/* Pride page stops here */}
 </select>
 </div>
 

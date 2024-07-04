@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { getFirestore, collectionGroup, getDocs, limit, query, DocumentData, Query, startAfter, collection } from 'firebase/firestore';
+import { getFirestore,  getDocs, limit, query,collection } from 'firebase/firestore';
 import Link from 'next/link';
 import collectionNames from './collectionNames';
 import { v4 as uuidv4 } from 'uuid'; // If you need to generate unique IDs
