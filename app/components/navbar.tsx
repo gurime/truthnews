@@ -169,7 +169,7 @@ setIsOverlayActive(e.target.value.trim().length > 0);
 {searchResults.slice(0,10).map((result) => (
 <div key={result.id} className="search-result-item">
 <Link key={result.id} href={getLink(result.collection, result.id)}>
-Title:<p>{result.title}  </p>Author:<p>{result.owner}</p>
+Title:<p>{result.title.slice(0,50)}  </p>Author:<p>{result.owner}</p>
 </Link>
 </div>
 ))}
