@@ -75,7 +75,6 @@ placeholder="Enter your email"
 value={email}
 onChange={(e) => setEmail(e.target.value)}
 style={{ width: '100%', padding: '10px 0', marginBottom: '10px' }}
-autoFocus
 />
 <button
 type="submit"
