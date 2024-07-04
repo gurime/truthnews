@@ -294,6 +294,11 @@ const collectionNames =
 "Eastern Africa",
 "Southern Africa",
 "Central Africa",
+// Africa page stops here
+"Featured Pride"
+"Headline Pride"
+"Opinion Pride"
+//Pride page stops here
 ]; 
 
 
