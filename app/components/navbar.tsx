@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link';
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'  
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react'  
 import Footer from './footer';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -9,6 +9,7 @@ import { collectionRoutes, getArticle } from './HeroFormApi/api';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '../firebase/firebase';
 import { collection, doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
 
 type SearchResult = {
   title: string;
@@ -26,9 +27,12 @@ const [isFooterVisible, setIsFooterVisible] = useState(false);
 const [isOverlayActive, setIsOverlayActive] = useState(false);
 const [searchTerm, setSearchTerm] = useState<string>('');
 const [names, setNames] = useState<string[]>([]);
+const [displayCount, setDisplayCount] = useState(5);
+const [allResultsDisplayed, setAllResultsDisplayed] = useState(false);
 
 const [loading, setLoading] = useState<boolean>(true);
 const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+const uuid = useRef(uuidv4());
 
 const overlayStyle: React.CSSProperties = {
 position: 'fixed',
@@ -66,8 +70,10 @@ useEffect(() => {
 
   const handleDocumentClick = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
-    const isClickOutsideSearch = !target.closest('.search-container');
-    if (isClickOutsideSearch) {
+    const searchContainer = document.querySelector('.search-results-container');
+    const searchInput = document.querySelector('input[type="search"]');
+    
+    if (!searchContainer?.contains(target) && target !== searchInput) {
       setIsOverlayActive(false);
       setSearchResults([]);
       setSearchTerm('');
@@ -155,27 +161,47 @@ placeholder="Search iTruth News"
 type="search"
 spellCheck="false"
 dir="auto"
-tabIndex={0}
 value={searchTerm}
 onChange={(e) => {
 setSearchTerm(e.target.value);
 {handleSearch}
 {handleSearchInputChange}
 setIsOverlayActive(e.target.value.trim().length > 0);
-}}/>
+}}
+onClick={(e) => {
+  e.stopPropagation();
+  setIsOverlayActive(true);
+}}
+/>
 
-{searchResults.length > 0 && searchTerm && !loading && (
-<div className="search-results-container">
-{searchResults.slice(0,10).map((result) => (
-<div key={result.id} className="search-result-item">
-<Link key={result.id} href={getLink(result.collection, result.id)}>
-<p>{result.title.slice(0,50)}...</p>
+{searchResults.length > 0 && searchTerm && (
+<div className="search-results-container" onClick={(e) => e.stopPropagation()}>
+<div className="search-results">
+{searchResults.slice(0, displayCount).map((result, index) => (
+<div key={`${result.id}_${index}`} className="search-result-item">
+<Link href={getLink(result.collection, result.id)}>
+<p>{result.title.slice(0, 50)}{result.title.length > 50 ? '...' : ''}</p>
 </Link>
 </div>
 ))}
 </div>
-)} 
-
+{searchResults.length > displayCount && !allResultsDisplayed && (
+  <button 
+    className="load-more-button"
+    onClick={(e) => {
+      e.stopPropagation();
+      const newDisplayCount = displayCount + 5;
+      setDisplayCount(newDisplayCount);
+      if (newDisplayCount >= searchResults.length) {
+        setAllResultsDisplayed(true);
+      }
+    }}
+  >
+    Load more results
+  </button>
+)}
+</div>
+)}
 </form>
 
 <div className="navlinks">

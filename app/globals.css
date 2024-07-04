@@ -189,12 +189,10 @@ text-align: start;
 font-size: 16px;
 padding: 0 1rem;
 letter-spacing: 2px;
-font-weight: 300;
+font-weight: bold;
 }
 
-.search-result-item{
-padding: 0 1rem;
-}
+
 
 @media(max-width:768px){
 .search-results-container{
@@ -202,11 +200,7 @@ padding: 0 1rem;
 }
 
 
-  .search-results-container a{
-  display: flex;
-  flex-direction: column;
-  
-  }
+
 
   .search-results-container p{
     font-size: 13px;
@@ -262,7 +256,7 @@ margin-left: 3px;
 .navlinks a{
 padding: 10px;
 margin: auto;
-font-size: 13px;
+font-size: 11px;
 cursor: none;
 }
 }
@@ -336,6 +330,7 @@ display: flex;
   transition: .5s;
   margin: 1rem 0px;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .authflex {

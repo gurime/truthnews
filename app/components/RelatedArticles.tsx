@@ -24,12 +24,15 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = () => {
   const uuid = useRef(uuidv4());
 
   const selectRandomArticles = (articles: Article[], number: number): Article[] => {
+    const length = Math.min(articles.length, number);
     const shuffled = [...articles];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+    
+    for (let i = 0; i < length; i++) {
+      const j = i + Math.floor(Math.random() * (shuffled.length - i));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-    return shuffled.slice(0, number);
+    
+    return shuffled.slice(0, length);
   };
 
   useLayoutEffect(() => {

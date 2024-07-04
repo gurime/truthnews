@@ -304,34 +304,47 @@ const collectionNames = [
 // Pride page stops here
 ];
   
-// Fetch documents from each collection in parallel
-const querySnapshots = await Promise.all(
-collectionNames.map((collectionName) =>
-getDocs(query(collection(db, collectionName)))
-)
-);
-  
-// Use an array to store unique articles
-const uniqueArticles: Article[] = [];
-querySnapshots.forEach((querySnapshot, index) => {
-querySnapshot.forEach((doc) => {
-const docData = doc.data();
-  
-// Check if the article title or owner includes the search term
-if (
-(docData.title &&
-docData.title.toLowerCase().includes(searchTerm.toLowerCase().trim())) ||
-(docData.owner &&
-docData.owner.toLowerCase().includes(searchTerm.toLowerCase().trim()))
-) 
-{uniqueArticles.push({ id: doc.id, title: docData.title, owner: docData.owner ,collection: collectionNames[index] });}
-});
-});
-  
-return uniqueArticles;
-} catch (error) {
-throw error;
-}
+    // Fetch documents from each collection in parallel
+    const querySnapshots = await Promise.all(
+      collectionNames.map((collectionName) =>
+        getDocs(query(collection(db, collectionName)))
+      )
+    );
+
+    // Use a Map to store unique articles, with the article ID as the key
+    const uniqueArticlesMap = new Map<string, Article>();
+
+    querySnapshots.forEach((querySnapshot, index) => {
+      querySnapshot.forEach((doc) => {
+        const docData = doc.data();
+
+        // Check if the article title or owner includes the search term
+        if (
+          (docData.title &&
+            docData.title.toLowerCase().includes(searchTerm.toLowerCase().trim())) ||
+          (docData.owner &&
+            docData.owner.toLowerCase().includes(searchTerm.toLowerCase().trim()))
+        ) {
+          const article: Article = {
+            id: doc.id,
+            title: docData.title,
+            owner: docData.owner,
+            collection: collectionNames[index]
+          };
+
+          // Only add the article if it's not already in the Map
+          if (!uniqueArticlesMap.has(article.id)) {
+            uniqueArticlesMap.set(article.id, article);
+          }
+        }
+      });
+    });
+
+    // Convert the Map values to an array
+    return Array.from(uniqueArticlesMap.values());
+  } catch (error) {
+    throw error;
+  }
 }
 interface CollectionRoutes {
 [key: string]: string;
@@ -344,51 +357,77 @@ PoliticsDashboard: '/pages/Articles',
 TechnologyDashboard: '/pages/Articles',
 MusicDashboard: '/pages/Articles',
 SportsDashboard: '/pages/Articles',
+//Home page stops here
 FeaturedMusic: '/pages/Articles',
-Music: '/pages/Articles',
+HeadlineMusic: '/pages/Articles',
+//Music page stops here
 FeaturedTechnology: '/pages/Articles',
-Technology: '/pages/Articles',
+HeadlineTechnology: '/pages/Articles',
+//Technology page stops here
 FeaturedOpinion: '/pages/Articles',
-Opinion: '/pages/Articles',
+HeadlineOpinion: '/pages/Articles',
+//Opinion page stops here
 FeaturedPolitics: '/pages/Articles',
-Politics: '/pages/Articles',
+HeadlinePolitics: '/pages/Articles',
+//Politics page stops here
 FeaturedSports: '/pages/Articles',
-Sports: '/pages/Articles',
+HeadlineSports: '/pages/Articles',
+//Sports page stops here
 FeaturedMilitary: '/pages/Articles',
-Military: '/pages/Articles',
+HeadlineMilitary: '/pages/Articles',
+//Military page stops here
 FeaturedCrime: '/pages/Articles',
-Crime: '/pages/Articles',
+HeadlineCrime: '/pages/Articles',
+//Crime page stops here
 FeaturedEconomy: '/pages/Articles',
-Economy: '/pages/Articles',
+HeadlineEconomy: '/pages/Articles',
+//Economy page stops here
 FeaturedImmigration: '/pages/Articles',
-Immigration: '/pages/Articles',
+HeadlineImmigration: '/pages/Articles',
+//Immigration page stops here
 FeaturedBusiness: '/pages/Articles',
-Business: '/pages/Articles',
+HeadlineBusiness: '/pages/Articles',
+//Business page stops here
 FeaturedVideoGames: '/pages/Articles',
-VideoGames: '/pages/Articles',
+HeadlineVideoGames: '/pages/Articles',
+//Video games page stop here
 FeaturedEntertainment: '/pages/Articles',
-Entertainment: '/pages/Articles',
+HeadlineEntertainment: '/pages/Articles',
+//Entertainment page stopsm here
 FeaturedFashion: '/pages/Articles',
-Fashion: '/pages/Articles',
+HeadlineFashion: '/pages/Articles',
+//Fashion page stops here
 FeaturedEducation: '/pages/Articles',
-Education: '/pages/Articles',
+HeadlineEducation: '/pages/Articles',
+//Education page stops here
 FeaturedUN: '/pages/Articles',
-UN: '/pages/Articles',
+HeadlineUN: '/pages/Articles',
+//UN page stops here
 FeaturedTerrorism: '/pages/Articles',
-Terrorism: '/pages/Articles',
+HeadlineTerrorism: '/pages/Articles',
+//Terrorism page stops here
 FeaturedWorldEconomy: '/pages/Articles',
-WorldEconomy: '/pages/Articles',
+HeadlineWorldEconomy: '/pages/Articles',
+//World Economy
 FeaturedScandals: '/pages/Articles',
-Scandals: '/pages/Articles',
+HeadlineScandals: '/pages/Articles',
+//Scandals page stops here
 FeaturedMexico: '/pages/Articles',
-Mexico: '/pages/Articles',
+HeadlineMexico: '/pages/Articles',
+//Mexico page stops here
 FeaturedSouthAmerica: '/pages/Articles',
-SouthAmerica: '/pages/Articles',
+HeadlineSouthAmerica: '/pages/Articles',
+//South America page stops here
 FeaturedEurope: '/pages/Articles',
-Europe: '/pages/Articles',
+HeadlineEurope: '/pages/Articles',
+//Europe page stops here
 FeaturedAsia: '/pages/Articles',
-Asia: '/pages/Articles',
+HeadlineAsia: '/pages/Articles',
+//Asia page stops here
 FeaturedAfrica: '/pages/Articles',
-Africa: '/pages/Articles',
-FeaturedPride: '/pages/Articles'
+HeadlineAfrica: '/pages/Articles',
+// Africa page stos here
+FeaturedPride: '/pages/Articles',
+HeadlinePride: '/pages/Articles'
+//Pride page stps here
 };
