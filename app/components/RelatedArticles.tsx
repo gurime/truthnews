@@ -1,5 +1,5 @@
 'use client';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { getFirestore, getDocs, limit, query, collection } from 'firebase/firestore';
 import Link from 'next/link';
 import collectionNames from './collectionNames';
@@ -21,6 +21,7 @@ interface Article {
 const RelatedArticles: React.FC<RelatedArticlesProps> = () => {
   const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const uuid = useRef(uuidv4());
 
   const selectRandomArticles = (articles: Article[], number: number): Article[] => {
     const shuffled = [...articles];
@@ -80,7 +81,7 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = () => {
         </SkeletonTheme>
       ) : (
         relatedArticles.map((article) => (
-          <li key={article.id || uuidv4()}>
+          <li key={article.id || uuid.current}>
             <Link href={`/pages/Articles/${article.id}`}>
               <img src={article.coverimage} alt={article.title} />
               <span>{article.title.slice(0, 50)}...</span>
