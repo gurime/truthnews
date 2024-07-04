@@ -176,8 +176,8 @@ cols={50}
 placeholder='Type Your Message'
 required
 value={content}
-onChange={(e) => setContent(e.target.value)}
-autoFocus={autoFocus}></textarea>
+onChange={(e) => setContent(e.target.value)}>
+</textarea>
 
 <button
 className={isSignedIn ? "submitbtn" : "submitbtn disabled"}
