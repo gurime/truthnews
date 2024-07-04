@@ -295,9 +295,9 @@ const collectionNames =
 "Southern Africa",
 "Central Africa",
 // Africa page stops here
-"Featured Pride"
-"Headline Pride"
-"Opinion Pride"
+"Featured Pride",
+"Headline Pride",
+"Opinion Pride",
 //Pride page stops here
 ]; 
 
