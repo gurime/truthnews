@@ -114,13 +114,14 @@ const handleSearch = async (event?: FormSubmitEvent) => {
     setLoading(true);
     const results = await getArticle(searchTerm);
     setSearchResults(results);
-    setDisplayCount(5); // Reset to initial display count
-    setAllResultsDisplayed(false); // Reset all results displayed flag
+    setDisplayCount(5); // Only reset when performing a new search
+    setAllResultsDisplayed(results.length <= 5); // Set to true if all results fit in initial display
   } catch (error) {
     console.error('Error searching articles:', error);
   } finally {
     setLoading(false);
   }
+};
 };
 
 
@@ -192,11 +193,9 @@ onClick={(e) => {
     className="load-more-button"
     onClick={(e) => {
       e.stopPropagation();
-      const newDisplayCount = displayCount + 5;
+      const newDisplayCount = Math.min(displayCount + 5, searchResults.length);
       setDisplayCount(newDisplayCount);
-      if (newDisplayCount >= searchResults.length) {
-        setAllResultsDisplayed(true);
-      }
+      setAllResultsDisplayed(newDisplayCount >= searchResults.length);
     }}
   >
     Load more results
