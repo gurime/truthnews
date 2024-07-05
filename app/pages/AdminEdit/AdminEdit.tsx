@@ -480,6 +480,7 @@ onChange={(e) => setCatorgory(e.target.value)}
 required
 className='billingselect'
 >
+<option value="">select a topic</option>
 <option value="Technology">Technology</option>
 <option value="Politics">Politics</option>
 <option value="Opinion">Opinion</option>
@@ -503,6 +504,7 @@ className='billingselect'
 <option value="Europe">Europe</option>
 <option value="Asia">Asia</option>
 <option value="Africa">Africa</option>
+<option value="Pride">Pride</option>
 </select>
 </div>
 </div>

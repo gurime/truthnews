@@ -356,6 +356,7 @@ display: flex;
 
 .authpic {
   padding: 0 10px;
+  object-fit: contain !important;
 }
 
 .card-catogory {

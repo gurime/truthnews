@@ -97,12 +97,6 @@ const acceptedCollections = [
 'Video Music',
 'Interview Music',
 //Music page stops here
-'Featured Sports',
-'Headline Sports',
-'Opinion Sports',
-'Featured Sports',
-'Headline Sports',
-'Opinion Sports',
 "Featured Sports",
 "Headline Sports",
 "Opinion Sports",
@@ -202,7 +196,6 @@ const acceptedCollections = [
 "Humanitarian Efforts",
 "U.N. Agencies",
 "Refugee Assistance",
-"Women and Gender Equality",
 //U.N. page stops here
 'Featured Terrorism',
 'Headline Terrorism',
@@ -223,7 +216,6 @@ const acceptedCollections = [
 "Economic Growth",
 "Currency Exchange",
 "Economic Forecasts",
-"Sustainable Economic Practices",
 "Global Inflation",
 "Economic Sanctions",
 "Global Supply Chain",
@@ -235,7 +227,7 @@ const acceptedCollections = [
 "Corporate Scandals",
 "Financial Scandals",
 "Sports Scandals",
-"Scandals in Education",
+"Education Scandals",
 "Entertainment Scandals",
 "Religious Scandals",
 "Healthcare Scandals",
@@ -249,14 +241,13 @@ const acceptedCollections = [
 "Mexican Politics",
 "Mexican Economy",
 "Mexican Culture",
-"Tourism in Mexico",
 "Mexican Education",
 "Mexican Healthcare",
-"U.S.-Mexico Relations",
+"U.S. Mexico Relations",
 "Mexican Environment",
 "Mexican History",
 "Mexican Sports",
-"Social Issues in Mexico",
+"Social Issues",
 //Mexico page stops here
 'Featured South America',
 'Headline South America',
@@ -490,9 +481,6 @@ case 'Video Music':
 case 'Interview Music':
 router.push('/pages/Music');
 break;
-case 'Featured Sports':
-case 'Headline Sports':
-case 'Opinion Sports':
 case "Featured Sports":
 case "Headline Sports":
 case "Opinion Sports":
@@ -603,7 +591,6 @@ case "U.N. General Assembly":
 case "Humanitarian Efforts":
 case "U.N. Agencies":
 case "Refugee Assistance":
-case "Women and Gender Equality":
 router.push('/pages/UN');
 break;
 case 'Featured Terrorism':
@@ -626,7 +613,6 @@ case "International Trade":
 case "Economic Growth":
 case "Currency Exchange":
 case "Economic Forecasts":
-case "Sustainable Economic Practices":
 case "Global Inflation":
 case "Economic Sanctions":
 case "Global Supply Chain":
@@ -639,7 +625,7 @@ case "Political Scandals":
 case "Corporate Scandals":
 case "Financial Scandals":
 case "Sports Scandals":
-case "Scandals in Education":
+case "Education Scandals":
 case "Entertainment Scandals":
 case "Religious Scandals":
 case "Healthcare Scandals":
@@ -654,14 +640,13 @@ case 'Opinion Mexico':
 case "Mexican Politics":
 case "Mexican Economy":
 case "Mexican Culture":
-case "Tourism in Mexico":
 case "Mexican Education":
 case "Mexican Healthcare":
-case "U.S.-Mexico Relations":
+case "U.S. Mexico Relations":
 case "Mexican Environment":
 case "Mexican History":
 case "Mexican Sports":
-case "Social Issues in Mexico":
+case "Social Issues":
 router.push('/pages/Mexico');
 break;
 case 'Featured South America':
@@ -929,7 +914,6 @@ className='billingselect'>
 <option value="Humanitarian Efforts">Humanitarian Efforts</option>
 <option value="U.N. Agencies">U.N. Agencies</option>
 <option value="Refugee Assistance">Refugee Assistance</option>
-<option value="Women and Gender Equality">Women and Gender Equality</option>
 {/* UN page stops here */}
 <option value="Featured Terrorism">Featured Terrorism</option>
 <option value="Headline Terrorism">Headline Terrorism</option>
@@ -950,7 +934,6 @@ className='billingselect'>
 <option value="Economic Growth">Economic Growth</option>
 <option value="Currency Exchange">Currency Exchange</option>
 <option value="Economic Forecasts">Economic Forecasts</option>
-<option value="Sustainable Economic Practices">Sustainable Economic Practices</option>
 <option value="Global Inflation">Global Inflation</option>
 <option value="Economic Sanctions">Economic Sanctions</option>
 <option value="Global Supply Chain">Global Supply Chain</option>
@@ -962,7 +945,7 @@ className='billingselect'>
 <option value="Corporate Scandals">Corporate Scandals</option>
 <option value="Financial Scandals">Financial Scandals</option>
 <option value="Sports Scandals">Sports Scandals</option>
-<option value="Scandals in Education">Scandals in Education</option>
+<option value="Education Scandals">Education Scandals</option>
 <option value="Entertainment Scandals">Entertainment Scandals</option>
 <option value="Religious Scandals">Religious Scandals</option>
 <option value="Healthcare Scandals">Healthcare Scandals</option>
@@ -976,14 +959,13 @@ className='billingselect'>
 <option value="Mexican Politics">Mexican Politics</option>
 <option value="Mexican Economy">Mexican Economy</option>
 <option value="Mexican Culture">Mexican Culture</option>
-<option value="Tourism in Mexico">Tourism in Mexico</option>
 <option value="Mexican Education">Mexican Education</option>
 <option value="Mexican Healthcare">Mexican Healthcare</option>
-<option value="U.S.-Mexico Relations">U.S.-Mexico Relations</option>
+<option value="U.S. Mexico Relations">U.S.-Mexico Relations</option>
 <option value="Mexican Environment">Mexican Environment</option>
 <option value="Mexican History">Mexican History</option>
 <option value="Mexican Sports">Mexican Sports</option>
-<option value="Social Issues in Mexico">Social Issues in Mexico</option>
+<option value="Social Issues">Social Issues</option>
 {/* mexico page stops here */}
 <option value="Featured South America">Featured South America</option>
 <option value="Headline South America">Headline South America</option>
