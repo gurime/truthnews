@@ -107,18 +107,20 @@ handleSearch();
 };
   
 const handleSearch = async (event?: FormSubmitEvent) => {
-if (event) {
-event.preventDefault();
-}
-try {
-setLoading(true);
-const results = await getArticle(searchTerm);
-setSearchResults(results);
-} catch (error) {
-console.error('Error searching articles:', error);
-} finally {
-setLoading(false);
-}
+  if (event) {
+    event.preventDefault();
+  }
+  try {
+    setLoading(true);
+    const results = await getArticle(searchTerm);
+    setSearchResults(results);
+    setDisplayCount(5); // Reset to initial display count
+    setAllResultsDisplayed(false); // Reset all results displayed flag
+  } catch (error) {
+    console.error('Error searching articles:', error);
+  } finally {
+    setLoading(false);
+  }
 };
 
 
