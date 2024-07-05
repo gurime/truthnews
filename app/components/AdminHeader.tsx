@@ -74,7 +74,7 @@ console.error('Error logging out:', error);
 <Link href='/pages/Admin'>
 {adminnames.length === 2 && (
 <>
-<span className="sm-name" style={{padding:'0'}}>
+<span className="sm-name" style={{padding:'0', cursor:'pointer'}}>
 {adminnames[0]}  {adminnames[1]}
 </span>
 <button onClick={handleLogout}>Logout</button>
