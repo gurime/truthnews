@@ -72,11 +72,11 @@ id='2'/>
 
 </fieldset>
 <button> $20</button>
-<p style={{
+{/*<p style={{
 textAlign:'center',
 
 
-}}>Cancel Anytime</p>
+}}>Cancel Anytime</p>*/}
 </div>
 </div>
 </div>
