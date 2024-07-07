@@ -373,14 +373,24 @@ display: flex;
   width: 100%;
 }
 
+@media(max-width:1440px){
+  .hero-title {
+    font-size: 1.5rem;
+}
+
+}
+@media(max-width:500px){
+  .hero-title {
+    font-size: 1rem;
+}
+
+}
+
 @media(max-width:968px){
   .hero{
     flex-direction: column;
   }
 
-  .hero-title {
-    font-size: 1.5rem;
-}
 
 .authflex{
   padding: 0;
@@ -830,6 +840,7 @@ cursor: pointer;
 outline: none;
 padding: 20px;
 width: 100%;
+margin: 1rem 0 0 0;
 }
 
 .container-terms{
