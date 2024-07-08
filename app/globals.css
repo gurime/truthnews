@@ -910,6 +910,7 @@ margin: auto;
   .contribute-rightbox{
   padding-left: 3rem;  
   text-transform: capitalize;
+  max-width: 600px;
   }
   
   .contribute-rightbox h1{
@@ -938,6 +939,7 @@ margin: auto;
   display: flex;
   place-content: space-between;
   align-items: center;
+  line-height: 2;
   }
  
   .payment-title a{
