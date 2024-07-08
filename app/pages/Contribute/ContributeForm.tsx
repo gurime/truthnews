@@ -18,12 +18,11 @@ const [processing, setProcessing] = useState(false);
 const [paymentSuccess, setPaymentSuccess] = useState(false);
 
 const handleSubmit = useCallback(async (event: React.FormEvent) => {
-        event.preventDefault();
-    
-        if (!stripe || !elements) {
-            setError('Stripe has not been initialized');
-            return;
-        }
+event.preventDefault();
+if (!stripe || !elements) {
+setError('Stripe has not been initialized');
+return;
+}
     
         setProcessing(true);
         setError(null);
