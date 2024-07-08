@@ -8,7 +8,7 @@ import conimg from '../../images/it.png';
 import Image from 'next/image';
 import axios from 'axios';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 const CheckoutForm = () => {
 const stripe = useStripe();

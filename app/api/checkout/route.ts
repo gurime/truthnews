@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: '2024-06-20', // Ensure this is the correct API version
 });
 
