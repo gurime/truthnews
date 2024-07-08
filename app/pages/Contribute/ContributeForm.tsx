@@ -74,7 +74,7 @@ setProcessing(false);
 const handleChange = (event: { complete: boolean | ((prevState: boolean) => boolean); }) => {
 setIsCardComplete(event.complete);
 };
-return (
+return ( 
 <>
 <div className="contribute-box">
 <div className='contribute-leftbox'>
