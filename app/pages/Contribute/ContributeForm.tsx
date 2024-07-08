@@ -86,7 +86,22 @@ const [paymentSuccess, setPaymentSuccess] = useState(false);
                                 <p>🔒 Secure Transaction</p>
                             </div>
 
-                            <CardElement />
+                            <CardElement
+    options={{
+        style: {
+            base: {
+                fontSize: '16px',
+                color: '#424770',
+                '::placeholder': {
+                    color: '#aab7c4',
+                },
+            },
+            invalid: {
+                color: '#9e2146',
+            },
+        },
+    }}
+/>
                             <button type="submit" disabled={!stripe || processing}>
                                 {processing ? <BeatLoader color={"#ffffff"} loading={processing} size={10} /> : 'Pay $20'}
                             </button>  
