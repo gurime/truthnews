@@ -17,7 +17,7 @@ const [error, setError] = useState<string | null>(null);
 const [processing, setProcessing] = useState(false);
 const [paymentSuccess, setPaymentSuccess] = useState(false);
 
-    const handleSubmit = useCallback(async (event: React.FormEvent) => {
+const handleSubmit = useCallback(async (event: React.FormEvent) => {
         event.preventDefault();
     
         if (!stripe || !elements) {
