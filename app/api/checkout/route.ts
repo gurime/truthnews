@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(req: NextRequest) {
 try {
 const body = await req.json();
-const { amount } = body;
+const { amount, userId, orderId, productDescription } = body;
 
 // Ensure 'amount' is valid
 if (typeof amount !== 'number' || amount <= 0) {
@@ -20,6 +20,10 @@ currency: 'usd',
 automatic_payment_methods: {
 enabled: true,
 },
+metadata: {
+userId: userId || 'N/A',
+orderId: orderId || 'N/A',
+productDescription: productDescription || 'N/A',}
 });
 
 return NextResponse.json({ clientSecret: paymentIntent.client_secret });
