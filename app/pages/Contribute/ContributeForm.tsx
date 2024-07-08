@@ -16,6 +16,7 @@ const elements = useElements();
 const [error, setError] = useState<string | null>(null);
 const [processing, setProcessing] = useState(false);
 const [paymentSuccess, setPaymentSuccess] = useState(false);
+const [isCardComplete, setIsCardComplete] = useState(false);
 
 const handleSubmit = useCallback(async (event: React.FormEvent) => {
 event.preventDefault();
@@ -30,6 +31,7 @@ const cardElement = elements.getElement(CardElement);
 if (!cardElement) {
 setError('Card element not found');
 setProcessing(false);
+
 return;
 }
     
@@ -69,7 +71,9 @@ setProcessing(false);
 }
 }, [stripe, elements]);
     
-
+const handleChange = (event: { complete: boolean | ((prevState: boolean) => boolean); }) => {
+setIsCardComplete(event.complete);
+};
 return (
 <>
 <div className="contribute-box">
@@ -97,8 +101,9 @@ color: '#9e2146',
 },
 },
 }}
+onChange={handleChange }
 />
-<button type="submit" disabled={!stripe || processing}>
+<button type="submit" disabled={!stripe || processing || !isCardComplete}>
 {processing ? <BeatLoader color={"#ffffff"} loading={processing} size={10} /> : 'Pay $20'}
 </button>  
 <p style={{ textAlign: 'center' }} aria-live="assertive">
