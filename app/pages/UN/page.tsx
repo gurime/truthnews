@@ -5,6 +5,7 @@ import AdminHeader from '@/app/components/AdminHeader'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import { Metadata } from 'next'
 import FeaturedUN from './FeaturedUN'
+import HeadlineUN from './HeadlineUN'
 
 export const metadata: Metadata = {
     title: 'iTruth News United Nations - Latest Trends, Insights, and Analysis',
@@ -22,6 +23,20 @@ return (
 <SkeletonTheme baseColor="grey" highlightColor="#e6e6e6">
 
 <FeaturedUN/>
+<div style={{
+borderTop:'solid 1px red',
+textAlign:'center'
+}}>
+<h1>Headline News</h1>
+</div>
+<HeadlineUN/>
+<div style={{
+borderTop:'solid 1px blue',
+textAlign:'center'
+}}>
+<h1>Opinion News</h1>
+</div>
+
 </SkeletonTheme>
 <Footer/>
 </>
