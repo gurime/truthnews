@@ -105,7 +105,6 @@ throw error;
 
 export default function HeadlineDashboard() {
 const [IsAdmin, setIsAdmin] = useState<boolean>(false)
-const [isAdminUser, setIsAdminUser] = useState(false);
 
 const [fetchError, setFetchError] = useState<null | string>(null);
 const [loading, setLoading] = useState(true);
