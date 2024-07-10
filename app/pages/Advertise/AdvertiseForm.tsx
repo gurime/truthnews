@@ -1,145 +1,176 @@
-'use client'
-import React, { useCallback, useState } from 'react'
-import Image from 'next/image'
-import { loadStripe } from '@stripe/stripe-js'
-import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
-import axios from 'axios'
-import { BeatLoader } from 'react-spinners'
-
+'use client';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import { getFirestore, getDocs, limit, query, collection } from 'firebase/firestore';
+import Link from 'next/link';
+import collectionNames from '../../components/collectionNames';
 import { v4 as uuidv4 } from 'uuid';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import Image from 'next/image'
 
-
-// Assuming adimg is imported correctly
 import adimg from '../../images/adimg.jpeg'
-import { useRouter } from 'next/navigation'
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
+interface RelatedArticlesProps {
+  currentArticleId: string;
+}
 
-const PaymentForm: React.FC = () => {
-    const stripe = useStripe();
-    const elements = useElements();
-    const router = useRouter();
-    const [error, setError] = useState<string | null>(null);
-    const [processing, setProcessing] = useState(false);
-    const [paymentSuccess, setPaymentSuccess] = useState(false);
-  
-    const handleSubmit = useCallback(async (event: React.FormEvent) => {
-      event.preventDefault();
-      if (!stripe || !elements) {
-        setError('Stripe has not been initialized');
-        return;
-      }
-      
-      setProcessing(true);
-      setError(null);
-      const cardElement = elements.getElement(CardElement);
-      if (!cardElement) {
-        setError('Card element not found');
-        setProcessing(false);
-        return;
-      }
-      
+interface Article {
+  id: string;
+  title: string;
+  catorgory: string;
+  coverimage: string;
+}
+
+
+export default function AdvertiseForm() {
+  const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const uuid = useRef(uuidv4());
+
+  const selectRandomArticles = (articles: Article[], number: number): Article[] => {
+    const length = Math.min(articles.length, number);
+    const shuffled = [...articles];
+    
+    for (let i = 0; i < length; i++) {
+      const j = i + Math.floor(Math.random() * (shuffled.length - i));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
+    return shuffled.slice(0, length);
+  };
+
+  useLayoutEffect(() => {
+    const fetchRelatedArticles = async () => {
+      const db = getFirestore();
+      let articles: Article[] = [];
+
       try {
-        const { data } = await axios.post('/api/adcheckout/', { amount: 2000 }, {
-          headers: { 'Content-Type': 'application/json' }
+        const queryPromises = collectionNames.map(collectionName => {
+          const q = query(collection(db, collectionName), limit(3));
+          return getDocs(q);
         });
-      
-        const { clientSecret } = data;
-        if (!clientSecret) {
-          throw new Error('No client secret received from the server');
-        }
-      
-        const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: { card: cardElement }
+
+        const querySnapshots = await Promise.all(queryPromises);
+        querySnapshots.forEach(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            articles.push({
+              id: doc.id,
+              title: doc.data().title as string,
+              catorgory: doc.data().catorgory as string,
+              coverimage: doc.data().coverimage as string
+            });
+          });
         });
-      
-        if (stripeError) {
-          setError(stripeError.message || 'An error occurred during payment processing');
-        } else if (paymentIntent?.status === 'succeeded') {
-          setPaymentSuccess(true);
-          
-          // Generate a unique token
-          const accessToken = uuidv4();
-          
-          // Store the token in localStorage with an expiration time
-          const expirationTime = Date.now() + 60 * 60 * 1000; // 1 hour from now
-          localStorage.setItem('articleSubmissionToken', JSON.stringify({
-            token: accessToken,
-            expiration: expirationTime
-          }));
-          
-          // Redirect to the article submission page with the token
-          router.push(`/pages/AdvertiseAdmin?token=${accessToken}`);
-        } else {
-          setError(`Unexpected payment intent status: ${paymentIntent?.status}`);
-        }
+
+        setRelatedArticles(selectRandomArticles(articles, 3));
       } catch (error) {
-        console.error('Payment error:', error);
-        setError(error instanceof Error ? error.message : 'An unexpected error occurred');
+        console.error("Error fetching related articles:", error);
       } finally {
-        setProcessing(false);
+        setIsLoading(false);
       }
-    }, [stripe, elements, router]);
-const handleChange = (event: { complete: boolean }) => {
-setIsCardComplete(event.complete)
-}
+    };
 
-  return (
-<div className="advertise-form">
-<div className="form-header">
-<h3>Sponsored Work</h3>
+    fetchRelatedArticles();
+  }, []);
+
+  const styles = {
+    container: {
+      padding: '30px',
+      backgroundColor: '#f9f9f9',
+      maxWidth: '1200px',
+      margin: '0 auto',
+      borderRadius: '8px',
+      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    },
+
+    adbox: {
+      marginBottom: '30px',
+    },
+ 
+    introText: {
+      marginBottom: '30px',
+      fontSize: '16px',
+      lineHeight: '1.6',
+    },
+    relatedArticles: {
+      marginTop: '30px',
+    },
+    articleList: {
+      listStyle: 'none',
+      padding: 0,
+      margin: 0,
+    },
+    articleItem: {
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: '15px',
+    },
+    articleImage: {
+      width: '100px',
+      height: '60px',
+      marginRight: '15px',
+      objectFit: 'cover',
+    },
+    skeletonItem: {
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: '15px',
+    },
+    skeletonText: {
+      marginTop: '10px',
+    },
+  };
+return (
+<>
+<div className="advertise-form" style={styles.container}>
+  
+
+<div className="adbox" style={styles.adbox}>
+<Image src={adimg} alt="Advertisement" layout="responsive" width={1200} height={600} />
 </div>
-
-<div className="adbox">
-<Image src={adimg} alt="Advertisement" />
-</div>
-
-<div className="form-subheader"></div>
-      
-<p className="price">$20 for 1 week</p>
-<p className="description">
-Get your work to the front of the page.<br/>
-Itruth News will feature your work on the front page of our<br/>
-website for a fee.
+<div className="content" style={styles.content}>
+<div style={styles.introText}>
+<p>
+iTruth News aims to provide comprehensive coverage of key issues and events. Our platform delivers reliable, non-partisan, and objective reporting, focusing on the intricate dynamics of politics, business, and international affairs. In an environment saturated with various agendas, iTruth News stands out by offering a clear, unbiased perspective.
 </p>
-
-<form className='formbox' onSubmit={handleSubmit}>
-<div className="payment-title">
-<p>Payment Method</p>
-<p>🔒Secure Transaction</p>
+<p>
+Our mission is to connect influential figures, define critical issues, and shape the discourse among decision-makers. Stay informed with iTruth News for the latest insights and developments that matter to those who shape policy and public opinion.
+</p>
+<p>
+<strong>iTruth News is the perfect choice for your advertising message. For further information, contact Phillip Bailey at 555-555-5555.</strong>
+</p>
 </div>
 
-<CardElement
-options={{
-style: {
-base: {
-fontSize: '16px',
-color: '#424770',
-'::placeholder': { color: '#aab7c4' },
-},
-invalid: { color: '#9e2146' },
-},
-}}
-onChange={handleChange}
-/>
-<button type="submit" disabled={!stripe || processing || !setIsCardComplete}>
-{processing ? <BeatLoader color={"#ffffff"} loading={processing} size={10} /> : 'Pay $10'}
-</button>  
-{paymentSuccess && <p className="success-message">Thank you for your donation!</p>}
-{error && <div className="error-message" role="alert">{error}</div>}
-</form>
+<div className="related-articles" style={styles.relatedArticles}>
+<h3>Trending Articles</h3>
+<ul style={styles.articleList}>
+{isLoading ? (
+<SkeletonTheme baseColor="#f0f0f0" highlightColor="#e0e0e0">
+{Array.from({ length: 3 }).map((_, index) => (
+<li key={index} className="article-skeleton" style={styles.skeletonItem}>
+<Skeleton height={100} width={100} />
+<Skeleton height={20} width={200} style={styles.skeletonText} />
+</li>
+))}
+</SkeletonTheme>
+) : (
+relatedArticles.map((article) => (
+<li key={article.id || uuid.current} style={styles.articleItem}>
+<Link href={`/pages/Articles/${article.id}`}>
+           
+<img src={article.coverimage} alt={article.title} style={styles.articleImage} />
+<span>{article.title.slice(0, 50)}...</span>
+             
+</Link>
+</li>
+))
+)}
+</ul>
 </div>
-  )
-}
-
-const AdvertiseForm = () => (
-  <Elements stripe={stripePromise}>
-    <PaymentForm />
-  </Elements>
+</div>
+</div>
+</>
 )
-
-export default AdvertiseForm
-
-function setIsCardComplete(complete: boolean) {
-    throw new Error('Function not implemented.')
 }
+
+
