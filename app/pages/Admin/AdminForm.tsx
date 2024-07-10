@@ -605,7 +605,7 @@ case "International Terrorism":
 case "Cyberterrorism":
 router.push('/pages/Terrorism');
 break;
-case 'Featured Economy':
+case 'Featured World Economy':
 case 'Headline World Economy':
 case 'Opinion World Economy':
 case "Global Market Trends":
