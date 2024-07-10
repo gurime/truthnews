@@ -917,7 +917,27 @@ margin: auto;
   font-size: 3rem;
   line-height: 1.3;
   color: grey;    
-  }
+  } 
+  
+  .amount-selector {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.amount-selector button {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.amount-selector button.selected {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
 
   @media(max-width:968px){
     .contribute-box{
