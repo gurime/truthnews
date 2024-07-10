@@ -8,6 +8,7 @@ import Skeleton from 'react-loading-skeleton'
 import { IoChatboxSharp } from 'react-icons/io5'
 import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa'
 import { v4 as uuidv4 } from 'uuid'; // If you need to generate unique IDs
+import AdminEdit from '../AdminEdit/AdminEdit'
 
 
 
@@ -104,17 +105,22 @@ throw error;
 
 
 export default function OpinionDashboard() {
-const [IsAdmin, setIsAdmin] = useState<boolean>(false)
-const [fetchError, setFetchError] = useState<null | string>(null);
-const [loading, setLoading] = useState(true);
-const [useArticle, setUseArticle] = useState<any[]>([]);
-const [isSignedIn, setIsSignedIn] = useState(false);
-const [comments, setComments] = useState<any[]>([]);
-const [votes, setVotes] = useState<any[]>([]);
-const [downvotes, setdownVotes] = useState<any[]>([]);
-const [errorMessage, setErrorMessage] = useState('');
-const [commentsCount, setCommentsCount] = useState(0);
-const commentsRef = useRef<HTMLDivElement>(null);
+  const [IsAdmin, setIsAdmin] = useState<boolean>(false)
+
+  const [fetchError, setFetchError] = useState<null | string>(null);
+  const [loading, setLoading] = useState(true);
+  const [useArticle, setUseArticle] = useState<any[]>([]);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [comments, setComments] = useState<any[]>([]);
+  const [votes, setVotes] = useState<any[]>([]);
+  const [downvotes, setdownVotes] = useState<any[]>([]);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingComment, setEditingComment] = useState<any>(null);
+  const [commentsCount, setCommentsCount] = useState(0);
+  const [unauthorizedModalOpen, setUnauthorizedModalOpen ] = useState<boolean>(false)
+  const commentsRef = useRef<HTMLDivElement>(null);
+    
   
 const fetchComments = async (articleId: string) => {
 try {
@@ -155,141 +161,194 @@ return false; // Return false in case of an error
 }
   
 useEffect(() => {
-const fetchData = async () => {
-try {
-const articles = await getArticles();
-const currentUser = getAuth().currentUser;
-let combinedListings;
-if (currentUser) {
-const userArticles = articles.filter((article) => article.userId === currentUser.uid);
-const otherArticles = articles.filter((article) => article.userId !== currentUser.uid);
-combinedListings = userArticles.concat(otherArticles);
-} else {
-combinedListings = articles;
-}
+  const fetchData = async () => {
+    try {
+      const articles = await getArticles();
+      const currentUser = getAuth().currentUser;
+      let combinedListings;
+      if (currentUser) {
+        const userArticles = articles.filter((article) => article.userId === currentUser.uid);
+        const otherArticles = articles.filter((article) => article.userId !== currentUser.uid);
+        combinedListings = userArticles.concat(otherArticles);
+      } else {
+        combinedListings = articles;
+      }
       
-// Limit the combined listings to 6 articles
-const limitedArticles = combinedListings.slice(0, 6);
-setUseArticle(limitedArticles);
-} catch (error) {
-setFetchError('Error fetching data. Please try again later.');
-} finally {
-setLoading(false);
-}
-};
+      // Limit the combined listings to 6 articles
+      const limitedArticles = combinedListings.slice(0, 6);
+      setUseArticle(limitedArticles);
+    } catch (error) {
+      setFetchError('Error fetching data. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
   
-const unsubscribe = onAuthStateChanged(getAuth(), async (user) => {
-if (user) {
-const isUserAdmin = checkIfUserIsAdmin(user); // Implement this function based on your authentication system
-setIsAdmin(await isUserAdmin);
-} else {
-setIsAdmin(false);
-}
-const checkAuthState = (user: any) => {
-setIsSignedIn(!!user);
-};
-});
-fetchData();
-return () => {
-unsubscribe();
-};
-}, []); 
+  const unsubscribe = onAuthStateChanged(getAuth(), async (user) => {
+    if (user) {
+      const isUserAdmin = await checkIfUserIsAdmin(user);
+      setIsAdmin(isUserAdmin);
+    } else {
+      setIsAdmin(false);
+    }
+    setIsSignedIn(!!user);
+  });
+
+  fetchData();
+  return () => {
+    unsubscribe();
+  };
+}, []);
 
 
   
+const editPost = async (postId: string, userId: string) => {
+  const listingToEdit = useArticle.find((listing) => listing.id === postId);
+  if (listingToEdit) {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      if (currentUser.uid === listingToEdit.userId) {
+        setEditingComment(listingToEdit);
+        setEditModalOpen(true);
+      } else {
+        setUnauthorizedModalOpen(true);
+      }
+    } else {
+      setUnauthorizedModalOpen(true);
+    }
+  } else {
+    setErrorMessage('Listing not found');
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 3000);
+  }
+};
+
+
+// EditPost stops here
+
+const handleEditModalSave = async (postId: string, editedContent: string) => {
+  try {
+    updateComment(postId, editedContent);
+
+    setUseArticle((prevArticles) =>
+      prevArticles.map((article) =>
+        article.id === postId ? { ...article, content: editedContent } : article
+      )
+    );
+
+    setEditModalOpen(false); // Close the modal after updating
+  } catch (error) {
+    setErrorMessage('Error saving Listing. Please try again.');
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 3000);
+  }
+};
+
 return (
-<>
+
 <>
 <div className='grid-container'>
-{loading ? (
-<>
-{Array.from({ length: 3 }, (_, index) => (
-<div key={index} className="card">
-<Skeleton height={200} />
-<Skeleton height={30} style={{ marginTop: '10px' }} />
-<div className="authflex">
-<Skeleton height={20} width={100} style={{ marginTop: '10px' }} />
-<div className="authpic-block">
-<Skeleton height={20} width={150} style={{ marginTop: '10px' }} />
-<Skeleton
-height={40}
-width={40}
-style={{ marginTop: '10px', borderRadius: '50%' }}/>
-</div>
-</div>
-<Skeleton height={60} style={{ marginTop: '10px' }} />
-<Skeleton height={40} width={120} style={{ marginTop: '10px' }} />
-<Skeleton height={20} width={100} style={{ marginTop:'10px' }} />
-</div>
-))}
-</>
-) : fetchError ? (
-<p>Error: {fetchError}</p>
-) : (
-useArticle.map((post) => (
-<React.Fragment key={post.id || uuidv4()}>
-<div className="card">
-<img src={post.coverimage} alt="" />
-<h2 className="card-title">{post.title}</h2>
-<div className="authflex">
-<p>{post.catorgory}</p>
-<div className="authpic-block">
-<h3 className="card-catogory sm-text">{post.owner}</h3>
-<img
-style={{ width: '40px', height: '40px' }}
-className="authpic"
-src={post.authpic}
-alt=""/>
-</div>
-</div>
-<div>
-<p className="card-content">{post.content && post.content.slice(0, 200)}...</p>
-</div>
-<div style={{
-display:'flex',
-alignItems:'center',
-justifyContent:'space-between'
-}}>
-<Link href={`/pages/Articles/${post.id}`} className="hero-btn">
-Read More
-</Link>
-<p className='sm-text'>
-{post.timestamp &&
-`${post.timestamp
-.toDate()
-.toLocaleDateString('en-US', {
-month: 'long',
-day: 'numeric',
-year: 'numeric',
-})}, ${post.timestamp
-.toDate()
-.toLocaleTimeString('en-US', {
-hour: 'numeric',
-minute: 'numeric',
-})}`}
-</p>
-</div>
-<div style={{
-display:'flex',
-alignItems:'center',
-justifyContent:'space-evenly'
-}}>
-  <div><IoChatboxSharp />
-<span style={{padding:'0 5px'}}>{post.commentsCount}</span></div>
-
-<div><FaThumbsUp/>
-<span style={{ padding: '0 5px' }}>{post.voteCount}</span></div>
-<div><FaThumbsDown/>
-<span style={{ padding: '0 5px' }}>{post.downCount}</span></div>
-
-</div>   
-</div>
-</React.Fragment>
-))
-)}
-</div>
-</>
+      {loading ? (
+        <>
+          {Array.from({ length: 3 }, (_, index) => (
+            <div key={index} className='card'>
+              <Skeleton height={200} />
+              <Skeleton height={30} style={{ marginTop: '10px' }} />
+              <div className='authflex'>
+                <Skeleton height={20} width={100} style={{ marginTop: '10px' }} />
+                <div className='authpic-block'>
+                  <Skeleton height={20} width={150} style={{ marginTop: '10px' }} />
+                  <Skeleton height={40} width={40} style={{ marginTop: '10px', borderRadius: '50%' }} />
+                </div>
+              </div>
+              <Skeleton height={60} style={{ marginTop: '10px' }} />
+              <Skeleton height={40} width={120} style={{ marginTop: '10px' }} />
+              <Skeleton height={20} width={100} style={{ marginTop: '10px' }} />
+            </div>
+          ))}
+        </>
+      ) : fetchError ? (
+        <p>Error: {fetchError}</p>
+      ) : (
+        useArticle.map((post) => (
+          <React.Fragment key={post.id || uuidv4()}>
+            <div className='card'>
+              <img src={post.coverimage} alt='' />
+              <h2 className='card-title'>{post.title}</h2>
+              <div className='authflex'>
+                <p>{post.catorgory}</p>
+                <div className='authpic-block'>
+                  <h3 className='card-catogory sm-text'>{post.owner}</h3>
+                  <img
+                    style={{ width: '40px', height: '40px' }}
+                    className='authpic'
+                    src={post.authpic}
+                    alt=''
+                  />
+                </div>
+              </div>
+              <div>
+                <p className='card-content'>{post.content && post.content.slice(0, 200)}...</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Link href={`/pages/Articles/${post.id}`} className='hero-btn'>
+                  Read More
+                </Link>
+                <p className='sm-text'>
+                  {post.timestamp &&
+                    `${post.timestamp.toDate().toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}, ${post.timestamp.toDate().toLocaleTimeString('en-US', {
+                      hour: 'numeric',
+                      minute: 'numeric',
+                    })}`}
+                </p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+                <div>
+                  <IoChatboxSharp />
+                  <span style={{ padding: '0 5px' }}>{post.commentsCount}</span>
+                </div>
+                <div>
+                  <FaThumbsUp />
+                  <span style={{ padding: '0 5px' }}>{post.voteCount}</span>
+                </div>
+                <div>
+                  <FaThumbsDown />
+                  <span style={{ padding: '0 5px' }}>{post.downCount}</span>
+                </div>
+                
+              </div>
+              {IsAdmin && (
+        <div className='edit-delBlock'>
+          <button
+            className='edit-btn'
+            onClick={(e) => {
+              e.preventDefault();
+              editPost(post.id, post.userId);
+            }}
+            type='button'
+          >
+            Edit
+          </button>
+        </div>
+      )}
+            </div>
+          </React.Fragment>
+        ))
+      )}
+    </div>
+    {editModalOpen && (<AdminEdit comment={editingComment} onSave={handleEditModalSave} onCancel={() => setEditModalOpen(false)}/>)}
 
 </>
 )
 }
+function updateComment(postId: string, editedContent: string) {
+  throw new Error('Function not implemented.')
+}
+

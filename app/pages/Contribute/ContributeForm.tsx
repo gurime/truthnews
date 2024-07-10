@@ -37,7 +37,7 @@ return;
     
 try {
 const { data } = await axios.post('/api/checkout/', {
-amount: 2000  
+amount: 1000  
 }, {
 headers: {
 'Content-Type': 'application/json',

@@ -1006,6 +1006,16 @@ margin: auto;
   /* about css */
   
   /* advertise css */
+  .advertise-form{
+    display: grid;
+    place-items: center;
+  }
+
+  .form-subheader{
+    border-bottom: solid 1px;
+    padding: 1rem;
+    width: 100%;
+  }
   .adbox{
   margin: auto;
   width: 100%;
