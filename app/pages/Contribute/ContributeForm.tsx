@@ -6,7 +6,7 @@ import { BeatLoader } from 'react-spinners';
 import { loadStripe } from '@stripe/stripe-js';
 import Image from 'next/image';
 import axios from 'axios';
-import adimg from '/images/it.png'
+import adimg from '../images/it.png'
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 const CheckoutForm = () => {
