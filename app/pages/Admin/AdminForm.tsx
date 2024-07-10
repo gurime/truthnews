@@ -305,6 +305,12 @@ const acceptedCollections = [
 "Southern Africa",
 "Central Africa",
 //Africa page stops here
+ "Featured Food",
+ "Headline Food",
+//Food page stops here
+"Featured Cars",
+ "Headline Cars",
+//Cars page stops here
 "Featured Pride",
 "Headline Pride",
 // Pride page stops here
@@ -708,7 +714,14 @@ case "Southern Africa":
 case "Central Africa":
 router.push('/pages/Africa');
 break;
-
+case "Featured Food":
+case "Headline Food":
+router.push('/pages/Food');
+break;
+case "Featured Cars":
+case "Headline Cars":
+router.push('/pages/Cars');
+break;
 case "Featured Pride":
 case "Headline Pride":
 router.push('/pages/Pride');
@@ -1021,6 +1034,12 @@ className='billingselect'>
 <option value="Southern Africa">Southern Africa</option>
 <option value="Central Africa">Central Africa</option>
 {/* africa page stops here */}
+<option value="Featured Food">Featured Food</option>
+<option value="Headline Food">Headline Food</option>
+{/* Food page stops here */}
+<option value="Featured Cars">Featured Cars</option>
+<option value="Headline Cars">Headline Cars</option>
+{/* Food page stops here */}
 <option value="Featured Pride">Featured Pride</option>
 <option value="Headline Pride">Headline Pride</option>
 {/* Pride page stops here */}

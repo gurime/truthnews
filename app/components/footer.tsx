@@ -50,9 +50,9 @@ tabIndex={0}/>
 
 <li><Link href='#!'>Company News</Link></li>
 
-<li><Link href='/pages/About'>About iTruth News</Link></li>
+<li><Link href='#!'>About iTruth News</Link></li>
 
-<li><Link href='/pages/Investor'>Investor Relations </Link></li>
+<li><Link href='#!'>Investor Relations </Link></li>
 
 <li><Link href='/pages/Advertise' >Advertise</Link></li>
 
@@ -118,7 +118,7 @@ tabIndex={0}/>
 
 <li><Link  href='/pages/Cars'>Cars & Trucks</Link></li>
 
-<li><Link  href='/pages/Home'>House & Home </Link></li>
+<li><Link  href='/pages/House'>House & Home </Link></li>
 
 <li><Link  href='/pages/Pets'> Pets & Tips </Link></li>
 
@@ -126,7 +126,7 @@ tabIndex={0}/>
 
 <li><Link  href='/pages/Family'>Family & Friends</Link></li>
 
-<li><Link href='/pages/Religion'>Faith & Religion</Link></li>
+<li><Link href='/pages/Faith'>Faith & Religion</Link></li>
 
 <li><Link href='/pages/Books'>Books & Literature</Link></li>
 
