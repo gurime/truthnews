@@ -82,11 +82,15 @@ export default function AdvertiseForm() {
       borderRadius: '8px',
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     },
-
+  
     adbox: {
       marginBottom: '30px',
     },
- 
+   
+    content: {
+      padding: '20px', // Add styles for the content if needed
+    },
+  
     introText: {
       marginBottom: '30px',
       fontSize: '16px',
@@ -109,7 +113,7 @@ export default function AdvertiseForm() {
       width: '100px',
       height: '60px',
       marginRight: '15px',
-      objectFit: 'cover',
+      objectFit: 'cover' as 'cover', 
     },
     skeletonItem: {
       display: 'flex',
@@ -120,6 +124,7 @@ export default function AdvertiseForm() {
       marginTop: '10px',
     },
   };
+  
 return (
 <>
 <div className="advertise-form" style={styles.container}>
