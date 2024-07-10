@@ -6,7 +6,7 @@ import { BeatLoader } from 'react-spinners';
 import { loadStripe } from '@stripe/stripe-js';
 import Image from 'next/image';
 import axios from 'axios';
-
+import adimg from '/images/it.png'
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 const CheckoutForm = () => {
@@ -78,7 +78,7 @@ const CheckoutForm = () => {
     <>
       <div className="contribute-box">
         <div className='contribute-leftbox'>
-          <Image src="/images/it.png" alt="iTruth News" width={200} height={100} />
+          <Image src={adimg} alt="iTruth News" width={200} height={100} />
           <form onSubmit={handleSubmit}>
             <div className="formbox">
               <div className="payment-title">
