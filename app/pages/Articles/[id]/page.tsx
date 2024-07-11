@@ -50,11 +50,7 @@ ${lastUpdatedDate.toLocaleString('en-US', { timeZone: 'America/New_York', hour: 
 
 return (
 <>
-<Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0757101243908749"
-        crossOrigin="anonymous"
-      />
+
 <AdminHeader />
 <Navbar />
 <div className='mass-container'>
