@@ -93,10 +93,7 @@ color:'#fff'
 <div style={{
     padding:'2rem'
 }}>At iTruth News, we believe that fiercely independent journalism shapes a fairer world. Without the influence of a billionaire owner, we report rigorously on world events, free from manipulation or external pressures.
-
-Our live blog is a prime example of this commitment, providing minute-by-minute updates on unfolding stories. For over two decades, we've covered significant political events, conflicts, natural disasters, sports matches, and much more.
-
-Millions of readers have turned to our live blogs because we keep our journalism open and free for everyone. Trustworthy information is essential for understanding the people, power, and politics shaping our world.
+Trustworthy information is essential for understanding the people, power, and politics shaping our world.
 
 However, to continue this vital work, we rely on the generosity of readers who can support us financially. <b>Please consider a one-time donation to support our vital work. Thank you.</b></div>
 
