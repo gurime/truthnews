@@ -83,19 +83,11 @@ return (
 border: "solid 1px",
 
 }}>
-<h1 style={{
-borderBottom:'solid 1px',
-padding:'0 1rem',
-background:'#007bff',
-color:'#fff'
-}}>Support iTruth News</h1>
+<h1 className='articlecontribute-h1' >Support iTruth News</h1>
 
 <div style={{
     padding:'2rem'
-}}>At iTruth News, we believe that fiercely independent journalism shapes a fairer world. Without the influence of a billionaire owner, we report rigorously on world events, free from manipulation or external pressures.
-Trustworthy information is essential for understanding the people, power, and politics shaping our world.
-
-However, to continue this vital work, we rely on the generosity of readers who can support us financially. <b>Please consider a one-time donation to support our vital work. Thank you.</b></div>
+}}>At iTruth News, we believe that fiercely independent journalism shapes a fairer world. Without the influence of a billionaire owner, we report rigorously on world events, free from manipulation or external pressures. Trustworthy information is essential for understanding the people, power, and politics shaping our world. However, to continue this vital work, we rely on the generosity of readers who can support us financially. <b>Please consider a one-time donation to support our vital work. Thank you.</b></div>
 
 
 <div className="contribute-box">

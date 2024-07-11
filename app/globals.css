@@ -955,6 +955,24 @@ margin: auto;
   .amount-selector{
     flex-direction: column;
   }
+
+  .articlecontribute-h1{
+    font-size: 24px;
+  }
+  }
+
+  @media(max-width:400px){
+    .articlecontribute-h1{
+      font-size: 18px;
+    }
+  }
+
+  .articlecontribute-h1{
+    border-bottom: 1px solid;
+    padding: 0px 2rem;
+    background: rgb(0, 123, 255);
+    color: rgb(255, 255, 255);
+    margin: 0;
   }
   
   

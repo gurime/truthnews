@@ -78,11 +78,11 @@ return (
 <p>{post.content}</p>
 
 <ArticleContribute articleId={articleId}/>
-<div className="advertisement">AD</div>
 <p style={{ whiteSpace: 'pre-line' }}>{post.bodycontent}</p>
-<div className="advertisement">AD</div>
 <p>{post.endcontent}</p>
 </div>
+<div className="advertisement">AD</div>
+
 <hr />
 <h2 style={{ textAlign: 'center' }}>Cast Your Vote</h2>
 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -97,7 +97,6 @@ return (
 <div className="sidebar">
 <RelatedArticles currentArticleId={articleId}  />
 <Newsletter articleId={articleId}/>
-<div className="advertisement">AD</div>
 </div>
 </div>
 <Footer />
