@@ -10,6 +10,7 @@ import VoteComponent from '@/app/components/RateButton';
 import Newsletter from '@/app/components/NewsLetter';
 import RelatedArticles from '@/app/components/RelatedArticles';
 import Script from 'next/script';
+import ArticleContribute from '@/app/components/ArticleContribute';
 
 
 
@@ -75,6 +76,8 @@ return (
 <div className="body-content">
 <div className="advertisement">AD</div>
 <p>{post.content}</p>
+
+<ArticleContribute articleId={articleId}/>
 <div className="advertisement">AD</div>
 <p style={{ whiteSpace: 'pre-line' }}>{post.bodycontent}</p>
 <div className="advertisement">AD</div>

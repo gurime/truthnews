@@ -131,7 +131,7 @@ onChange={handleChange}/>
 </button>  
 
 <p style={{ textAlign: 'center' }} aria-live="assertive">
-{paymentSuccess ? 'Thank you for your donation!' : ''}
+{paymentSuccess ? 'Thank you for your Support!' : ''}
 </p> 
 
 <div role="alert" aria-live="assertive">

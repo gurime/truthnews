@@ -951,6 +951,10 @@ margin: auto;
     .payment-title p{
     font-size: 11px;
   }
+
+  .amount-selector{
+    flex-direction: column;
+  }
   }
   
   
@@ -989,6 +993,8 @@ margin: auto;
   place-items: center;
   width: 100%;
   }
+
+
   /* contribute css */
   
   /* about css */
