@@ -6,9 +6,8 @@ import collectionNames from '../../components/collectionNames';
 import { v4 as uuidv4 } from 'uuid';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import Image from 'next/image'
 
-import adimg from '../../images/adimg.jpeg'
+
 
 interface RelatedArticlesProps {
   currentArticleId: string;
@@ -130,9 +129,7 @@ return (
 <div className="advertise-form" style={styles.container}>
   
 
-<div className="adbox" style={styles.adbox}>
-<Image src={adimg} alt="Advertisement" layout="responsive" width={1200} height={600} />
-</div>
+
 <div className="content" style={styles.content}>
 <div style={styles.introText}>
 <p>
