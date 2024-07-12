@@ -11,6 +11,7 @@ import Newsletter from '@/app/components/NewsLetter';
 import RelatedArticles from '@/app/components/RelatedArticles';
 import Script from 'next/script';
 import ArticleContribute from '@/app/components/ArticleContribute';
+import AdComponent from '@/app/components/AdComponent';
 
 
 
@@ -51,7 +52,11 @@ ${lastUpdatedDate.toLocaleString('en-US', { timeZone: 'America/New_York', hour: 
 
 return (
 <>
-
+<Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0757101243908749"
+        crossOrigin="anonymous"
+      />
 <AdminHeader />
 <Navbar />
 <div className='mass-container'>
@@ -74,7 +79,10 @@ return (
 </div>
 <p className="flexdate">{formattedDate}</p>
 <div className="body-content">
-<div className="advertisement">AD</div>
+<div className="advertisement">
+<AdComponent articleId={articleId} />
+</div>
+
 <p>{post.content}</p>
 
 <ArticleContribute articleId={articleId}/>
