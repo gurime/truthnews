@@ -89,7 +89,9 @@ return (
 <p style={{ whiteSpace: 'pre-line' }}>{post.bodycontent}</p>
 <p>{post.endcontent}</p>
 </div>
-<div className="advertisement">AD</div>
+<div className="advertisement">
+<AdComponent articleId={articleId} />
+</div>
 
 <hr />
 <h2 style={{ textAlign: 'center' }}>Cast Your Vote</h2>
