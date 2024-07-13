@@ -175,8 +175,7 @@ name="selectedCollection"
 value={selectedCollection}
 onChange={(e) => setSelectedCollection(e.target.value)}
 required
-className='billingselect'
->
+className='billingselect'>
 <option value="Featured Dashboard">Featured Dashboard</option>
 <option value="Headline Dashboard">Headline Dashboard</option>
 <option value="Opinion Dashboard">Opinion Dashboard</option>
@@ -212,10 +211,8 @@ className='billingselect'
 <option value="Machine Learning Technology">Machine Learning Technology</option>
 <option value="Emerging Technology">Emerging Technology</option>
 <option value="Consumer Technology">Consumer Technology</option>
-<option value="Green Technology">Green Technology</option>
 <option value="Enterprise Technology">Enterprise Technology</option>
 <option value="Blockchain Technology">Blockchain Technology</option>
-<option value="Health Technology">Health Technology</option>
 <option value="Space Technology">Space Technology</option>
 {/* technology page stops here */}
 <option value="Featured Politics">Featured Politics</option>
@@ -322,19 +319,13 @@ className='billingselect'
 <option value="Featured Fashion">Featured Fashion</option>
 <option value="Headline Fashion">Headline Fashion</option>
 <option value="Opinion Fashion">Opinion Fashion</option>
-<option value="Fashion Tips">Fashion Tips</option>
 <option value="Seasonal Trends">Seasonal Trends</option>
 <option value="Celebrity Styles">Celebrity Styles</option>
 <option value="Fashion Events">Fashion Events</option>
 <option value="Fashion Reviews">Fashion Reviews</option>
 <option value="Fashion Industry News">Fashion Industry News</option>
 <option value="Fashion Interviews">Fashion Interviews</option>
-<option value="Fashion Guides">Fashion Guides</option>
-<option value="Fashion History">Fashion History</option>
 <option value="Fashion Technology">Fashion Technology</option>
-<option value="Fashion Sustainability">Fashion Sustainability</option>
-<option value="Fashion Accessories">Fashion Accessories</option>
-<option value="Fashion Trends Forecast">Fashion Trends Forecast</option>
 {/* Fashion page stops here */}
 <option value="Featured Education">Featured Education</option>
 <option value="Headline Education">Headline Education</option>
@@ -355,7 +346,6 @@ className='billingselect'
 <option value="Humanitarian Efforts">Humanitarian Efforts</option>
 <option value="U.N. Agencies">U.N. Agencies</option>
 <option value="Refugee Assistance">Refugee Assistance</option>
-<option value="Women and Gender Equality">Women and Gender Equality</option>
 {/* UN page stops here */}
 <option value="Featured Terrorism">Featured Terrorism</option>
 <option value="Headline Terrorism">Headline Terrorism</option>
@@ -376,7 +366,6 @@ className='billingselect'
 <option value="Economic Growth">Economic Growth</option>
 <option value="Currency Exchange">Currency Exchange</option>
 <option value="Economic Forecasts">Economic Forecasts</option>
-<option value="Sustainable Economic Practices">Sustainable Economic Practices</option>
 <option value="Global Inflation">Global Inflation</option>
 <option value="Economic Sanctions">Economic Sanctions</option>
 <option value="Global Supply Chain">Global Supply Chain</option>
@@ -388,7 +377,7 @@ className='billingselect'
 <option value="Corporate Scandals">Corporate Scandals</option>
 <option value="Financial Scandals">Financial Scandals</option>
 <option value="Sports Scandals">Sports Scandals</option>
-<option value="Scandals in Education">Scandals in Education</option>
+<option value="Education Scandals">Education Scandals</option>
 <option value="Entertainment Scandals">Entertainment Scandals</option>
 <option value="Religious Scandals">Religious Scandals</option>
 <option value="Healthcare Scandals">Healthcare Scandals</option>
@@ -402,14 +391,13 @@ className='billingselect'
 <option value="Mexican Politics">Mexican Politics</option>
 <option value="Mexican Economy">Mexican Economy</option>
 <option value="Mexican Culture">Mexican Culture</option>
-<option value="Tourism in Mexico">Tourism in Mexico</option>
 <option value="Mexican Education">Mexican Education</option>
 <option value="Mexican Healthcare">Mexican Healthcare</option>
-<option value="U.S.-Mexico Relations">U.S.-Mexico Relations</option>
+<option value="U.S. Mexico Relations">U.S.-Mexico Relations</option>
 <option value="Mexican Environment">Mexican Environment</option>
 <option value="Mexican History">Mexican History</option>
 <option value="Mexican Sports">Mexican Sports</option>
-<option value="Social Issues in Mexico">Social Issues in Mexico</option>
+<option value="Social Issues">Social Issues</option>
 {/* mexico page stops here */}
 <option value="Featured South America">Featured South America</option>
 <option value="Headline South America">Headline South America</option>
@@ -465,6 +453,30 @@ className='billingselect'
 <option value="Southern Africa">Southern Africa</option>
 <option value="Central Africa">Central Africa</option>
 {/* africa page stops here */}
+<option value="Featured Food">Featured Food</option>
+<option value="Headline Food">Headline Food</option>
+{/* Food page stops here */}
+<option value="Featured Cars">Featured Cars</option>
+<option value="Headline Cars">Headline Cars</option>
+{/* Food page stops here */}
+<option value="Featured House">Featured House</option>
+<option value="Headline House">Headline House</option>
+{/* House page stops here */}
+<option value="Featured Pets">Featured Pets</option>
+<option value="Headline Pets">Headline Pets</option>
+{/* Pets page stops here */}
+<option value="Featured Fitness">Featured Fitness</option>
+<option value="Headline Fitness">Headline Fitness</option>
+{/* Fitness page stops here */}
+<option value="Featured Family">Featured Family</option>
+<option value="Headline Family">Headline Family</option>
+{/* Family page stops here */}
+<option value="Featured Faith">Featured Faith</option>
+<option value="Headline Faith">Headline Faith</option>
+{/* Faith page stops here */}
+<option value="Featured Books">Featured Books</option>
+<option value="Headline Books">Headline Books</option>
+{/* Faith page stops here */}
 <option value="Featured Pride">Featured Pride</option>
 <option value="Headline Pride">Headline Pride</option>
 {/* Pride page stops here */}

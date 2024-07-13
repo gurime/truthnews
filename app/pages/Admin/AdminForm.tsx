@@ -305,12 +305,33 @@ const acceptedCollections = [
 "Southern Africa",
 "Central Africa",
 //Africa page stops here
- "Featured Food",
- "Headline Food",
-//Food page stops here
+"Featured Food",
+"Headline Food",
+// Food page stops here
 "Featured Cars",
- "Headline Cars",
-//Cars page stops here
+"Headline Cars",
+// Cars page stops here
+"Featured House" ,
+"Headline House",
+// House page stops here
+"Featured Pets",
+"Headline Pets",
+// Pets page stops here 
+"Featured Fitness",
+ "Headline Fitness",
+
+//Fitness page stops here
+ "Featured Family",
+ "Headline Family",
+//Family page stops 
+ "Featured Faith",
+ "Headline Faith",
+
+//Faith page stops here 
+ "Featured Books",
+ "Headline Books",
+
+// Books Page stops here
 "Featured Pride",
 "Headline Pride",
 // Pride page stops here
@@ -722,10 +743,43 @@ case "Featured Cars":
 case "Headline Cars":
 router.push('/pages/Cars');
 break;
+
+case "Featured House" :
+case "Headline House":
+  router.push('/pages/House');
+  break;
+
+{/* House page stops here */}
+case "Featured Pets":
+case "Headline Pets":
+router.push('/pages/Pets');
+break
+{/* Pets page stops here */}
+case "Featured Fitness":
+case "Headline Fitness":
+router.push('/pages/Fitness');
+break
+{/* Fitness page stops here */}
+case "Featured Family":
+case "Headline Family":
+router.push('pages/Family');
+break
+{/* Family page stops */}
+case "Featured Faith":
+case "Headline Faith":
+router.push('/pages/Faith')
+break
+{/* Faith page stops here */}
+case "Featured Books":
+case "Headline Books":
+router.push('/pages/Books');
+break
+// Books Page stops here
 case "Featured Pride":
 case "Headline Pride":
 router.push('/pages/Pride');
 break;
+// Pride page stops here
 default:
 router.push('/not-found');
 break;
@@ -1040,6 +1094,24 @@ className='billingselect'>
 <option value="Featured Cars">Featured Cars</option>
 <option value="Headline Cars">Headline Cars</option>
 {/* Food page stops here */}
+<option value="Featured House">Featured House</option>
+<option value="Headline House">Headline House</option>
+{/* House page stops here */}
+<option value="Featured Pets">Featured Pets</option>
+<option value="Headline Pets">Headline Pets</option>
+{/* Pets page stops here */}
+<option value="Featured Fitness">Featured Fitness</option>
+<option value="Headline Fitness">Headline Fitness</option>
+{/* Fitness page stops here */}
+<option value="Featured Family">Featured Family</option>
+<option value="Headline Family">Headline Family</option>
+{/* Family page stops here */}
+<option value="Featured Faith">Featured Faith</option>
+<option value="Headline Faith">Headline Faith</option>
+{/* Faith page stops here */}
+<option value="Featured Books">Featured Books</option>
+<option value="Headline Books">Headline Books</option>
+{/* Faith page stops here */}
 <option value="Featured Pride">Featured Pride</option>
 <option value="Headline Pride">Headline Pride</option>
 {/* Pride page stops here */}
