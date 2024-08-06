@@ -201,7 +201,7 @@ setIsOverlayActive(e.target.value.trim().length > 0);
 <Link href="/pages/Opinion">Opinion</Link>
 <Link href="/pages/Sports">Sports</Link>
 <Link href='#!' onClick={toggleFooter}>More:</Link>
-<button onClick={() => router.push('/pages/Contribute')} id="subbtn1">Contribute</button>
+{/* <button onClick={() => router.push('/pages/Contribute')} id="subbtn1">Contribute</button> */}
 </div>
 </div>
 

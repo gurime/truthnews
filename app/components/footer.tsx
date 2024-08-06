@@ -20,7 +20,7 @@ return (
 <div className="support-headline">Support iTruth News</div>
 <div className="support-subtitle">iTruth News works hard to bring <br/> you the news you care about.</div>
 <div className="support-flex-box">
-<button onClick={() => router.push('/pages/Contribute')} className="subbtn1"  >Contribute</button>
+{/* <button onClick={() => router.push('/pages/Contribute')} className="subbtn1"  >Contribute</button> */}
 <div style={{width: "2rem"}}></div>
 </div>
     

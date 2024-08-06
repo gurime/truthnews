@@ -85,7 +85,7 @@ crossOrigin="anonymous"
 
 <p>{post.content}</p>
 
-<ArticleContribute articleId={articleId}/>
+{/* <ArticleContribute articleId={articleId}/> */}
 <p style={{ whiteSpace: 'pre-line' }}>{post.bodycontent}</p>
 <p>{post.endcontent}</p>
 </div>
